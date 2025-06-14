@@ -1,0 +1,76 @@
+- Tamriel_Data.esm
+- OAAB_Data.esm
+
+# Pure heightmaps
+- ex_Argonia.esm
+- ex_ElsVw.esm
+- ex_Summerset.esm
+- ex_Thras.esm
+- Roscrea.esp
+
+# TR
+- TR_Mainland.esm
+- TR_Othreleth_Woods.esm
+  - TR_OW_03.esp
+
+# Cyrodiil
+- PC_RestExt.esm
+- PC_SkingradCut.esp
+
+- Cyr_Main.esm
+- PC_Sutch.esm
+  - PC_xCH_03.esp
+  - PC_xCH_04.esp
+- PC_Kvatch.esm
+  - PC_xKp_01.esp
+  - PC_xKp_02.esp
+  - PC_xKp_04.esp
+  - PC_xKp_08.esp
+  - PC_xKp_09.esp
+  - PC_xCH_08.esp
+
+# Skyrim
+- Sky_RestExt.esm
+- Sky_DM.esm
+- Sky_WR.esm
+
+- Sky_Main.esm
+- Sky_Markarth.esm
+  - Sky_Osabi.esp
+  - Sky_xFa_01.esp
+  - Sky_xFa_03.esp
+  - Sky_xFa_04.esp
+  - Sky_xFa_05.esp
+- Sky_KilkreathMts.esm
+  - Sky_xHf_04.esp
+  - Sky_xRe_03.esp
+
+# Padomaic
+- PI_RestExt.esm
+- PI_Main.esm
+
+# Lyith
+- MD_Azurian Isles.esm
+- Leyawiin.esp
+
+# Toma's Fixes
+- TD_Fixes.esp
+- PC_Fixes.esp
+
+# Other mods
+- The Art of Alchemy.esp
+- Magicka Expanded.esp
+- Magicka of the Third Era.esp
+- BardicInspiration.esp
+- Take Notes.esp
+
+- All Races and Classes Unlocked [Vanilla and Tamriel_Data].esp
+- Chargen Scenarios [Quests].esp
+- FatigueSpeedAndCarryWeightRebalance.esp
+- LockBashing.esp
+- Varil_Slower Skill Gain and DoubleTraining Costs.esp
+
+- Brina Cross House Expensive.esp
+- Karthwasten_WheatField_Home.esp
+
+- Effect Data [Load after Merged Objects].esp
