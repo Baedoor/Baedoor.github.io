@@ -11,6 +11,8 @@ a#v       { font-size: 20px; }                                      /* bigger fo
 p#cd      { color: #99856D; }                    /* colored, dark   */
 p#vc      { font-size: 20px; color: #B6B79D;   } /* colored, light  */ /* deprecated in favour of `class=def` */
 h1#vc     {                  color: #B6B79D;   }
+h2#vc     {                  color: #B6B79D;   }
+h2#gl     {                  color: #E0BB12;   }
 a:link    { color: #59B418; text-decoration:none; }
 a:visited { color: #5E8443; text-decoration:none; }
 a:hover   { color: #6CC032; text-decoration:none; }

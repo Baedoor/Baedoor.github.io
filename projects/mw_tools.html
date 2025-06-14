@@ -1,0 +1,78 @@
+<!doctype html>
+<head>
+    <title> Baedoor - Morrowind Tools </title>
+    <link rel="shortcut icon" href="../graphics/banner_baedoor.png">
+    <link rel="stylesheet" href="../bcmain.css">
+    <meta charset="UTF-8">
+    <!-- Open Graph-compatible meta tags (for embed contents) -->
+    <meta property="og:title"       content="Morrowind Tools" />
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content="https://baedoor.github.io/projects/mw_tools.html" />
+    <!-- TODO: <meta property="og:image"       content="https://baedoor.github.io/graphics/banner_ww2.png" /> -->
+
+    <script src="../import.js"></script>
+    <script>
+     $(document).ready(function(){
+        $('#header').load("../header1.html");
+     });
+    </script>
+</head>
+
+<body>
+    <div id="header"></div>
+
+    <p class="gl_tit"> Morrowind Tools </p>
+
+    <table width="100%" cellpadding="10px">
+        <tr>
+            <td width="25%" height="700px" valign="top">
+
+                <table width="100%" class="proj">
+                    <tr>
+                        <td>
+                            <img src="https://images.uesp.net/0/03/MW-wallpaper-Title-1024x768.png" width="100%">
+                            <hr color="#B6B79D">
+                            <p id="vc" align="center"> <b> MoET (Morrowind Extended Tool) </b> </p>
+                            <p id="vc" align="center"> <a href="/files/soft/mw_tools/MoET.zip"> Download </a> • <a href="/files/soft/mw_tools/MoET_Source.zip"> Source Code </a> </p>
+                            <hr color="#B6B79D">
+                            <p id="vc" align="center"> <b> TOr (Tamriel Orderer) </b> </p>
+                            <p id="vc" align="center"> <a href="/files/soft/mw_tools/TOr.zip"> Download </a> • <a href="/files/soft/mw_tools/TOr_Source.zip"> Source Code </a> • <a href="/files/soft/mw_tools/plugins_order.txt"> Example Config </a> </p>
+                            <hr color="#B6B79D">
+                            <p id="vc" align="center"> <b> Gridmap Legend Generator </b> </p>
+                            <p id="vc" align="center"> <a href="/files/soft/mw_tools/PTLegend.zip"> Download </a> • <a href="/files/soft/mw_tools/PTLegend_Source.zip"> Source Code </a> • <a href="/files/soft/mw_tools/PTLegend_Readme.md"> Readme </a> </p>
+                        </td>
+                    </tr>
+                </table>
+                <center><a href="../projects/_soft_minor.html"> <img src="../graphics/arr_l.png"> </a></center>
+
+            </td>
+            <td width="75%" valign="top" style="padding-top: 0px; padding-left: 15px; padding-right: 15px; margin-top: 0px">
+                <p id="vc">
+                    <b>TES III: Morrowind</b> is foundational game for my gamedev and worldbuilding journey. When I got into its modding scene I was enchanted
+                    by the dedication poured into it and organisational skills of PTR team. It wasn't long before I wanted to help with my little coding skills
+                    I had, creating small tools to help with some everyday modder tasks.<br>
+                </p>
+                <hr color="#B6B79D">
+                <h2 id="gl">MoET</h2>
+                <p id="vc">
+                    <b>MoET</b> is, despite its pompous name, simply a tool to calculate northmarker rotation. It serves as offline alternative to PTR's bot
+                    and has a bit more intuitive GUI.<br>
+                    Originally it was meant to be swiss knife tool with various utilities, and it is not impossible I may come back and rewrite it, merging all
+                    tools into one.
+                </p>
+                <h2 id="gl">TOr</h2>
+                <p id="vc">
+                    It's tool to reorder .esm and .esp files, so they show up correctly in Launcher. This tool was made mostly by my stubborness to not
+                    use Wrye Mash/MO2 that offered the same feature, so I thought this could be a fun way to do that instead.
+                </p>
+                <h2 id="gl">Gridmap Legend Generator</h2>
+                <p id="vc">
+                    It's a tool created exclusively for PTR, as a way to help with creation of legends for gridmaps. It allows generating of legend(s)
+                    through predefined settings.<br>
+                    This tool has some technical issues (most notably the PoI icons needing to be of specific size) so in the future this generator may
+                    be rewritten.
+                </p>
+            </td>
+        </tr>
+    </table>
+</body>
