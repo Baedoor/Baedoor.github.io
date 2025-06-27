@@ -1,0 +1,77 @@
+<h1 id="on-airship-guard">On Airship Guard</h1>
+<h2 id="setting-up-labels">Setting up labels</h2>
+<p>Main bot&#39;s feature is setting up custom labels, which can hold messages and attachments,
+and be later evoked. There is separate pool of labels for every server and user.</p>
+<p>Labels can be set, updated and deleted. Initially, only the server owner has permission
+to do it, however they can expand the permissions to other roles (see next section).</p>
+<p>To set a label, you use <code>!set [label] [message]</code> command. Label must be word that does
+not use space (so instead of <code>test label</code>, you&#39;d need to use <code>test_label</code> or <code>testlabel</code>)
+and not be in list of &quot;restricted labels&quot; used by the bot itself (such as <code>!set</code> itself).<br>Once label is set, you can evoke it through <code>![label]</code> message.<br>Example workflow below:</p>
+<pre><code><span class="hljs-section">=== User</span>
+!set example
+Hello!
+
+<span class="hljs-section">=== Bot</span>
+The tag -example- was set!
+
+<span class="hljs-section">=== User</span>
+!example
+
+<span class="hljs-section">=== Bot</span>
+Hello!
+</code></pre><p>Message for the label can be set both by separating it from the label via space or
+enter. Evoked label can be followed similarly by more text, e.g. <code>!example something</code>
+will still evoke label <code>!example</code> (if it exists).</p>
+<p>Once label is set, you can update it with new contents through <code>!update [label] [message]</code>.
+It works the same way as setting, except it allows you to do it without deleting and making
+the label again. Update contents will replace the old ones entirely.</p>
+<p>Labels can be deleted as well. For that, simply use <code>!delete [label]</code>. This will remove
+the label from the server.</p>
+<p>To check what labels are set on the server, you can use <code>!alllabels</code> command. Bot will
+then DM you with list of labels for the server this message was used in.</p>
+<h2 id="managing-permissions">Managing permissions</h2>
+<p>Initially, only server owner has permission to set, update and delete labels. That said,
+it is entirely possible to expand the permissions over to other roles.</p>
+<p>To do that, use <code>!admin perms add [tier] [role]</code> command. To explain two modular segments:</p>
+<h4 id="tier">Tier</h4>
+<p>Permissions are split between tiers, to allow better control over what certain role is
+able to do. There are currently two tiers:</p>
+<ul>
+<li><code>high</code> - high tier can set and delete labels</li>
+<li><code>medium</code> - medium tier can update labels</li>
+</ul>
+<p>Tier lists are exclusive, which means that having high permissions do not grant you
+automatically ability to use permissions from medium level. It is not impossible these
+permissions will get expanded further for better control, or be role-driven instead of
+tier-driven (as currently).</p>
+<h4 id="role">Role</h4>
+<p>Role is simply a name of a role on the server - bot will search for it and get its unique
+ID. This means that after setting the role, its name can be changed without need to update
+the bot.<br>That said, this also yields small limitation that is - if the name is used by multiple
+roles, only the one first found by the bot will be used. The possibility of this to be
+an issue is negligible, but this will be addressed in the future.</p>
+<hr>
+<p>Similarly to labels, you can also remove roles from the permissions. For that, simply
+use a command <code>!admin perms remove [tier] [role]</code>.</p>
+<p>You can also check for permissions by using command <code>!admin perms check [tier]</code>.</p>
+<h2 id="private-labels">Private labels</h2>
+<p>Unlike Project Tamriel&#39;s bot from which the idea of labels came, Airship Guard also
+allows users to have separate DM-based labels.<br>The whole concept works the same way as server labels, except private ones need to be
+set/updated/deleted through DMing the bot. Similarly, <code>!alllabels</code> used in DMs will
+list you private labels you set through DMs.</p>
+<h2 id="miscellaneous-features">Miscellaneous features</h2>
+<p>Aside of labels, there is small list of misc features Airship Guard can be useful for.</p>
+<ul>
+<li><code>!dice [n]</code> - rolls the dice with <code>[n]</code> pipes, yielding you the result; can be useful<pre><code>          <span class="hljs-keyword">for</span> roleplaying purposes
+</code></pre></li>
+</ul>
+<h2 id="availability-safety">Availability &amp; Safety</h2>
+<p>Airship Guard is currently hosted locally, meaning its availability varies heavily
+depending on host&#39;s computer being turned on.<br>This will change in the future, as the plan for the bot is to be rehosted on either
+some purchased server or separate device. It is not possible currently, however, meaning
+the bot will not run 24/7, and can have entire days of being unavailable.</p>
+<p>Additionally, the list of labels - due to how bot is currently hosted - is managed locally
+and coordinated through (private) GitHub repository. This won&#39;t be needed when the hosting
+shifts, but as long as the current system is held, it is recommended to not post any
+particularly personal or sensitive contents until this changes.</p>
+<p>To keep yourself up-to-date on Airship Guard development, feel free to <a href="https://discord.gg/GbTw9KqnrE">join the server</a>.</p>

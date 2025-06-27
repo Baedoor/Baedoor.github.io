@@ -1,0 +1,79 @@
+<!doctype html>
+<head>
+    <title> Baedoor - Airship Guard </title>
+    <link rel="shortcut icon" href="../graphics/banner_baedoor.png">
+    <link rel="stylesheet" href="../bcmain.css">
+    <meta charset="UTF-8">
+    <!-- Open Graph-compatible meta tags (for embed contents) -->
+    <meta property="og:title"       content="Airship Guard" />
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content="https://baedoor.github.io/projects/ag.html" />
+    <meta property="og:image"       content="https://baedoor.github.io/graphics/banner_ag.png" />
+
+    <script src="../import.js"></script>
+    <script>
+     $(document).ready(function(){
+        $('#header').load("../header1.html");
+     });
+    </script>
+</head>
+
+<body>
+    <div id="header"></div>
+
+    <p class="gl_tit"> Airship Guard </p>
+
+    <table width="100%" cellpadding="10px">
+        <tr>
+            <td width="25%" height="700px" valign="top">
+
+                <table width="100%" class="proj">
+                    <tr>
+                        <td>
+                            <img src="../graphics/banner_ag_trp.png" width="100%">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <hr color="#B6B79D">
+                            <p id="vc" align="center"> Latest version: <b> 1.1 </b> </p>
+                            <p id="vc" align="center"> Source code: Non-public </p>
+                            <hr color="#B6B79D">
+                            <p id="vc" align="center"> <a href="https://discord.com/oauth2/authorize?client_id=1057207350446010398"> Invitation </a> </p>
+                            <p id="vc" align="center"> <a href="/files/soft/[guides]/ag_guide.html">                                 Guide      </a> </p>
+                        </td>
+                    </tr>
+                </table>
+                <center><a href="../projects/_soft.html"> <img src="../graphics/arr_l.png"> </a></center>
+
+            </td>
+            <td width="75%" valign="top" style="padding-top: 0px; padding-left: 15px; padding-right: 15px; margin-top: 0px">
+                <p id="vc">
+                    <b>Airship Guard</b> is a Discord bot written to help with my server, but expanded to make it useful universally.<br>
+                    Created in 27th of December 2022, it was initially written in Rust language and had variety of features and commands that were
+                    hardcoded.<br>
+                    Over time, the amount of them expanded even more, with bot getting some modularity to allow for more flexible use. The code however
+                    grew in complexity, and with me wanting to move on from Rust (as from learning experience, I wanted to make bot a proper application
+                    with practical use) the decision of rewrite was made.<br>
+                    <br>
+                    On 1st June 2025, the process began, with 27th June marking the day of first Nim-based version (1.1.0) being released.<br>
+                    The rewrite focused on minimising its feature complexity and instead follow the example established in <a href="https://github.com/Lustidrike/pt-point-exchange">Project Tamriel's bot</a>
+                    to allow server owners to decide on how far bot's usability should be done. Unlike PT's bot, however, Airship Guard is coded to be more
+                    modular, allowing multiple servers to customise it to their needs.
+                </p>
+                <h1 id="vc">Availability & Safety</h1>
+                <p id="vc">
+                    Airship Guard is currently hosted locally, meaning its availability varies heavily
+                    depending on host&#39;s computer being turned on.<br>This will change in the future, as the plan for the bot is to be rehosted on either
+                    some purchased server or separate device. It is not possible currently, however, meaning
+                    the bot will not run 24/7, and can have entire days of being unavailable.<br>
+                    Additionally, the list of labels - due to how bot is currently hosted - is managed locally
+                    and coordinated through (private) GitHub repository. This won&#39;t be needed when the hosting
+                    shifts, but as long as the current system is held, it is recommended to not post any
+                    particularly personal or sensitive contents until this changes.<br>
+                    To keep yourself up-to-date on Airship Guard development, feel free to <a href="https://discord.gg/GbTw9KqnrE">join the server</a>.
+                </p>
+            </td>
+        </tr>
+    </table>
+</body>
