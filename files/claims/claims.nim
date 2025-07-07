@@ -34,6 +34,7 @@ type
     MERGED    = "★ Merged"
     R4M       = "★ Ready for merge"
     R4R       = "☆ Ready for review"
+    INREV     = "☆ In review"
     INDEV     = "● In development"
     UNCLAIMED = "○ Unclaimed"
     DESIGN    = "△ Design"
@@ -47,19 +48,19 @@ type
     LIBRARY_OF_WORLDS = "Library of Worlds"
 
   AssetClaim* = object
-    kind:     AssetClaimKind
-    priority: ClaimPriority
-    name:     string
-    art:      seq[(string, string, string)] # (URL, author, description)
-    claimant: seq[string]
-    reviewer: seq[string]
-    descr:    string
-    release:  seq[ReleaseQueue]
-    file_raw: seq[string]
-    file_mw:  seq[string]
-    status:   AssetStatus
+    kind*:     AssetClaimKind
+    priority*: ClaimPriority
+    name*:     string
+    art*:      seq[(string, string, string)] # (URL, author, description)
+    claimant*: seq[string]
+    reviewer*: seq[string]
+    descr*:    string
+    release*:  seq[ReleaseQueue]
+    file_raw*: seq[string]
+    file_mw*:  seq[string]
+    status*:   AssetStatus
 
-proc assetList(filter: string | None = None, order: string | None = None) = discard
+#proc assetList(filter: string | None = None, order: string | None = None) = discard
 
 proc getEnums[T: ClaimPriority | AssetClaimKind | AssetStatus | ReleaseQueue](id: string): T =
   when T is ClaimPriority:
@@ -92,6 +93,7 @@ proc getEnums[T: ClaimPriority | AssetClaimKind | AssetStatus | ReleaseQueue](id
         of "MergedB":    return MERGED # use for MW's BData | later will be repurposed to indicate differences between MW's BData and B3D BData
         of "R4M":        return R4M
         of "R4R":        return R4R
+        of "In Review":  return INREV
         of "Indev":      return INDEV
         of "Unclaimed":  return UNCLAIMED
         of "Design":     return DESIGN
@@ -109,7 +111,7 @@ proc getEnums[T: ClaimPriority | AssetClaimKind | AssetStatus | ReleaseQueue](id
 proc processSequencedStrings(str: string, sep: string = ","): seq[string] =
   result = str.split(sep)
 
-proc processArtData(sqstr: seq[string]): seq[(string, string, string)] =
+proc processArtData* (sqstr: seq[string]): seq[(string, string, string)] =
   # format = "URL LINK : AUTHOR :: DESCRIPTION"
   for entry in sqstr:
     let single_data = entry.split(" : ")
@@ -136,7 +138,7 @@ proc processArtData(sqstr: seq[string]): seq[(string, string, string)] =
 
     result.add((single_data[0], author, descr))
 
-proc processReleasesQueue(sqstr: seq[string]): seq[ReleaseQueue] =
+proc processReleasesQueue (sqstr: seq[string]): seq[ReleaseQueue] =
   for entry in sqstr:
     result.add(getEnums[ReleaseQueue](entry))
 
@@ -200,7 +202,7 @@ proc yieldAssetClaims* (doc_path: string): seq[AssetClaim] =
            echo "---"
            break
 
-let claims_assets = yieldAssetClaims("B3D Asset List.ods")
-echo len(claims_assets)
+# let claims_assets = yieldAssetClaims("B3D Asset List.ods")
+# echo len(claims_assets)
 #echo claims_assets[rand(0..len(claims_assets)-1)]
-echo claims_assets[34]
+# echo claims_assets[34]
