@@ -47,13 +47,19 @@ type
     BAEDOOR_CITY      = "Baedoor City"
     LIBRARY_OF_WORLDS = "Library of Worlds"
 
-  BrowserEnums* = ClaimPriority | AssetClaimKind | AssetStatus | ReleaseQueue
+  CARequired* = enum
+    CA_NEEDED = "Concept art needed!"
+    CA_MORE   = "More concept art needed!"
+    CA_NOT    = ""
+
+  BrowserEnums* = ClaimPriority | AssetClaimKind | AssetStatus | ReleaseQueue | CARequired
 
   AssetClaim* = object
     kind*:     AssetClaimKind
     priority*: ClaimPriority
     name*:     string
     art*:      seq[(string, string, string)] # (URL, author, description)
+    art_req*:  CARequired
     claimant*: seq[string]
     reviewer*: seq[string]
     descr*:    string
@@ -105,12 +111,17 @@ proc getEnums[T: BrowserEnums](id: string): T =
   elif T is ReleaseQueue:
       case id:
         of "Disane":    return DISANE
-        of "Khacari":   return KACARI
+        of "Kacari":    return KACARI
         of "BaeC":      return BAEDOOR_CITY
         of "LibWorlds": return LIBRARY_OF_WORLDS
         else: discard
+  elif T is CARequired:
+      case id:
+        of "!": return CA_NEEDED
+        of ":": return CA_MORE
+        else:   return CA_NOT
 
-proc processSequencedStrings(str: string, sep: string = ","): seq[string] =
+proc processSequencedStrings(str: string, sep: string = ", "): seq[string] =
   result = str.split(sep)
 
 proc processArtData* (sqstr: seq[string]): seq[(string, string, string)] =
@@ -183,28 +194,31 @@ proc yieldAssetClaims* (doc_path: string): seq[AssetClaim] =
 
       var ac: AssetClaim
       for j, col in line:
-         if j < 11:
+         if j < 12:
            if col != "":
-             #echo col
              case j:
                of 0: ac.kind     = getEnums[AssetClaimKind](col)
                of 1: ac.priority = getEnums[ClaimPriority](col)
                of 2: ac.name     = col
                of 3: ac.art      = processArtData(processSequencedStrings(col, " | "))
-               of 4: ac.claimant = processSequencedStrings(col)
-               of 5: ac.reviewer = processSequencedStrings(col)
-               of 6: ac.descr    = col
-               of 7: ac.release  = processReleasesQueue(processSequencedStrings(col, " / "))
-               of 8: ac.file_raw = processSequencedStrings(col)
-               of 9: ac.file_mw  = processSequencedStrings(col)
-               of 10: ac.status  = getEnums[AssetStatus](col)
+               of 4: ac.art_req  = getEnums[CARequired](col)
+               of 5: ac.claimant = processSequencedStrings(col)
+               of 6: ac.reviewer = processSequencedStrings(col)
+               of 7: ac.descr    = col
+               of 8: ac.release  = processReleasesQueue(processSequencedStrings(col, " / "))
+               of 9: ac.file_raw = processSequencedStrings(col)
+               of 10: ac.file_mw = processSequencedStrings(col)
+               of 11: ac.status  = getEnums[AssetStatus](col)
+               else: discard
+           else: # things that work upon empty string
+             case j:
+               of 4: ac.art_req  = getEnums[CARequired](col)
                else: discard
          else:
            result.add(ac)
-           echo "---"
            break
 
-# let claims_assets = yieldAssetClaims("B3D Asset List.ods")
+#let test = yieldAssetClaims("B3D Asset List.ods")
 # echo len(claims_assets)
 #echo claims_assets[rand(0..len(claims_assets)-1)]
-# echo claims_assets[34]
+#echo test[2].art
