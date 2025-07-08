@@ -32,6 +32,7 @@ hr.def     { border: 1px solid #6e5f42; }
 code.vc    { font-size: 16px; color: #8BB2B3; }
 
 p.gl_tit { font-size: 25px; color: #E0BB12; text-align: center; } /* golden title */
+p.cr_tit { font-size: 23px; color: #d4d6ba; text-align: center; } /* cream title */
 
 ul.def {
     font-size:    20px;

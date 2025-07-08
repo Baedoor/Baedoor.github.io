@@ -2,6 +2,7 @@ import std/strformat
 import std/strutils
 import std/options
 import std/tables
+import parsetoml
 import claims
 
 type
@@ -10,9 +11,28 @@ type
     CLAIM_SUB_LIST  = "../../../../" # [lists] folders
     CLAIMS          = "../../../../" # [pages] folders
 
-const REGISTERED_AUTHORS* = {
-  "Toma400": "https://baedoor.github.io/"
-}.toTable()
+let REGISTERED_AUTHORS* = parsetoml.parseFile("authors.toml")
+
+proc getDepthHeader* (d: Depth): string =
+  case d:
+   of CLAIM_MAIN_LIST: return "3"
+   of CLAIM_SUB_LIST:  return "4"
+   of CLAIMS:          return "4"
+
+proc orderAssets* (a: seq[AssetClaim]): seq[AssetClaim] =
+  # sorts the asset sequence through [reo2] priority > [reo1] status
+  let statusCount   = len(AssetStatus.low..AssetStatus.high)
+  let priorityCount = len(ClaimPriority.low..ClaimPriority.high)
+  var first_reordering  = newSeq[seq[AssetClaim]](statusCount)
+  var second_reordering = newSeq[seq[AssetClaim]](priorityCount * statusCount)
+  for i1 in a:
+    first_reordering[i1.status.ord].add(i1)
+  for i2 in first_reordering:
+    for i2i in i2:
+      second_reordering[i2i.priority.ord].add(i2i)
+  for fin in second_reordering:
+    for finn in fin:
+      result.add(finn)
 
 proc parseNameForGeneration* (s: string): string =
   return s.multireplace([
@@ -25,8 +45,8 @@ proc linkToPage* (s: string, depth: Depth): string =
 proc authorList* (s: seq[string]): string =
   # parses through list of claimants/reviewers and generates HTML code with optional links
   for i in s:
-    if i in REGISTERED_AUTHORS:
-      let link = "\"" & REGISTERED_AUTHORS[i] & "\""
+    if hasKey(REGISTERED_AUTHORS, i):
+      let link = "\"" & REGISTERED_AUTHORS[i].getStr() & "\""
       result.add(fmt" | <a href={link}>{i}</a>")
     else:
       result.add(fmt" | {i}")
@@ -138,6 +158,13 @@ proc checkFiles* (s: seq[string], text: string): string =
   else:
     for link in s:
       result.add(fmt"<a href='{link}'> {text} </a>")
+
+proc checkCAReq* (s: CARequired, need: string, more: string): string =
+  # creates a HTML text with additional note while hovering
+  case s:
+    of CA_NOT:    return ""
+    of CA_NEEDED: return "<a title=\"" & $s & "\">" & need & "</a>"
+    of CA_MORE:   return "<a title=\"" & $s & "\">" & more & "</a>"
 
 proc conceptArtShowcase* (s: seq[(string, string, string)]): string =
   # creates a HTML code that will neatly organise itself into claim table
