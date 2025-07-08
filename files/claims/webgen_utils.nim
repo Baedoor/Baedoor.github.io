@@ -1,5 +1,6 @@
 import std/strformat
 import std/strutils
+import std/options
 import std/tables
 import claims
 
@@ -35,7 +36,7 @@ proc authorList* (s: seq[string]): string =
 proc releaseList* (s: seq[ReleaseQueue], depth: Depth): string =
   # parses through list of releases and generates HTML code with links to queues
   for i in s:
-    let link = "" # TODO: release queue link -- "\"" & depth & "files/claims/bdata/[Lists]/" & "\""
+    let link = "\"" & $depth & fmt"files/claims/bdata/[Lists]/list_R_{i}.html" & "\""
     result.add(fmt" | <a href={link}>{i}</a>")
   if len(result) > 3:
     result[0..2] = "" # removes first "| "
@@ -146,7 +147,7 @@ proc conceptArtShowcase* (s: seq[(string, string, string)]): string =
     ca_html.add("<p id=\"vc\" align=\"center\"> <b>" & authorList(@[i[1]]) & "</b> </p>") # author
     ca_html.add("<p id=\"vc\" align=\"center\"> <b>" & i[2]                & "</b> </p>") # description
   if len(s) > 0:
-    result.add("""
+    result.add(fmt"""
     <table width="100%" class="proj">
         <tr>
             <td>
@@ -155,3 +156,16 @@ proc conceptArtShowcase* (s: seq[(string, string, string)]): string =
         </tr>
     </table>
     """)
+
+proc filterEnumField* (a: AssetClaim, e: BrowserEnums | string): bool =
+  # checks if enum field checked against exists in asset claim
+  if e is not int:
+    when e is ClaimPriority:
+      return e == a.priority
+    elif e is AssetClaimKind:
+      return e == a.kind
+    elif e is AssetStatus:
+      return e == a.status
+    elif e is ReleaseQueue:
+      return e in a.release
+  return true # if None (TODO: make check against other fields in -string- type)

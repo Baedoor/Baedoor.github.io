@@ -47,6 +47,8 @@ type
     BAEDOOR_CITY      = "Baedoor City"
     LIBRARY_OF_WORLDS = "Library of Worlds"
 
+  BrowserEnums* = ClaimPriority | AssetClaimKind | AssetStatus | ReleaseQueue
+
   AssetClaim* = object
     kind*:     AssetClaimKind
     priority*: ClaimPriority
@@ -62,7 +64,7 @@ type
 
 #proc assetList(filter: string | None = None, order: string | None = None) = discard
 
-proc getEnums[T: ClaimPriority | AssetClaimKind | AssetStatus | ReleaseQueue](id: string): T =
+proc getEnums[T: BrowserEnums](id: string): T =
   when T is ClaimPriority:
       case id:
         of "Critical": return CRITICAL

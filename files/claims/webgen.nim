@@ -1,5 +1,6 @@
 import std/strformat
 import std/strutils
+import std/options
 import webgen_utils
 import claims
 
@@ -23,21 +24,35 @@ proc generateHeader(page_subtitle: string, depth: Depth = CLAIMS): string =
   result = result.replace("{page_subtitle}", page_subtitle)
   result = result.replace("{depth}", $depth)
 
+proc filterHeader(depth: Depth): string =
+  var releases_body = "<p class=\"def\" align=\"center\"> Releases: [[]]</p>"
+  var releases: string
+  for r in ReleaseQueue.low..ReleaseQueue.high:
+    let link = "\"" & $depth & fmt"files/claims/bdata/[Lists]/list_R_{r}.html" & "\""
+    releases.add(fmt" | <a href={link}>{r}</a>")
+  releases[0..2] = "" # removes first "| "
+  releases_body  = releases_body.replace("[[]]", releases)
+
+  result.add(releases_body)
+
 #[ BODY SUBGENERATORS ]#
-proc assetlistBody(): string =
-  let claims_assets = yieldAssetClaims("B3D Asset List.ods")
+proc assetlistBody(asset_list: seq[AssetClaim], depth: DEPTH, filter: BrowserEnums | string = ""): string =
   var claims_list_str: string # HTML code for table entries
-  for claim in claims_assets:
+  for claim in asset_list:
+      if filter is not string: # by default, all options are in | TODO: make the check better so it can work with strings that are not ""
+          if not filterEnumField(claim, filter): continue # skips adding
       claims_list_str.add(fmt"""
       <tr>
-          <td> {linkToPage(claim.name, CLAIM_MAIN_LIST)} </td>
-          <td> {authorList(claim.claimant)}              </td>
-          <td> {formatStatuses(claim.status)}            </td>
-          <td> {checkFiles(claim.file_mw, "🪔")}         </td>
-          <td> {checkFiles(claim.file_raw, "🪔")}        </td>
+          <td> {linkToPage(claim.name, depth)}    </td>
+          <td> {authorList(claim.claimant)}       </td>
+          <td> {formatStatuses(claim.status)}     </td>
+          <td> {checkFiles(claim.file_mw, "🪔")}  </td>
+          <td> {checkFiles(claim.file_raw, "🪔")} </td>
       </tr>
       """)
   result = fmt"""
+  {filterHeader(depth)}
+
   <table class="archives" width="60%" cellpadding="10px" align="center" border="solid 1px">
       <tr class="head">
           <td width="40%"> Claim     </td>
@@ -118,12 +133,19 @@ proc generateAssetPages() =
       claim_page.write(generateBody(assetclaimBody(claim)))
 
 proc generateAssetLists() =
-  const fname = "list.html"
+  let asset_doc = yieldAssetClaims("B3D Asset List.ods")
+  const fname   = "list.html"
 
   let main_list = open(fmt"bdata/{fname}", fmWrite)
   defer: main_list.close()
   main_list.write(generateHeader("Asset Browser", CLAIM_MAIN_LIST))
-  main_list.write(generateBody(assetlistBody()))
+  main_list.write(generateBody(assetlistBody(asset_doc, CLAIM_MAIN_LIST)))
+
+  for r in ReleaseQueue.low..ReleaseQueue.high:
+    let release_list = open(fmt"bdata/[Lists]/{fname}".replace(".html", fmt"_R_{r}.html"), fmWrite)
+    defer: release_list.close()
+    release_list.write(generateHeader(fmt"Asset Browser: {r}", CLAIM_SUB_LIST))
+    release_list.write(generateBody(assetlistBody(asset_doc, CLAIM_SUB_LIST, r)))
 
 generateAssetPages()
 generateAssetLists()
