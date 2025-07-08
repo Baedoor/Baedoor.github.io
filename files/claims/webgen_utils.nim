@@ -1,5 +1,7 @@
+import std/algorithm
 import std/strformat
 import std/strutils
+import std/sequtils
 import std/options
 import std/tables
 import parsetoml
@@ -19,23 +21,25 @@ proc getDepthHeader* (d: Depth): string =
    of CLAIM_SUB_LIST:  return "4"
    of CLAIMS:          return "4"
 
-proc orderAssets* (a: seq[AssetClaim]): seq[AssetClaim] =
-  # sorts the asset sequence through [reo2] priority > [reo1] status
-  let statusCount   = len(AssetStatus.low..AssetStatus.high)
-  let priorityCount = len(ClaimPriority.low..ClaimPriority.high)
-  var first_reordering  = newSeq[seq[AssetClaim]](statusCount)
-  var second_reordering = newSeq[seq[AssetClaim]](priorityCount * statusCount)
-  for i1 in a:
-    first_reordering[i1.status.ord].add(i1)
-  for i2 in first_reordering:
-    for i2i in i2:
-      second_reordering[i2i.priority.ord].add(i2i)
-  for fin in second_reordering:
-    for finn in fin:
-      result.add(finn)
+proc orderAssets* (a: seq[AssetClaim], merged_in: bool): seq[AssetClaim] =
+  proc alphSort(x, y: AssetClaim): int =
+      return cmp(x.name, y.name)
+  proc statusSort(x, y: AssetClaim): int =
+      return cmp(x.status.ord, y.status.ord)
+  proc prioritySort(x, y: AssetClaim): int =
+      return cmp(x.priority.ord, y.priority.ord)
+  # sorts the asset sequence by three sortings
+  result = a
+  sort(result, alphSort)     # alphabetical sort
+  sort(result, statusSort)   # status sort
+  sort(result, prioritySort) # priority sort
+  if not merged_in: # take merged files out by default
+    result = filter(result, proc(c: AssetClaim): bool = c.status != MERGED)
+  result = filter(result, proc(c: AssetClaim): bool = c.status != REJECTED) # rejected assets are always out (claim pages are still generated)
 
-proc parseNameForGeneration* (s: string): string =
-  return s.multireplace([
+proc parseNameForGeneration* (s: string | BrowserEnums): string =
+  result = $s
+  return result.multireplace([
       ("/", "_")
   ])
 
@@ -61,7 +65,7 @@ proc releaseList* (s: seq[ReleaseQueue], depth: Depth): string =
   if len(result) > 3:
     result[0..2] = "" # removes first "| "
 
-proc formatStatuses* (s: AssetStatus): string =
+proc formatStatuses* (s: ClaimStatus): string =
   # creates a representation of a status in HTML
   var item: string
   var col:  string
@@ -129,7 +133,7 @@ proc formatType* (s: AssetClaimKind): string =
     of CLUTTER:
       item = "🏺 Clutter"
       col  = "#a57316"
-    of FOOD_ALCH_INCH:
+    of FOOD_ALCH_INGR:
       item = "🍵 Food / Alchemy / Ingredient"
       col  = "#9ae76a"
     of WEAPON:
@@ -141,12 +145,15 @@ proc formatType* (s: AssetClaimKind): string =
     of ARMOUR:
       item = "🛡️ Armour"
       col  = "#8bc3c6"
-    of BOOK:
-      item = "📕 Book"
-      col  = "#856749"
     of RACE:
       item = "🎎 Race"
       col  = "#9c7fd5"
+    of BOOK:
+      item = "📕 Book"
+      col  = "#856749"
+    of SOUND:
+      item = "🪕 Sound"
+      col  = "#bac8d6"
     of MISC:
       item = "🎏 Miscellanous"
       col  = "#d4d6ba"
@@ -191,7 +198,7 @@ proc filterEnumField* (a: AssetClaim, e: BrowserEnums | string): bool =
       return e == a.priority
     elif e is AssetClaimKind:
       return e == a.kind
-    elif e is AssetStatus:
+    elif e is ClaimStatus:
       return e == a.status
     elif e is ReleaseQueue:
       return e in a.release

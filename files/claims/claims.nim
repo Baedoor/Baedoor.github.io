@@ -22,15 +22,28 @@ type
     CREATURE       = "Creature"
     FURNITURE      = "Furniture"
     CLUTTER        = "Clutter"
-    FOOD_ALCH_INCH = "Food/Alch/Inch"
+    FOOD_ALCH_INGR = "Food/Alch/Ingr"
     WEAPON         = "Weapon"
     CLOTH          = "Cloth"
     ARMOUR         = "Armour"
-    BOOK           = "Book"
     RACE           = "Race"
+    BOOK           = "Book"
+    SOUND          = "Sound"
     MISC           = "Misc"
 
-  AssetStatus* = enum
+  #[ TODO: FUTURE BROWSER PREPARATIONS
+  FSAMClaimKind* = enum
+    INTERIOR = "Interior"
+    EXTERIOR = "Exterior"
+    QUEST    = "Quest"
+    NPCING   = "NPCing"
+
+  IOAClaimKind* = enum
+    LOCATION = "Location"
+    QUEST    = "Quest"
+  ]#
+
+  ClaimStatus* = enum
     MERGED    = "★ Merged"
     R4M       = "★ Ready for merge"
     R4R       = "☆ Ready for review"
@@ -52,7 +65,7 @@ type
     CA_MORE   = "More concept art needed!"
     CA_NOT    = ""
 
-  BrowserEnums* = ClaimPriority | AssetClaimKind | AssetStatus | ReleaseQueue | CARequired
+  BrowserEnums* = ClaimPriority | AssetClaimKind | ClaimStatus | ReleaseQueue | CARequired
 
   AssetClaim* = object
     kind*:     AssetClaimKind
@@ -66,9 +79,21 @@ type
     release*:  seq[ReleaseQueue]
     file_raw*: seq[string]
     file_mw*:  seq[string]
-    status*:   AssetStatus
+    status*:   ClaimStatus
 
-#proc assetList(filter: string | None = None, order: string | None = None) = discard
+  #[ FUTURE BROWSER PREPARATIONS
+  FSAMClaim* = object
+    kind*:     FSAMClaimKind
+    priority*: ClaimPriority
+    name*:     string
+    imgs*:     seq[(string, string)] # (URL, description)
+    claimant*: seq[string]
+    reviewer*: seq[string]
+    descr*:    string
+    release*:  seq[ReleaseQueue]
+    files*:    seq[string]
+    status*:   ClaimStatus
+  ]#
 
 proc getEnums[T: BrowserEnums](id: string): T =
   when T is ClaimPriority:
@@ -87,15 +112,16 @@ proc getEnums[T: BrowserEnums](id: string): T =
         of "Creature":       return CREATURE
         of "Furniture":      return FURNITURE
         of "Clutter":        return CLUTTER
-        of "Food/Alch/Inch": return FOOD_ALCH_INCH
+        of "Food/Alch/Ingr": return FOOD_ALCH_INGR
         of "Weapon":         return WEAPON
         of "Armour":         return ARMOUR
         of "Cloth":          return CLOTH
-        of "Book":           return BOOK
         of "Race":           return RACE
+        of "Book":           return BOOK
+        of "Sound":          return SOUND
         of "Misc":           return MISC
         else: discard
-  elif T is AssetStatus:
+  elif T is ClaimStatus:
       case id:
         of "Merged":     return MERGED # only use for B3D BData
         of "MergedB":    return MERGED # use for MW's BData | later will be repurposed to indicate differences between MW's BData and B3D BData
@@ -208,7 +234,7 @@ proc yieldAssetClaims* (doc_path: string): seq[AssetClaim] =
                of 8: ac.release  = processReleasesQueue(processSequencedStrings(col, " / "))
                of 9: ac.file_raw = processSequencedStrings(col)
                of 10: ac.file_mw = processSequencedStrings(col)
-               of 11: ac.status  = getEnums[AssetStatus](col)
+               of 11: ac.status  = getEnums[ClaimStatus](col)
                else: discard
            else: # things that work upon empty string
              case j:
@@ -217,8 +243,3 @@ proc yieldAssetClaims* (doc_path: string): seq[AssetClaim] =
          else:
            result.add(ac)
            break
-
-#let test = yieldAssetClaims("B3D Asset List.ods")
-# echo len(claims_assets)
-#echo claims_assets[rand(0..len(claims_assets)-1)]
-#echo test[2].art
