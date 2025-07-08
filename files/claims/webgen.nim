@@ -6,7 +6,7 @@ import std/os
 import webgen_utils
 import claims
 
-const STATUSES_FILTER = [R4M, R4R, REQ_FIXES, INDEV, UNCLAIMED]
+const STATUSES_FILTER = @[MERGED, R4M, R4R, REQ_FIXES, INDEV, UNCLAIMED]
 
 proc generateHeader(page_subtitle: string, depth: Depth = CLAIMS): string =
   result = """
@@ -29,7 +29,70 @@ proc generateHeader(page_subtitle: string, depth: Depth = CLAIMS): string =
   result = result.replace("{depth}", $depth)
   result = result.replace("{number}", getDepthHeader(depth))
 
-proc filterHeader(depth: Depth): string =
+proc filterHeader(depth: Depth, filter: BrowserEnums | string): string =
+  # variables to be used by subprocs
+  let depthstr = $depth
+  let filteri  = filter
+
+  proc bodyBuilder[T](iter: HSlice[T, T] | seq[T], initial: string, category: string): string =
+    var temp_container: string
+    for i in iter:
+        let link = "\"" & depthstr & fmt"files/claims/bdata/[Lists]/list_{initial}_{parseNameForGeneration(i)}.html" & "\""
+        temp_container.add(fmt"<br><a href={link}>{i}</a>")
+    temp_container[0..3] = "" # removes first "<br>"
+    result = "<p class=\"def\" align=\"center\"> <b>" & category & "</b> <br>" & temp_container & "</p>"
+
+  proc prioritiesBody(): string =
+    return bodyBuilder[ClaimPriority](ClaimPriority.low..ClaimPriority.high, "P", "Priorities")
+
+  proc statusesBody(): string =
+    return bodyBuilder[ClaimStatus](STATUSES_FILTER, "S", "Statuses")
+
+  proc kindsBody(): string =
+    return bodyBuilder[AssetClaimKind](AssetClaimKind.low..AssetClaimKind.high, "K", "Type")
+
+  proc releasesBody(): string =
+    return bodyBuilder[ReleaseQueue](ReleaseQueue.low..ReleaseQueue.high, "R", "Release Queues")
+
+  # TODO: for "AND" filters - either one depending on filter already applied (contextual) or all of them (not recommended due to amount of combinations: over 1000)
+  proc subfilterBody(): string =
+    result.add("""
+    <p class="cr_tit"> Subfilter </p>
+    """)
+    return "" # returns empty string until to do is done
+
+  result.add("""
+  <p class="gl_tit"> Asset Browser </p>
+  <table class="archives" width="60%" cellpadding="10px" align="center" border="solid 1px">
+      <tr>
+          <td width="40%">
+                <p class="def" align="center"> Baedoor Data is the repository of assets used by From Steam and Magic mod, but will be later repurposed for Baedoor game. </p>
+                <p class="def" align="center"> <a href="https://github.com/Toma400/B_Data">                             GitHub Repository </a> |
+                                               <a href="https://github.com/Toma400/B_Data/archive/refs/heads/root.zip"> Download          </a> </p>
+                <p class="def" align="center"> Below is list of all asset claims that were made for it. It is updated regularly based on <a href="https://docs.google.com/spreadsheets/d/1qCKEiaXCVPrr48Cs_vC7xtMIZoZcmbq3-rhlrjN5FBA">spreadsheet</a>. </p>
+          </td>
+          <td width="60%">
+                <p class="cr_tit"> Filters </p>
+                <table align="center">
+                    <tr>
+                        <td valign="top"> {priorities_body} </td>
+                        <td valign="top"> {statuses_body}   </td>
+                        <td valign="top"> {kinds_body}      </td>
+                        <td valign="top"> {releases_body}   </td>
+                    </tr>
+                    {subfilter}
+                </table>
+          </td>
+      </tr>
+  </table>
+  """)
+  result = result.replace("{priorities_body}", prioritiesBody())
+  result = result.replace("{statuses_body}",   statusesBody())
+  result = result.replace("{kinds_body}",      kindsBody())
+  result = result.replace("{releases_body}",   releasesBody())
+  result = result.replace("{subfilter}",       subfilterBody())
+
+proc filterHeader(depth: Depth): string {.deprecated.} =
   result.add("""
     <p class="gl_tit"> Asset Browser </p>
     <p class="def" align="center"> Baedoor Data is the repository of assets used by From Steam and Magic mod, but will be later repurposed for Baedoor game. </p>
@@ -56,6 +119,14 @@ proc filterHeader(depth: Depth): string =
     statuses.add(fmt" | <a href={link}>{s}</a>")
   statuses[0..2] = "" # removes first "| "
   statuses_body  = statuses_body.replace("[[]]", statuses)
+  # Types
+  var kinds_body = "<p class=\"def\" align=\"center\"> <b>Type</b> <br>[[]]</p>"
+  var kinds: string
+  for k in AssetClaimKind.low..AssetClaimKind.high:
+    let link = "\"" & $depth & fmt"files/claims/bdata/[Lists]/list_K_{parseNameForGeneration(k)}.html" & "\""
+    kinds.add(fmt" | <a href={link}>{k}</a>")
+  kinds[0..2] = "" # removes first "| "
+  kinds_body  = kinds_body.replace("[[]]", kinds)
   # Release Queues
   var releases_body = "<p class=\"def\" align=\"center\"> <b>Release Queues</b> <br>[[]]</p>"
   var releases: string
@@ -67,6 +138,7 @@ proc filterHeader(depth: Depth): string =
 
   result.add(priorities_body)
   result.add(statuses_body)
+  result.add(kinds_body)
   result.add(releases_body)
 
 #[ BODY SUBGENERATORS ]#
@@ -75,7 +147,7 @@ proc assetlistBody(asset_list: seq[AssetClaim], depth: DEPTH, filter: BrowserEnu
   var backlink        = "<center><a href=\"" & $depth & "projects/fsam.html\" id=\"v\"> Back to main page </a></center>" # only return to FSAM if on main list
   if filter is not string:
       backlink = "<center><a href=\"" & $depth & "files/claims/bdata/list.html\" id=\"v\"> Back to main page </a></center>"
-  for claim in orderAssets(asset_list):
+  for claim in orderAssets(asset_list, $filter == $MERGED):
       if filter is not string: # by default, all options are in | TODO: make the check better so it can work with strings that are not ""
           if not filterEnumField(claim, filter): continue # skips adding
       claims_list_str.add(fmt"""
@@ -83,19 +155,22 @@ proc assetlistBody(asset_list: seq[AssetClaim], depth: DEPTH, filter: BrowserEnu
           <td> {linkToPage(claim.name, depth)}        </td>
           <td> {authorList(claim.claimant)}           </td>
           <td> {formatStatuses(claim.status)}         </td>
+          <td> {formatPriority(claim.priority)}       </td>
           <td> {checkFiles(claim.file_mw, "🪔")}      </td>
           <td> {checkFiles(claim.file_raw, "🪔")}     </td>
           <td> {checkCAReq(claim.art_req, "🏵️", "🌸")} </td>
       </tr>
       """)
+  # PRIORITY - when added, it took 10% from CLAIM (previously 40%)
   result = fmt"""
-  {filterHeader(depth)}
+  {filterHeader(depth, filter)}
 
   <table class="archives" width="60%" cellpadding="10px" align="center" border="solid 1px">
       <tr class="head">
-          <td width="40%"> Claim      </td>
+          <td width="30%"> Claim      </td>
           <td width="25%"> Developer  </td>
           <td width="15%"> Status     </td>
+          <td width="10%"> Priority   </td>
           <td width="6%">  MW File    </td>
           <td width="6%">  Raw File   </td>
           <td width="6%">  CA Needed? </td>
@@ -202,6 +277,12 @@ proc generateAssetLists() =
     defer: priority_list.close()
     priority_list.write(generateHeader(fmt"Asset Browser: {p}", CLAIM_SUB_LIST))
     priority_list.write(generateBody(assetlistBody(asset_doc, CLAIM_SUB_LIST, p)))
+
+  for k in AssetClaimKind.low..AssetClaimKind.high:
+    let kind_list = open(fmt"bdata/[Lists]/{fname}".replace(".html", fmt"_K_{parseNameForGeneration(k)}.html"), fmWrite)
+    defer: kind_list.close()
+    kind_list.write(generateHeader(fmt"Asset Browser: {k}", CLAIM_SUB_LIST))
+    kind_list.write(generateBody(assetlistBody(asset_doc, CLAIM_SUB_LIST, k)))
 
 generateAssetPages()
 generateAssetLists()
