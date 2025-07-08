@@ -6,6 +6,8 @@ import std/os
 import webgen_utils
 import claims
 
+const STATUSES_FILTER = [R4M, R4R, REQ_FIXES, INDEV, UNCLAIMED]
+
 proc generateHeader(page_subtitle: string, depth: Depth = CLAIMS): string =
   result = """
     <!doctype html>
@@ -37,8 +39,25 @@ proc filterHeader(depth: Depth): string =
     <br>
     <p class="cr_tit"> Filters </p>
   """)
-  # filters
-  var releases_body = "<p class=\"def\" align=\"center\"> Release Queues: [[]]</p>"
+  # [ FILTERS ]#
+  # Priorities
+  var priorities_body = "<p class=\"def\" align=\"center\"> <b>Priorities</b> <br>[[]]</p>"
+  var priorities: string
+  for p in ClaimPriority.low..ClaimPriority.high:
+    let link = "\"" & $depth & fmt"files/claims/bdata/[Lists]/list_P_{p}.html" & "\""
+    priorities.add(fmt" | <a href={link}>{p}</a>")
+  priorities[0..2] = "" # removes first "| "
+  priorities_body  = priorities_body.replace("[[]]", priorities)
+  # Statuses
+  var statuses_body = "<p class=\"def\" align=\"center\"> <b>Statuses</b> <br>[[]]</p>"
+  var statuses: string
+  for s in STATUSES_FILTER:
+    let link = "\"" & $depth & fmt"files/claims/bdata/[Lists]/list_S_{s}.html" & "\""
+    statuses.add(fmt" | <a href={link}>{s}</a>")
+  statuses[0..2] = "" # removes first "| "
+  statuses_body  = statuses_body.replace("[[]]", statuses)
+  # Release Queues
+  var releases_body = "<p class=\"def\" align=\"center\"> <b>Release Queues</b> <br>[[]]</p>"
   var releases: string
   for r in ReleaseQueue.low..ReleaseQueue.high:
     let link = "\"" & $depth & fmt"files/claims/bdata/[Lists]/list_R_{r}.html" & "\""
@@ -46,12 +65,17 @@ proc filterHeader(depth: Depth): string =
   releases[0..2] = "" # removes first "| "
   releases_body  = releases_body.replace("[[]]", releases)
 
+  result.add(priorities_body)
+  result.add(statuses_body)
   result.add(releases_body)
 
 #[ BODY SUBGENERATORS ]#
 proc assetlistBody(asset_list: seq[AssetClaim], depth: DEPTH, filter: BrowserEnums | string = ""): string =
-  var claims_list_str: string # HTML code for table entries
-  for claim in asset_list:
+  var claims_list_str : string # HTML code for table entries
+  var backlink        = "<center><a href=\"" & $depth & "projects/fsam.html\" id=\"v\"> Back to main page </a></center>" # only return to FSAM if on main list
+  if filter is not string:
+      backlink = "<center><a href=\"" & $depth & "files/claims/bdata/list.html\" id=\"v\"> Back to main page </a></center>"
+  for claim in orderAssets(asset_list):
       if filter is not string: # by default, all options are in | TODO: make the check better so it can work with strings that are not ""
           if not filterEnumField(claim, filter): continue # skips adding
       claims_list_str.add(fmt"""
@@ -80,7 +104,7 @@ proc assetlistBody(asset_list: seq[AssetClaim], depth: DEPTH, filter: BrowserEnu
   </table>
 
   <br><br><br>
-  <center><a href="{depth}projects/fsam.html" id="v"> Back to main page </a></center>
+  {backlink}
   """
 
 proc assetclaimBody(a: AssetClaim): string =
@@ -166,6 +190,18 @@ proc generateAssetLists() =
     defer: release_list.close()
     release_list.write(generateHeader(fmt"Asset Browser: {r}", CLAIM_SUB_LIST))
     release_list.write(generateBody(assetlistBody(asset_doc, CLAIM_SUB_LIST, r)))
+
+  for s in STATUSES_FILTER:
+    let status_list = open(fmt"bdata/[Lists]/{fname}".replace(".html", fmt"_S_{s}.html"), fmWrite)
+    defer: status_list.close()
+    status_list.write(generateHeader(fmt"Asset Browser: {s}", CLAIM_SUB_LIST))
+    status_list.write(generateBody(assetlistBody(asset_doc, CLAIM_SUB_LIST, s)))
+
+  for p in ClaimPriority.low..ClaimPriority.high:
+    let priority_list = open(fmt"bdata/[Lists]/{fname}".replace(".html", fmt"_P_{p}.html"), fmWrite)
+    defer: priority_list.close()
+    priority_list.write(generateHeader(fmt"Asset Browser: {p}", CLAIM_SUB_LIST))
+    priority_list.write(generateBody(assetlistBody(asset_doc, CLAIM_SUB_LIST, p)))
 
 generateAssetPages()
 generateAssetLists()

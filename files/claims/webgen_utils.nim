@@ -19,6 +19,21 @@ proc getDepthHeader* (d: Depth): string =
    of CLAIM_SUB_LIST:  return "4"
    of CLAIMS:          return "4"
 
+proc orderAssets* (a: seq[AssetClaim]): seq[AssetClaim] =
+  # sorts the asset sequence through [reo2] priority > [reo1] status
+  let statusCount   = len(AssetStatus.low..AssetStatus.high)
+  let priorityCount = len(ClaimPriority.low..ClaimPriority.high)
+  var first_reordering  = newSeq[seq[AssetClaim]](statusCount)
+  var second_reordering = newSeq[seq[AssetClaim]](priorityCount * statusCount)
+  for i1 in a:
+    first_reordering[i1.status.ord].add(i1)
+  for i2 in first_reordering:
+    for i2i in i2:
+      second_reordering[i2i.priority.ord].add(i2i)
+  for fin in second_reordering:
+    for finn in fin:
+      result.add(finn)
+
 proc parseNameForGeneration* (s: string): string =
   return s.multireplace([
       ("/", "_")
