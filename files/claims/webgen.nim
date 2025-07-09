@@ -6,7 +6,8 @@ import std/os
 import webgen_utils
 import claims
 
-const STATUSES_FILTER = @[MERGED, R4M, R4R, REQ_FIXES, INDEV, UNCLAIMED]
+const STATUSES_FILTER = @[MERGED, R4M, R4R, REQ_FIXES, INDEV, UNCLAIMED, DESIGN]
+const RELEASES_FILTER = @[DISANE, KACARI, BAEDOOR_CITY]
 
 proc generateHeader(page_subtitle: string, depth: Depth = CLAIMS): string =
   result = """
@@ -52,7 +53,7 @@ proc filterHeader(depth: Depth, filter: BrowserEnums | string): string =
     return bodyBuilder[AssetClaimKind](AssetClaimKind.low..AssetClaimKind.high, "K", "Type")
 
   proc releasesBody(): string =
-    return bodyBuilder[ReleaseQueue](ReleaseQueue.low..ReleaseQueue.high, "R", "Release Queues")
+    return bodyBuilder[ReleaseQueue](RELEASES_FILTER, "R", "Release Queues")
 
   # TODO: for "AND" filters - either one depending on filter already applied (contextual) or all of them (not recommended due to amount of combinations: over 1000)
   proc subfilterBody(): string =
@@ -252,6 +253,10 @@ proc generateAssetPages() =
       claim_page.write(generateBody(assetclaimBody(claim)))
 
 proc generateAssetLists() =
+  for kind, path in walkDir("bdata/[Lists]/"):
+    if kind == pcFile:
+       removeFile(path)
+
   let asset_doc = yieldAssetClaims("B3D Asset List.ods")
   const fname   = "list.html"
 
@@ -260,7 +265,7 @@ proc generateAssetLists() =
   main_list.write(generateHeader("Asset Browser", CLAIM_MAIN_LIST))
   main_list.write(generateBody(assetlistBody(asset_doc, CLAIM_MAIN_LIST)))
 
-  for r in ReleaseQueue.low..ReleaseQueue.high:
+  for r in ReleaseQueue.low..ReleaseQueue.high: # not using RELEASES_FILTER so hidden releases can still be reached
     let release_list = open(fmt"bdata/[Lists]/{fname}".replace(".html", fmt"_R_{r}.html"), fmWrite)
     defer: release_list.close()
     release_list.write(generateHeader(fmt"Asset Browser: {r}", CLAIM_SUB_LIST))
