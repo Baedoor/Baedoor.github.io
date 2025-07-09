@@ -59,6 +59,7 @@ type
     KACARI            = "Kacari"
     BAEDOOR_CITY      = "Baedoor City"
     LIBRARY_OF_WORLDS = "Library of Worlds"
+    OTHER             = "Other"
 
   CARequired* = enum
     CA_NEEDED = "Concept art needed!"
@@ -140,7 +141,8 @@ proc getEnums[T: BrowserEnums](id: string): T =
         of "Kacari":    return KACARI
         of "BaeC":      return BAEDOOR_CITY
         of "LibWorlds": return LIBRARY_OF_WORLDS
-        else: discard
+        of "Other":     return OTHER
+        else:           return OTHER
   elif T is CARequired:
       case id:
         of "!": return CA_NEEDED
