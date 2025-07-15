@@ -15,6 +15,17 @@ type
     LOW      = "Low"
     UNKNOWN  = "Unknown"
 
+  ClaimStatus* = enum
+    MERGED    = "★ Merged"
+    R4M       = "★ Ready for merge"
+    R4R       = "☆ Ready for review"
+    INREV     = "☆ In review"
+    INDEV     = "● In development"
+    UNCLAIMED = "○ Unclaimed"
+    DESIGN    = "△ Design"
+    REQ_FIXES = "▣ Requires Fixes"
+    REJECTED  = "▽ Rejected"
+
   AssetClaimKind* = enum
     ARCHITECTURE   = "Architecture"
     LANDSCAPE      = "Landscape"
@@ -31,42 +42,37 @@ type
     SOUND          = "Sound"
     MISC           = "Misc"
 
-  #[ TODO: FUTURE BROWSER PREPARATIONS
-  FSAMClaimKind* = enum
-    INTERIOR = "Interior"
-    EXTERIOR = "Exterior"
-    QUEST    = "Quest"
-    NPCING   = "NPCing"
+  IoAClaimKind* = enum
+    LOCATION      = "Location"
+    QUEST         = "Quest"
+    QUESTLINE     = "Questline"
+    NPCING        = "NPCing"
+    LITERATURE    = "Literature"
+    STATPACK_DATA = "Statpack Data"
+    ART_LOC       = "Location Art"
+    ART_NPC       = "NPC/Creature Art"
+    ART_IT        = "Item Art"
 
-  IOAClaimKind* = enum
-    LOCATION = "Location"
-    QUEST    = "Quest"
-  ]#
-
-  ClaimStatus* = enum
-    MERGED    = "★ Merged"
-    R4M       = "★ Ready for merge"
-    R4R       = "☆ Ready for review"
-    INREV     = "☆ In review"
-    INDEV     = "● In development"
-    UNCLAIMED = "○ Unclaimed"
-    DESIGN    = "△ Design"
-    REQ_FIXES = "▣ Requires Fixes"
-    REJECTED  = "▽ Rejected"
-
-  ReleaseQueue* = enum
+  B3DReleaseQueue* = enum
     DISANE            = "Disane"
     KACARI            = "Kacari"
     BAEDOOR_CITY      = "Baedoor City"
     LIBRARY_OF_WORLDS = "Library of Worlds"
     OTHER             = "Other"
 
+  IoAReleaseQueue* = enum
+    TUTORIAL = "Tutorial"
+    EVROS    = "Evros"
+    FIELDS   = "Fields"
+    WAINE    = "Waine"
+    NFERTH   = "Nferth"
+
   CARequired* = enum
     CA_NEEDED = "Concept art needed!"
     CA_MORE   = "More concept art needed!"
     CA_NOT    = ""
 
-  BrowserEnums* = ClaimPriority | AssetClaimKind | ClaimStatus | ReleaseQueue | CARequired
+  BrowserEnums* = ClaimPriority | AssetClaimKind | ClaimStatus | B3DReleaseQueue | IoAReleaseQueue | CARequired | IoAClaimKind
 
   AssetClaim* = object
     kind*:     AssetClaimKind
@@ -77,10 +83,24 @@ type
     claimant*: seq[string]
     reviewer*: seq[string]
     descr*:    string
-    release*:  seq[ReleaseQueue]
+    release*:  seq[B3DReleaseQueue]
     file_raw*: seq[string]
     file_mw*:  seq[string]
     status*:   ClaimStatus
+
+  IoAClaim* = object
+    kind*:     IoAClaimKind
+    priority*: ClaimPriority
+    status*:   ClaimStatus
+    name*:     string
+    imgs*:     seq[(string, string, string)] # (URL, author, description)
+    claimant*: seq[string]
+    reviewer*: seq[string]
+    descr*:    string
+    release*:  seq[IoAReleaseQueue]
+    files*:    seq[string]
+
+  BrowserClaims* = AssetClaim | IoAClaim
 
   #[ FUTURE BROWSER PREPARATIONS
   FSAMClaim* = object
@@ -95,62 +115,6 @@ type
     files*:    seq[string]
     status*:   ClaimStatus
   ]#
-
-proc getEnums[T: BrowserEnums](id: string): T =
-  when T is ClaimPriority:
-      case id:
-        of "Critical": return CRITICAL
-        of "High":     return HIGH
-        of "Medium":   return MEDIUM
-        of "Low":      return LOW
-        of "Unknown":  return UNKNOWN
-        else:          return UNKNOWN
-  elif T is AssetClaimKind:
-      case id:
-        of "Architecture":   return ARCHITECTURE
-        of "Landscape":      return LANDSCAPE
-        of "Flora":          return FLORA
-        of "Creature":       return CREATURE
-        of "Furniture":      return FURNITURE
-        of "Clutter":        return CLUTTER
-        of "Food/Alch/Ingr": return FOOD_ALCH_INGR
-        of "Weapon":         return WEAPON
-        of "Armour":         return ARMOUR
-        of "Cloth":          return CLOTH
-        of "Race":           return RACE
-        of "Book":           return BOOK
-        of "Sound":          return SOUND
-        of "Misc":           return MISC
-        else: discard
-  elif T is ClaimStatus:
-      case id:
-        of "Merged":     return MERGED # only use for B3D BData
-        of "MergedB":    return MERGED # use for MW's BData | later will be repurposed to indicate differences between MW's BData and B3D BData
-        of "R4M":        return R4M
-        of "R4R":        return R4R
-        of "In Review":  return INREV
-        of "Indev":      return INDEV
-        of "Unclaimed":  return UNCLAIMED
-        of "Design":     return DESIGN
-        of "Req. Fixes": return REQ_FIXES
-        of "Rejected":   return REJECTED
-        else: discard
-  elif T is ReleaseQueue:
-      case id:
-        of "Disane":    return DISANE
-        of "Kacari":    return KACARI
-        of "BaeC":      return BAEDOOR_CITY
-        of "LibWorlds": return LIBRARY_OF_WORLDS
-        of "Other":     return OTHER
-        else:           return OTHER
-  elif T is CARequired:
-      case id:
-        of "!": return CA_NEEDED
-        of ":": return CA_MORE
-        else:   return CA_NOT
-
-proc processSequencedStrings(str: string, sep: string = ", "): seq[string] =
-  result = str.split(sep)
 
 proc processArtData* (sqstr: seq[string]): seq[(string, string, string)] =
   # format = "URL LINK : AUTHOR :: DESCRIPTION"
@@ -179,12 +143,8 @@ proc processArtData* (sqstr: seq[string]): seq[(string, string, string)] =
 
     result.add((single_data[0], author, descr))
 
-proc processReleasesQueue (sqstr: seq[string]): seq[ReleaseQueue] =
-  for entry in sqstr:
-    result.add(getEnums[ReleaseQueue](entry))
-
 proc `$`* (ac: AssetClaim): string =
-  proc readSeqs(s: seq[string] | seq[ReleaseQueue]): string =
+  proc readSeqs(s: seq[string] | seq[B3DReleaseQueue]): string =
     for si in s:
       result.add(fmt" | {si}")
     if len(result) > 2:
@@ -210,38 +170,3 @@ proc `$`* (ac: AssetClaim): string =
   === Description ===
   {ac.descr}
   """.unindent()
-
-proc yieldAssetClaims* (doc_path: string): seq[AssetClaim] =
-  let assetsDoc = loadOdsAsSeq(doc_path)
-  for i, line in assetsDoc:
-    if i > 0: # avoids header
-      case line[0]:
-        of "":  break    # no type text = end of doc
-        of "-": continue # visual break
-        else  : discard  # actual claim
-
-      var ac: AssetClaim
-      for j, col in line:
-         if j < 12:
-           if col != "":
-             case j:
-               of 0: ac.kind     = getEnums[AssetClaimKind](col)
-               of 1: ac.priority = getEnums[ClaimPriority](col)
-               of 2: ac.name     = col
-               of 3: ac.art      = processArtData(processSequencedStrings(col, " | "))
-               of 4: ac.art_req  = getEnums[CARequired](col)
-               of 5: ac.claimant = processSequencedStrings(col)
-               of 6: ac.reviewer = processSequencedStrings(col)
-               of 7: ac.descr    = col
-               of 8: ac.release  = processReleasesQueue(processSequencedStrings(col, " / "))
-               of 9: ac.file_raw = processSequencedStrings(col)
-               of 10: ac.file_mw = processSequencedStrings(col)
-               of 11: ac.status  = getEnums[ClaimStatus](col)
-               else: discard
-           else: # things that work upon empty string
-             case j:
-               of 4: ac.art_req  = getEnums[CARequired](col)
-               else: discard
-         else:
-           result.add(ac)
-           break

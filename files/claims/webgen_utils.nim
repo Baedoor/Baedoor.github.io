@@ -21,30 +21,36 @@ proc getDepthHeader* (d: Depth): string =
    of CLAIM_SUB_LIST:  return "4"
    of CLAIMS:          return "4"
 
-proc orderAssets* (a: seq[AssetClaim], merged_in: bool): seq[AssetClaim] =
-  proc alphSort(x, y: AssetClaim): int =
+proc orderAssets* [T: BrowserClaims](a: seq[T], merged_in: bool, sort_type: bool = false): seq[T] =
+  proc alphSort(x, y: T): int =
       return cmp(x.name, y.name)
-  proc statusSort(x, y: AssetClaim): int =
+  proc statusSort(x, y: T): int =
       return cmp(x.status.ord, y.status.ord)
-  proc prioritySort(x, y: AssetClaim): int =
+  proc prioritySort(x, y: T): int =
       return cmp(x.priority.ord, y.priority.ord)
+  proc kindSort(x, y: T): int =
+      return cmp(x.kind.ord, y.kind.ord)
   # sorts the asset sequence by three sortings
   result = a
   sort(result, alphSort)     # alphabetical sort
+  if sort_type:
+    sort(result, kindSort)   # type sort
   sort(result, statusSort)   # status sort
   sort(result, prioritySort) # priority sort
   if not merged_in: # take merged files out by default
-    result = filter(result, proc(c: AssetClaim): bool = c.status != MERGED)
-  result = filter(result, proc(c: AssetClaim): bool = c.status != REJECTED) # rejected assets are always out (claim pages are still generated)
+    result = filter(result, proc(c: T): bool = c.status != MERGED)
+  result = filter(result, proc(c: T): bool = c.status != REJECTED) # rejected assets are always out (claim pages are still generated)
 
 proc parseNameForGeneration* (s: string | BrowserEnums): string =
   result = $s
   return result.multireplace([
-      ("/", "_")
+      ("/", "_"),
+      (":", "_"),
+      ("|", "_")
   ])
 
-proc linkToPage* (s: string, depth: Depth): string =
-  return "<a href=\"" & $depth & "files/claims/bdata/[Pages]/" & parseNameForGeneration(s) & ".html\">" & s & "</a>"
+proc linkToPage* (s: string, proj: string, depth: Depth): string =
+  return "<a href=\"" & $depth & fmt"files/claims/{proj}/[Pages]/" & parseNameForGeneration(s) & ".html\">" & s & "</a>"
 
 proc authorList* (s: seq[string]): string =
   # parses through list of claimants/reviewers and generates HTML code with optional links
@@ -57,10 +63,18 @@ proc authorList* (s: seq[string]): string =
   if len(result) > 3:
     result[0..2] = "" # removes first "| "
 
-proc releaseList* (s: seq[ReleaseQueue], depth: Depth): string =
+proc releaseList* (s: seq[B3DReleaseQueue], depth: Depth): string =
   # parses through list of releases and generates HTML code with links to queues
   for i in s:
     let link = "\"" & $depth & fmt"files/claims/bdata/[Lists]/list_R_{i}.html" & "\""
+    result.add(fmt" | <a href={link}>{i}</a>")
+  if len(result) > 3:
+    result[0..2] = "" # removes first "| "
+
+proc releaseList* (s: seq[IoAReleaseQueue], depth: Depth): string =
+  # parses through list of releases and generates HTML code with links to queues
+  for i in s:
+    let link = "\"" & $depth & fmt"files/claims/ioa/[Lists]/list_R_{i}.html" & "\""
     result.add(fmt" | <a href={link}>{i}</a>")
   if len(result) > 3:
     result[0..2] = "" # removes first "| "
@@ -159,6 +173,40 @@ proc formatType* (s: AssetClaimKind): string =
       col  = "#d4d6ba"
   result = "<font color=\"" & col & "\">" & item & "</font>"
 
+proc formatType* (s: IoAClaimKind): string =
+  # creates a representation of a type in HTML
+  var item: string
+  var col:  string
+  case s:
+    of LOCATION:
+      item = "🏕️ Location"
+      col  = "#bad6c0"
+    of QUEST:
+      item = "🌿 Quest"
+      col  = "#b07ec1"
+    of QUESTLINE:
+      item = "🌸 Questline"
+      col  = "#943fb1"
+    of NPCING:
+      item = "🎎 NPCing"
+      col  = "#68a95a"
+    of LITERATURE:
+      item = "📖 Literature"
+      col  = "#ad9671"
+    of STATPACK_DATA:
+      item = "📄 Statpack Data"
+      col  = "#8665d4"
+    of ART_LOC:
+      item = "🖼️ Location Art"
+      col  = "#8fd0a5"
+    of ART_NPC:
+      item = "🦋 NPC/Creature Art"
+      col  = "#d08fc5"
+    of ART_IT:
+      item = "⚖️Item Art"
+      col  = "#cdd08f"
+  result = "<font color=\"" & col & "\">" & item & "</font>"
+
 proc checkFiles* (s: seq[string], text: string): string =
   # creates a representation of a file in HTML - if entry is empty it returns empty string
   if len(s) == 0: return ""
@@ -179,7 +227,7 @@ proc conceptArtShowcase* (s: seq[(string, string, string)]): string =
   for i in s:
     ca_html.add("<img src=\"" & i[0] & "\" width=\"100%\">")                              # url
     ca_html.add("<p id=\"vc\" align=\"center\"> <b>" & authorList(@[i[1]]) & "</b> </p>") # author
-    ca_html.add("<p id=\"vc\" align=\"center\"> <b>" & i[2]                & "</b> </p>") # description
+    ca_html.add("<p id=\"vc\" align=\"center\">    " & i[2]                & "     </p>") # description
   if len(s) > 0:
     result.add(fmt"""
     <table width="100%" class="proj">
@@ -200,6 +248,19 @@ proc filterEnumField* (a: AssetClaim, e: BrowserEnums | string): bool =
       return e == a.kind
     elif e is ClaimStatus:
       return e == a.status
-    elif e is ReleaseQueue:
+    elif e is B3DReleaseQueue:
+      return e in a.release
+  return true # if None (TODO: make check against other fields in -string- type)
+
+proc filterEnumField* (a: IoAClaim, e: BrowserEnums | string): bool =
+  # checks if enum field checked against exists in asset claim
+  if e is not int:
+    when e is ClaimPriority:
+      return e == a.priority
+    elif e is IoAClaimKind:
+      return e == a.kind
+    elif e is ClaimStatus:
+      return e == a.status
+    elif e is IoAReleaseQueue:
       return e in a.release
   return true # if None (TODO: make check against other fields in -string- type)

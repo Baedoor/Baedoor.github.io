@@ -1,0 +1,14 @@
+name      = "Veno Edran Art"
+priority  = "High"
+imgs      = []
+claimants = []
+reviewers = []
+files     = []
+releases  = ["Tutorial"]
+description = """
+Image of Veno Edran, made in a manner that represents the baedoorian galleon on both
+its interior and exterior side. Should look like a ship middle-class citizens could
+travel.
+
+Will replace current [placeholder](../../../../files/claims/ioa/[Pages]/Placeholder%20Veno%20Edran%20Art.html).
+"""

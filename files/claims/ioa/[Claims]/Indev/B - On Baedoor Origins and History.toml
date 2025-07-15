@@ -1,0 +1,22 @@
+name      = "On Baedoor Origins and History"
+priority  = "Medium"
+imgs      = []
+claimants = ["Toma400"]
+reviewers = []
+files     = []
+releases  = ["Tutorial"]
+description = """
+Request to make first IoA book that would tackle history of Baedoor in its fairly entirety, in academic manner, from perspective of Baedoor academic.
+The writer will most probably come from Quarius, if I recall university city correctly.<br>
+Should have lenghty part dedicated to Baedoor and shorter part of pre-Baedoor time, to reflect pride of this nation that tries to focus on their own
+history instead of their jitadian origin.<br>
+Follow extended length size of Morrowind books, so around 1000 words should mark split tomes, or end of the book. If it is split into tomes, I'd
+suggest one tome for pre-Baedoor history, and two-three next ones for Baedoor (maybe each tome for each era?).<br>
+<br>
+The asset eventually will be useful for IoA, B3D and maybe even other projects.<br>
+<br>
+EDIT: Forgot to add, but I'd assume the book was written not far before Empire's fall - so the importance of the book counts for all areas of the Empire, and
+the pride shown in the book makes more sense (post-fall one would still be prideful, but not to that extent).<br>
+Mind you "pridefulness" shouldn't be too explicit, but rather conveyed subtly, through picking specific events or avoiding others. It's more of
+mindset/background guidance than writing style guidance.
+"""

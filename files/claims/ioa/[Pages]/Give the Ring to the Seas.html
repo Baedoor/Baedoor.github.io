@@ -1,0 +1,90 @@
+    <!doctype html>
+    <head>
+        <title> Baedoor - Isle of Ansur: Give the Ring to the Seas </title>
+        <link rel="shortcut icon" href="../../../../graphics/banner_baedoor.png">
+        <link rel="stylesheet" href="../../../../bcmain.css">
+        <meta charset="UTF-8">
+
+        <script src="../../../../import.js"></script>
+        <script>
+         $(document).ready(function(){
+            $('#header').load("../../../../header4.html");
+         });
+        </script>
+    </head>
+      <body>
+        <div id="header"></div>
+
+        <p class="gl_tit">Give the Ring to the Seas</p>    <table width="100%" cellpadding="10px">
+        <tr>
+            <td width="25%" height="700px" valign="top">
+
+                <table width="100%" class="proj">
+                    <tr>
+                        <td>
+                            <p class="gl_tit" align="center"> <b>Asset Lifecycle</b> </p>
+                            <p id="vc" align="center"> Developer(s): </p>
+                            
+                            <p id="vc" align="center"> Status: <font color="#20bbbb">📝 Design</font></p>
+                            <hr color="#B6B79D">
+                            <p class="gl_tit" align="center"> <b>Asset Status</b> </p>
+                            <p id="vc" align="center"> Release(s): <a href="../../../../files/claims/ioa/[Lists]/list_R_Tutorial.html">Tutorial</a> </p>
+                            <p id="vc" align="center"> Priority:   <font color="#6fd565">Low</font>           </p>
+                            <p id="vc" align="center"> Type:       <font color="#b07ec1">🌿 Quest</font>                   </p>
+                            <hr color="#B6B79D">
+                            <p class="gl_tit" align="center"> <b>Files</b> </p>
+                            <p id="vc" align="center">  </p>
+                        </td>
+                    </tr>
+                </table>
+                <center><a href="../../../../files/claims/ioa/list.html" id="v"> <img src="../../../../graphics/arr_l.png"> </a></center>
+
+            </td>
+
+            <td width="50%" valign="top" style="padding-top: 0px; padding-left: 15px; padding-right: 15px; margin-top: 0px">
+                <p id="vc">
+                    <p id='vc'><strong>Location:</strong> Tutorial Ship</p>
+<p id='vc'>**Description:**<br>
+In the location, there will be NPC called &quot;worried man&quot; and option to &quot;search for stuff at the deck&quot;. If you talk with worried man,
+he will reveal his struggles: he lost his ring, given by his wife, and he is now in utter panic that this ring dropped to the sea.
+He begs us to search for it, as it may still be somewhere on deck.<br>
+&quot;Search stuff at the deck&quot; should return us the chance of finding ring - it should be small chance, but it should be possible
+(even without talking + if we find the ring, we should not be able to find it again, put invisible event here).</p>
+<p id='vc'>Once we come back with ring to the man, we can tell him we found it. He will then offer us one of two prices:</p>
+<ul class='def'>
+<li>200 baedoorian pounds</li>
+<li><a href="../../../../files/claims/ioa/%5BPages%5D/The%20Fall%20of%20Gods%20(412NE_1).html">Fall of Gods magazine</a></li>
+</ul>
+<p id='vc'>He will suggest us to take the money, as magazine is worth more, but if we would like to get such collectible item, we will be able to.</p>
+<p id='vc'>If we decide to keep the ring, it will be <strong>silver ring with lapis embbed</strong>, without any enchantments or upgrades. It should be worth more than
+200 pounds, but not crazily, so taking it won't give us huge benefits.</p>
+<p id='vc'><strong>NPC background:</strong> the guy can be avant-garde lover, and there could be dialogue revealing a lot of lore related to West Baedoor
+theatres.</p>
+<p id='vc'><strong>Some notes from GitHub claim:</strong>
+I think it'd be interesting - if technically possible - to make it accessible via different means.
+You could possibly pickpocket the person from #48 to get keys to his cabin and the cabin could
+contain the magazine (normally you couldn't access it without getting key, as lock would be impossible to open,
+or you can make it also openable with very high difficulty).</p>
+<p id='vc'>This however makes two issues possible if #48 is completed and magazine is claimed:</p>
+<ul class='def'>
+<li>magazine should disappear from cabin, so it isn't possible to get two of those
+(interesting case that takes on both chests generating when you open them, not
+when location starts - for better flexibility - or that chests should be able to be edited via quests,
+but this is more bug-friendly [quest items could be easier to manage tho])</li>
+<li>if magazine was taken out earlier, either the sailor should not be able to offer you it anymore,
+or have separate section where it goes to cabin and then comes back to you screaming that it got
+stolen (second option is better for bugproofing reasons, as it shows you outcome of your actions + is very
+simple to code and I can't see any bugs coming from it, unlike first option)</li>
+</ul>
+
+                </p>
+            </td>
+
+            <td width="25%" valign="top">
+                
+            </td>
+        </tr>
+    </table>
+  
+    </body>
+  

@@ -1,0 +1,20 @@
+name      = "Sweet Roll"
+priority  = "Low"
+imgs      = []
+claimants = []
+reviewers = []
+files     = []
+releases  = ["Tutorial"]
+description = """
+<b>Location:</b> Tutorial Ship<br>
+<br>
+<b>Description:</b><br>
+When on deck, sailor will tell you he's hungry. He will tell you that he is currently on guard, so can't
+really go downstairs, but he'd be super thankful for bringing him sweet rolls from kitches that he can
+smell from there.<br>
+Player will be able to convince cook to give roll away (should be very easy task) or steal. In case of
+failed steal though, it should fail quest as cook will not want to help you. There should be no penalty
+for failure here, just locking you out of trying again.<br>
+<br>
+Reward up to claimant. The quest is port of BSaL quest to IoA. Also serves as tutorial quest.
+"""

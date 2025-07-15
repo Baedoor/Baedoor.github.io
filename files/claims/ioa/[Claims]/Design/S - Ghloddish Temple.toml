@@ -1,0 +1,21 @@
+name      = "Ghloddish Temple"
+priority  = "Low"
+imgs      = []
+claimants = []
+reviewers = []
+files     = []
+releases  = ["Evros"]
+description = """
+Ghloddish Temple is small misc entity in Evros that helps the small ghlodd minority
+on Ansur. Its questline would be primarily doing small, atmospheric chores that
+give you insight into the culture.
+
+**Carry the Dead**<br>
+Head of the Temple informed you that one of older ghlodds in Evros died.
+They were one of the traditionalists and requested “the sacred travel” to the lands
+of their birth - At’har - to be buried in a cave cemetery under it.<br>
+Temple has contact with ship captain who quite frequently travels to Seiteh.
+The goal for you is to take the remains of the ghlodd and bring them safely to
+the ship and contact captain.<br>
+After that return to Temple Head to report back from captain.
+"""

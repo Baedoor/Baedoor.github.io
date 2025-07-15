@@ -1,0 +1,31 @@
+name      = "Hired Burglar"
+priority  = "Low"
+imgs      = []
+claimants = []
+reviewers = []
+files     = []
+releases  = ["Evros"]
+description = """
+This quest is taken directly from BSaL, even though in original game it was bugged, so it wasn't really a way to enter Thieves Guild.
+Although, taking game code in mind, it is possible to recreate the quest.<br>
+<br>
+<b>Location:</b> Evros Port<br>
+<br>
+<b>Description:</b><br>
+When you get close to warehouse, you will get asked silently by someone about "job". If you agree on it, that person will ask you to
+bring silk bales from inside, giving you few lockpicks to use and telling you to do it during night*.<br>
+The difference should be, I think, that you will be able to sneak also during day, but it will mean you getting
+arrested (there's no point on 'guessing' with clock system anymore, so sneaking just to check if nighttime came makes no sense).<br>
+<br>
+When you get into and open the chest, you can get silk bales and money. Later, you will find your mandator near warehouse, and
+if you bring silk to him, he will tell you about recommendation he made for you. Additionally, he will tell you about someone you
+need to contact with this recommendation.<br>
+(in BSaL, the person sent us to Hrevir in Baedoor, therefore I assume that this quest were not meant to continue on Ansur whatsoever)<br>
+<br>
+Alternative way for this quest is to report the crime proposal to guards, which will disallow you to join Thieves Guild, but
+guard will give you some money as a reward. Lore-wise, the person who gave you the mission will not be hurt, as he is specialised
+with such situations and need to adjust to his "new members" when they are too righteous.<br>
+<br>
+--<br>
+*It additionally brings interesting matter if sneaking chance should be affected by daytime/nighttime
+"""
