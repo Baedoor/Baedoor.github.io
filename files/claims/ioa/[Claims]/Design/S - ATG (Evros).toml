@@ -1,0 +1,14 @@
+name      = "Ansur Thieves Guild: Evros"
+priority  = "Low"
+imgs      = []
+claimants = []
+reviewers = []
+files     = []
+releases  = ["Evros"]
+description = """
+Questline for Ansur Thieves Guild, part of it that can be played in Evros. The questline should be fairly lengthy
+and involve more and more politics the higher you go, using ATG's unique character to play its narrative.
+
+- [0: Weird Contraband](www.baedoor.com/files/claims/ioa/[Pages]/Weird%20Contraband.html)
+- [0: Hired Burglar](www.baedoor.com/files/claims/ioa/[Pages]/Hired%20Burglar.html)
+"""

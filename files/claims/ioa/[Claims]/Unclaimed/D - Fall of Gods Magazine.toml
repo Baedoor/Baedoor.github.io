@@ -1,0 +1,19 @@
+name      = "The Fall of Gods (412NE/1)"
+priority  = "Low"
+imgs      = []
+claimants = []
+reviewers = []
+files     = []
+releases  = ["Tutorial"]
+description = """
+I think one of the more fun easter eggs that could be added is The Fall of Gods magazine, 1st issue of 412 NE
+(look at "Oko Chaosu" in old Baedoor Encyclopaedia for explanation and details).
+
+Reason?<br>
+Not only revealing a lot of interesting lore related to West Baedoor, but also being rare treat considering it's old piece
+of paper, so its appearance will be a bit unique.
+
+Item has quest related to it, [#48](../../../../files/claims/ioa/[Pages]/Give%20the%20Ring%20to%20the%20Seas.html) being
+the only way to gather the piece. Applying it so early in game will make books/magazines appear early as well, kinda
+introducing players to the concept.
+"""

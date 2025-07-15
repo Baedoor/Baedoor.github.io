@@ -1,0 +1,12 @@
+name      = "Placeholder Veno Edran Art"
+priority  = "Critical"
+imgs      = ["https://baedoor.github.io/files/ca/bd_veno_edran.png : skeletontonguedworld"]
+claimants = ["skeletontonguedworld"]
+reviewers = []
+files     = []
+releases  = ["Tutorial"]
+description = """
+Placeholder image for tutorial galleon (Veno Edran). Should work as illustration
+that gets the point across, but does not necessarily build a strong identity of
+the ship or create visual character of the game.
+"""

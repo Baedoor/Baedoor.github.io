@@ -1,0 +1,14 @@
+name      = "Veno Edran NPCing"
+priority  = "Medium"
+imgs      = []
+claimants = []
+reviewers = []
+files     = []
+releases  = ["Tutorial"]
+description = """
+NPCing claim for Veno Edran. NPCs should be mostly sailors and travellers who
+took the galleon route to visit West Baedoor for various reasons. Ship crew
+should contain cook.
+
+**Holding in design until location claim is merged.**
+"""

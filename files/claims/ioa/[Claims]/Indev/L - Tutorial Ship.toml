@@ -1,0 +1,14 @@
+name      = "Tutorial Ship"
+priority  = "Critical"
+imgs      = []
+claimants = ["Toma400"]
+reviewers = []
+files     = []
+releases  = ["Tutorial"]
+description = """
+Two starting exterior areas, showcasing deck of baedoorian galleon.<br>
+It should have some travellers and sailors. One of locations should lead to interior space
+where player would be able to try getting to private rooms of sailors and/or enter cooking
+area for future BSaL-referencing quest. Obviously this claim also requires those interiors
+to be made.
+"""

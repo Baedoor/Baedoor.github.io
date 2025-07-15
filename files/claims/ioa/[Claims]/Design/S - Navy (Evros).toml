@@ -1,0 +1,26 @@
+name      = "Ansur Navy: Evros"
+priority  = "Low"
+imgs      = []
+claimants = []
+reviewers = []
+files     = []
+releases  = ["Evros"]
+description = """
+Questline for Navy, part of it you'd be able to experience in Evros. It should play
+as one where you start with chores and administration, and end up with some nice
+adventure and maybe some organisational decision that will shape up how navy operates.
+
+**1 | The Routine of Trade**<br>
+You are destined to check the contents of the ship suspected of smuggling goods.
+Work player would need to do is to investigate all cargo - to eventually end up with
+everything being okay. The quest ends when you report back with your results.
+
+**3 | ~Name pending~**<br>
+[Quest sending you to ATG person, for something that showcases how the Navy is silently
+supplying the guild with ships or at least allowing them to have their interests in the port.]
+
+**4 | Abordage**<br>
+You are asked to take obligations of captain of the Navy ship who got sick. It was meant
+to escort baedoorian trading cargo. As you escort the ship, it is attacked by pirates.
+Your goal is to manage the crew and fight attackers.
+"""
