@@ -93,7 +93,7 @@ proc processReleasesQueue[T: B3DReleaseQueue | IoAReleaseQueue](sqstr: seq[strin
   for entry in sqstr:
     result.add(getEnums[T](entry))
 
-proc descrParser* (s: string): string =
+proc descrParser (s: string): string =
   # parses description to unify some formatting/visual aspects
   result = markdown(s)         # allow Markdown styling
   return result.multireplace([ # ensure consistent style
@@ -101,6 +101,33 @@ proc descrParser* (s: string): string =
       ("<li>", "<li>"),
       ("<p>",  "<p id='vc'>")
   ])
+
+proc processArtData (sqstr: seq[string]): seq[(string, string, string)] =
+  # format = "URL LINK : AUTHOR :: DESCRIPTION"
+  for entry in sqstr:
+    let single_data = entry.split(" : ")
+    let double_data = entry.split(" :: ")
+    var
+      url    : string
+      author : string = "Unknown"
+      descr  : string = ""
+
+    let single_len = len(single_data)
+    let double_len = len(double_data)
+
+    if single_len == 1 and double_len == 1:
+      discard # author & descr are default
+    elif single_len == 2 and double_len == 1:
+      # no "::"
+      author = single_data[1]
+    elif single_len == 2 and double_len == 2:
+      author = single_data[1].split(" :: ")[0]
+      descr  = double_data[1]
+    elif single_len == 1 and double_len == 1:
+      # no ":"
+      descr  = double_data[1]
+
+    result.add((single_data[0], author, descr))
 
 proc yieldAssetClaims(doc_path: string): seq[AssetClaim] =
   # reads .ods file with path set in -doc_path- argument and yields list of claims
