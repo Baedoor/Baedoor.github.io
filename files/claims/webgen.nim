@@ -280,9 +280,7 @@ proc assetclaimBody(a: AssetClaim): string =
             </td>
 
             <td width="50%" valign="top" style="padding-top: 0px; padding-left: 15px; padding-right: 15px; margin-top: 0px">
-                <p id="vc">
-                    {a.descr}
-                </p>
+                {a.descr}
             </td>
 
             <td width="25%" valign="top">
@@ -317,10 +315,10 @@ proc ioalistBody(ioa_list: seq[IoAClaim], depth: DEPTH, filter: BrowserEnums | s
   <table class="archives" width="60%" cellpadding="10px" align="center" border="solid 1px">
       <tr class="head">
           <td width="30%"> Claim      </td>
-          <td width="25%"> Developer  </td>
+          <td width="22%"> Developer  </td>
           <td width="15%"> Status     </td>
           <td width="10%"> Priority   </td>
-          <td width="12%"> Type       </td>
+          <td width="15%"> Type       </td>
           <td width="6%">  Files      </td>
       </tr>
       {claims_list_str}
@@ -366,9 +364,7 @@ proc claimBody(a: BrowserClaims, proj: string, files: string, imgs: seq[(string,
             </td>
 
             <td width="50%" valign="top" style="padding-top: 0px; padding-left: 15px; padding-right: 15px; margin-top: 0px">
-                <p id="vc">
-                    {a.descr}
-                </p>
+                {a.descr}
             </td>
 
             <td width="25%" valign="top">
