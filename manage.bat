@@ -5,4 +5,6 @@ cd files
 cd claims
 call update.bat
 
+nim r validator.nim
+
 :: if you add more .bat files elsewhere, remember to 'cd..' out of 'claims' folder

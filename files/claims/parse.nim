@@ -104,30 +104,31 @@ proc descrParser (s: string): string =
 
 proc processArtData (sqstr: seq[string]): seq[(string, string, string)] =
   # format = "URL LINK : AUTHOR :: DESCRIPTION"
+  const
+    AUT = " : "
+    DES = " :: "
+  var
+    url    : string
+    author : string = "Unknown"
+    descr  : string = ""
   for entry in sqstr:
-    let single_data = entry.split(" : ")
-    let double_data = entry.split(" :: ")
-    var
-      url    : string
-      author : string = "Unknown"
-      descr  : string = ""
-
-    let single_len = len(single_data)
-    let double_len = len(double_data)
-
-    if single_len == 1 and double_len == 1:
-      discard # author & descr are default
-    elif single_len == 2 and double_len == 1:
-      # no "::"
-      author = single_data[1]
-    elif single_len == 2 and double_len == 2:
-      author = single_data[1].split(" :: ")[0]
-      descr  = double_data[1]
-    elif single_len == 1 and double_len == 1:
-      # no ":"
-      descr  = double_data[1]
-
-    result.add((single_data[0], author, descr))
+    if AUT in entry:
+        let s1 = entry.split(AUT)
+        if DES in entry: # "LINK : AUTHOR :: DESCR"
+            let s2 = s1[1].split(DES)
+            url    = s1[0]
+            author = s2[0]
+            descr  = s2[1]
+        else:             # "LINK : AUTHOR"
+            url    = s1[0]
+            author = s1[1]
+    elif "::" in entry: # "LINK :: DESCR"
+        let s1 = entry.split(DES)
+        url   = s1[0]
+        descr = s1[1]
+    else:               # "LINK"
+        url = entry
+    result.add((url, author, descr))
 
 proc yieldAssetClaims(doc_path: string): seq[AssetClaim] =
   # reads .ods file with path set in -doc_path- argument and yields list of claims
@@ -147,7 +148,7 @@ proc yieldAssetClaims(doc_path: string): seq[AssetClaim] =
                of 0: ac.kind     = getEnums[AssetClaimKind](col)
                of 1: ac.priority = getEnums[ClaimPriority](col)
                of 2: ac.name     = col
-               of 3: ac.art      = processArtData(processSequencedStrings(col, " | "))
+               of 3: ac.art      = processArtData(processSequencedStrings(col, "|"))
                of 4: ac.art_req  = getEnums[CARequired](col)
                of 5: ac.claimant = processSequencedStrings(col, " | ")
                of 6: ac.reviewer = processSequencedStrings(col, " | ")
