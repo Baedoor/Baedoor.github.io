@@ -21,11 +21,13 @@ table.proj { border-style: ridge;  border-color: #B6B79D; }
 tr.proj    { border-style: dotted; border-color: #B6B79D; }
 th.proj    { border-style: dotted; border-color: #B6B79D; }
 td.proj    { border-style: dotted; border-color: #B6B79D; }
-li.lead    { color: #E0BB12; }
-li.rev     { color: #DAC79F; }
-li.dev     { color: #A7A25B; }
-li.contr   { color: #8BB394; }
-li.trnsl   { color: #6B8E90; }
+li.scdev   { font-weight:bold; }    /* sections */
+li.sccontr { font-weight:bold; }
+li.lead    { color: #E0BB12; } /* project lead */
+li.rev     { color: #DAC79F; } /* reviewer     */
+li.dev     { color: #A7A25B; } /* developer    */
+li.contr   { color: #8BB394; } /* contributor  */
+li.trnsl   { color: #6B8E90; } /* translator   */
 h1.colw    { color: #B6B79D; } /* white colour */
 h2.colw    { color: #B6B79D; } /* white colour */
 hr.def     { border: 1px solid #6e5f42; }
