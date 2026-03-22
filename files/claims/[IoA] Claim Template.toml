@@ -1,0 +1,34 @@
+# Writing your .toml name, please make it use following system: `[CATEGORY LETTER] - [NAME].toml`
+# Name prefix/category:
+#  - A - Location art
+#  - C - NPC art
+#  - I - Item art
+#  - B - Literature
+#  - D - Statpack data
+#  - L - Location
+#  - N - NPCing
+#  - Q - Quest
+#  - S - Questline
+# Setting up priority, use default "Unknown" for most cases. You can also pick between
+# "Low", "Medium", "High" and "Critical", but this decision should ideally be done by project lead.
+# Release array should include one of following:
+#  - Tutorial
+#  - Evros
+#  - Fields
+#  - Waine
+#  - Nferth
+# In most cases, you'd want to pick Tutorial or Evros.
+# Do not fill up `imgs`, `claimants`, `reviewers` nor `files`, instead upload any images or files
+# alongside the .toml file, for admin to figure out how to make it in the website.
+#
+# Description can use some Markdown formatting (lists, cursive, bolds) and HTML.
+name      = "[name to include]"
+priority  = "Unknown"
+imgs      = []
+claimants = []
+reviewers = []
+files     = []
+releases  = ["Tutorial"]
+description = """
+...
+"""
