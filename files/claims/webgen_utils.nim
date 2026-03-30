@@ -12,6 +12,7 @@ type
     CLAIM_MAIN_LIST = "../../../"    # bdata/fsam folders
     CLAIM_SUB_LIST  = "../../../../" # [lists] folders
     CLAIMS          = "../../../../" # [pages] folders
+  NoneQueue* = object # used to indicate lacking Queue field in claim object
 
 let REGISTERED_AUTHORS* = parsetoml.parseFile("authors.toml")
 
@@ -63,18 +64,10 @@ proc authorList* (s: seq[string]): string =
   if len(result) > 3:
     result[0..2] = "" # removes first "| "
 
-proc releaseList* (s: seq[B3DReleaseQueue], depth: Depth): string =
+proc releaseList* (s: seq[B3DReleaseQueue] | seq[IoAReleaseQueue], depth: Depth, proj: string): string =
   # parses through list of releases and generates HTML code with links to queues
   for i in s:
-    let link = "\"" & $depth & fmt"files/claims/bdata/[Lists]/list_R_{i}.html" & "\""
-    result.add(fmt" | <a href={link}>{i}</a>")
-  if len(result) > 3:
-    result[0..2] = "" # removes first "| "
-
-proc releaseList* (s: seq[IoAReleaseQueue], depth: Depth): string =
-  # parses through list of releases and generates HTML code with links to queues
-  for i in s:
-    let link = "\"" & $depth & fmt"files/claims/ioa/[Lists]/list_R_{i}.html" & "\""
+    let link = "\"" & $depth & fmt"files/claims/{proj}/[Lists]/list_R_{i}.html" & "\""
     result.add(fmt" | <a href={link}>{i}</a>")
   if len(result) > 3:
     result[0..2] = "" # removes first "| "
@@ -168,6 +161,12 @@ proc formatType* (s: AssetClaimKind): string =
     of SOUND:
       item = "🪕 Sound"
       col  = "#bac8d6"
+    of SCRIPT:
+      item = "🕉️ Script"
+      col  = "#C1D498" # TODO
+    of LEVELED_LIST:
+      item = "📄 Leveled List"
+      col  = "#C1D498" # TODO
     of MISC:
       item = "🎏 Miscellanous"
       col  = "#d4d6ba"
@@ -207,6 +206,31 @@ proc formatType* (s: IoAClaimKind): string =
       col  = "#cdd08f"
   result = "<font color=\"" & col & "\">" & item & "</font>"
 
+proc formatType* (s: B3DClaimKind): string =
+  # creates a representation of a type in HTML
+  var item: string
+  var col:  string
+  case s:
+    of INTERIOR:
+      item = "🏕️ Interior"
+      col  = "#bad6c0"
+    of EXTERIOR:
+      item = "🏕️ Exterior"
+      col  = "#bad6c0"
+    of NPCING:
+      item = "🏕️ NPCing"
+      col  = "#bad6c0"
+    of QUEST:
+      item = "🏕️ Quest"
+      col  = "#bad6c0"
+    of QUESTLINE:
+      item = "🏕️ Questline"
+      col  = "#bad6c0"
+    of SCRIPT:
+      item = "🏕️ Script"
+      col  = "#bad6c0"
+  result = "<font color=\"" & col & "\">" & item & "</font>"
+
 proc checkFiles* (s: seq[string], text: string): string =
   # creates a representation of a file in HTML - if entry is empty it returns empty string
   if len(s) == 0: return ""
@@ -239,7 +263,24 @@ proc conceptArtShowcase* (s: seq[(string, string, string)]): string =
     </table>
     """)
 
-proc filterEnumField* (a: AssetClaim, e: BrowserEnums | string): bool =
+proc filterEnumField* (a: BrowserClaims, e: BrowserEnums | string): bool =
+  # checks if enum field checked against exists in asset claim
+  if e is not int:
+    when e is ClaimPriority:
+      return e == a.priority
+    elif e is IoAClaimKind:
+      return e == a.kind
+    elif e is ClaimStatus:
+      return e == a.status
+    # 'a' specific, afaik none of these are used in actual code, so may be a bit redundant
+    elif a is AssetClaim or a is B3DClaim:
+      when e is B3DReleaseQueue: return e in a.release
+    elif a is IoAClaim:
+      when e is IoAReleaseQueue: return e in a.release
+  return true # if None (TODO: make check against other fields in -string- type)
+
+#[
+proc filterEnumField* (a: AssetClaim, e: BrowserEnums | string): bool {.deprecated.} =
   # checks if enum field checked against exists in asset claim
   if e is not int:
     when e is ClaimPriority:
@@ -252,7 +293,7 @@ proc filterEnumField* (a: AssetClaim, e: BrowserEnums | string): bool =
       return e in a.release
   return true # if None (TODO: make check against other fields in -string- type)
 
-proc filterEnumField* (a: IoAClaim, e: BrowserEnums | string): bool =
+proc filterEnumField* (a: IoAClaim, e: BrowserEnums | string): bool {.deprecated.} =
   # checks if enum field checked against exists in asset claim
   if e is not int:
     when e is ClaimPriority:
@@ -264,3 +305,4 @@ proc filterEnumField* (a: IoAClaim, e: BrowserEnums | string): bool =
     elif e is IoAReleaseQueue:
       return e in a.release
   return true # if None (TODO: make check against other fields in -string- type)
+]#

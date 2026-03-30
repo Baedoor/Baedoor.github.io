@@ -1,9 +1,6 @@
-import std/enumutils
 import std/strformat
 import std/strutils
-import std/sequtils
 import std/random
-import odsreader
 
 randomize()
 
@@ -40,7 +37,17 @@ type
     RACE           = "Race"
     BOOK           = "Book"
     SOUND          = "Sound"
+    SCRIPT         = "Script"
+    LEVELED_LIST   = "Leveled List"
     MISC           = "Misc"
+
+  B3DClaimKind* = enum
+    INTERIOR  = "Interior"
+    EXTERIOR  = "Exterior"
+    QUEST     = "Quest"
+    QUESTLINE = "Questline"
+    NPCING    = "NPCing"
+    SCRIPT    = "Script"
 
   IoAClaimKind* = enum
     LOCATION      = "Location"
@@ -53,32 +60,41 @@ type
     ART_NPC       = "NPC/Creature Art"
     ART_IT        = "Item Art"
 
-  B3DReleaseQueue* = enum
-    DISANE            = "Disane"
-    KACARI            = "Kacari"
-    BAEDOOR_CITY      = "Baedoor City"
-    LIBRARY_OF_WORLDS = "Library of Worlds"
-    OTHER             = "Other"
+  B3DReleaseQueue* = enum                    # Section files, respectively:
+    qKACARI            = "Kacari"            # Kacari
+    qBAEDOOR_CITY      = "Baedoor City"      # Baedoor
+    qLIBRARY_OF_WORLDS = "Library of Worlds" # Dimensions
+    qOTHER             = "Other"
+
+  B3DSectionFile* = enum
+    KACARI     = "Kacari"               # Kacari
+    BAEDOOR    = "Baedoor"              # Baedoor
+    DIMENSIONS = "Dimensions"           # LoW release & other overarching oververse stuff
+    NONE                                # Used for claims that aren't merged
+    # section files are rather per-province
+    # so they will eventually encompass multiple release queues
+    # KAER, ARENNAN, ROSSEVETTE etc. will be added when province work on them starts
 
   IoAReleaseQueue* = enum
-    TUTORIAL = "Tutorial"
-    EVROS    = "Evros"
-    FIELDS   = "Fields"
-    WAINE    = "Waine"
-    NFERTH   = "Nferth"
+    qTUTORIAL = "Tutorial"
+    qEVROS    = "Evros"
+    qFIELDS   = "Fields"
+    qWAINE    = "Waine"
+    qNFERTH   = "Nferth"
 
   CARequired* = enum
     CA_NEEDED = "Concept art needed!"
     CA_MORE   = "More concept art needed!"
     CA_NOT    = ""
 
-  BrowserEnums* = ClaimPriority | AssetClaimKind | ClaimStatus | B3DReleaseQueue | IoAReleaseQueue | CARequired | IoAClaimKind
+  BrowserEnums* = ClaimPriority | AssetClaimKind | B3DClaimKind | IoAClaimKind | ClaimStatus | B3DReleaseQueue | IoAReleaseQueue | B3DSectionFile | CARequired
 
   AssetClaim* = object
     kind*:     AssetClaimKind
     priority*: ClaimPriority
+    status*:   ClaimStatus
     name*:     string
-    art*:      seq[(string, string, string)] # (URL, author, description)
+    imgs*:     seq[(string, string, string)] # (URL, author, description)
     art_req*:  CARequired
     claimant*: seq[string]
     reviewer*: seq[string]
@@ -86,7 +102,31 @@ type
     release*:  seq[B3DReleaseQueue]
     file_raw*: seq[string]
     file_mw*:  seq[string]
+
+  B3DClaim* = object
+    kind*:     B3DClaimKind
+    priority*: ClaimPriority
     status*:   ClaimStatus
+    name*:     string
+    imgs*:     seq[(string, string, string)] # (URL, author, description)
+    claimant*: seq[string]
+    reviewer*: seq[string]
+    descr*:    string
+    release*:  seq[B3DReleaseQueue]
+    files*:    seq[string]
+    section*:  (B3DSectionFile, string) # section file, date of merge
+
+  FSAMClaim* = object
+    kind*:     B3DClaimKind
+    priority*: ClaimPriority
+    status*:   ClaimStatus
+    name*:     string
+    imgs*:     seq[(string, string, string)] # (URL, author, description)
+    claimant*: seq[string]
+    reviewer*: seq[string]
+    descr*:    string
+    files*:    seq[string]
+    section*:  string                        # date of merge
 
   IoAClaim* = object
     kind*:     IoAClaimKind
@@ -100,48 +140,18 @@ type
     release*:  seq[IoAReleaseQueue]
     files*:    seq[string]
 
-  BrowserClaims* = AssetClaim | IoAClaim
+  BrowserClaims* = AssetClaim | IoAClaim | FSAMClaim | B3DClaim
 
-  #[ FUTURE BROWSER PREPARATIONS
-  FSAMClaim* = object
-    kind*:     FSAMClaimKind
-    priority*: ClaimPriority
-    name*:     string
-    imgs*:     seq[(string, string)] # (URL, description)
-    claimant*: seq[string]
-    reviewer*: seq[string]
-    descr*:    string
-    release*:  seq[ReleaseQueue]
-    files*:    seq[string]
-    status*:   ClaimStatus
-  ]#
-
-proc processArtData* (sqstr: seq[string]): seq[(string, string, string)] =
-  # format = "URL LINK : AUTHOR :: DESCRIPTION"
-  for entry in sqstr:
-    let single_data = entry.split(" : ")
-    let double_data = entry.split(" :: ")
-    var
-      url    : string
-      author : string = "Unknown"
-      descr  : string = ""
-
-    let single_len = len(single_data)
-    let double_len = len(double_data)
-
-    if single_len == 1 and double_len == 1:
-      discard # author & descr are default
-    elif single_len == 2 and double_len == 1:
-      # no "::"
-      author = single_data[1]
-    elif single_len == 2 and double_len == 2:
-      author = single_data[1].split(" :: ")[0]
-      descr  = double_data[1]
-    elif single_len == 1 and double_len == 1:
-      # no ":"
-      descr  = double_data[1]
-
-    result.add((single_data[0], author, descr))
+  StatusFolders* = enum # used to systematise parser by calling enum range
+    fMERGED    = "Merged"
+    fR4M       = "R4M"
+    fR4R       = "R4R"
+    fINREVIEW  = "In Review"
+    fINDEV     = "Indev"
+    fUNCLAIMED = "Unclaimed"
+    fDESIGN    = "Design"
+    fREQFIXES  = "Req. Fixes"
+    fREJECTED  = "Rejected"
 
 proc `$`* (ac: AssetClaim): string =
   proc readSeqs(s: seq[string] | seq[B3DReleaseQueue]): string =
@@ -150,8 +160,8 @@ proc `$`* (ac: AssetClaim): string =
     if len(result) > 2:
       result[0..2] = "" # removes first '| ' occurence
   var cai = ""
-  if len(ac.art) > 0: cai.add("Concept arts:")
-  for aa in ac.art: # [0] url, [1] author, [2] descr
+  if len(ac.imgs) > 0: cai.add("Concept arts:")
+  for aa in ac.imgs: # [0] url, [1] author, [2] descr
     cai.add("\n" & fmt"- {aa[0]} [{aa[1]}] | {aa[2]}")
   result = fmt"""
   Name:     {ac.name}
