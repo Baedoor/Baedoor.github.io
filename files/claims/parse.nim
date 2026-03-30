@@ -45,7 +45,7 @@ proc getEnums[T: BrowserEnums](id: string): T =
         of "Race":           return RACE
         of "Book":           return BOOK
         of "Sound":          return SOUND
-        of "Script":         return SCRIPT
+        of "Script":         return GLOB_SCRIPT
         of "Leveled List":   return LEVELED_LIST
         of "Misc":           return MISC
         else: discard

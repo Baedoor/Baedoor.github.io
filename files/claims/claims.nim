@@ -37,7 +37,7 @@ type
     RACE           = "Race"
     BOOK           = "Book"
     SOUND          = "Sound"
-    SCRIPT         = "Script"
+    GLOB_SCRIPT    = "Script"
     LEVELED_LIST   = "Leveled List"
     MISC           = "Misc"
 
