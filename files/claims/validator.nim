@@ -48,4 +48,5 @@ for claim in fsam:
     for file in claim.files:
         if stringChecker(file): err(file, claim.name, "File", FSAM)
 
+echo "Press any key to continue . . ."
 discard readLine(stdin)
