@@ -17,6 +17,10 @@ set "DD=%DATE:~-10,2%"
 
 set "HH=%TIME:~0,2%"
 set "MIN=%TIME:~3,2%"
+
+:: unstages anything that was staged outside of the session to ensure only automated claims go in
+git restore --staged .
+
 :: adds and commits all updated claim files, so that they don't clutter Git's diff
 @REM git add "files/claims/b3d"
 git add "files/claims/bdata"
