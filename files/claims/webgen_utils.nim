@@ -161,12 +161,12 @@ proc formatType* (s: AssetClaimKind): string =
     of SOUND:
       item = "🪕 Sound"
       col  = "#bac8d6"
-    of SCRIPT:
+    of GLOB_SCRIPT:
       item = "🕉️ Script"
-      col  = "#C1D498" # TODO
+      col  = "#828877"
     of LEVELED_LIST:
       item = "📄 Leveled List"
-      col  = "#C1D498" # TODO
+      col  = "#C1D498"
     of MISC:
       item = "🎏 Miscellanous"
       col  = "#d4d6ba"
@@ -265,14 +265,17 @@ proc conceptArtShowcase* (s: seq[(string, string, string)]): string =
 
 proc filterEnumField* (a: BrowserClaims, e: BrowserEnums | string): bool =
   # checks if enum field checked against exists in asset claim
-  if e is not int:
+  if e is not string:
     when e is ClaimPriority:
       return e == a.priority
+    elif e is AssetClaimKind:
+      return e == a.kind
     elif e is IoAClaimKind:
       return e == a.kind
     elif e is ClaimStatus:
       return e == a.status
     # 'a' specific, afaik none of these are used in actual code, so may be a bit redundant
+    # -- later Toma: is it meant to avoid `no .release field on object X` error? maybe
     elif a is AssetClaim or a is B3DClaim:
       when e is B3DReleaseQueue: return e in a.release
     elif a is IoAClaim:
