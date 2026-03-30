@@ -1,3 +1,4 @@
+import std/private/osdirs
 import std/strformat
 import std/strutils
 import std/sequtils
@@ -44,6 +45,8 @@ proc getEnums[T: BrowserEnums](id: string): T =
         of "Race":           return RACE
         of "Book":           return BOOK
         of "Sound":          return SOUND
+        of "Script":         return SCRIPT
+        of "Leveled List":   return LEVELED_LIST
         of "Misc":           return MISC
         else: discard
   elif T is IoAClaimKind:
@@ -58,21 +61,34 @@ proc getEnums[T: BrowserEnums](id: string): T =
         of "Q": return QUEST
         of "S": return QUESTLINE
         else: discard
+  elif T is B3DClaimKind:
+      case id:
+        of "I": return INTERIOR
+        of "E": return EXTERIOR
+        of "Q": return QUEST
+        of "L": return QUESTLINE
+        of "N": return NPCING
+        of "S": return SCRIPT
+        else: discard
+  elif T is B3DSectionFile:
+      case id:
+        of "Kacari":     return KACARI
+        of "Baedoor":    return BAEDOOR
+        of "Dimensions": return DIMENSIONS
   elif T is B3DReleaseQueue:
       case id:
-        of "Disane":    return DISANE
-        of "Kacari":    return KACARI
-        of "BaeC":      return BAEDOOR_CITY
-        of "LibWorlds": return LIBRARY_OF_WORLDS
-        of "Other":     return OTHER
-        else:           return OTHER
+        of "Kacari":    return qKACARI
+        of "BaeC":      return qBAEDOOR_CITY
+        of "LibWorlds": return qLIBRARY_OF_WORLDS
+        of "Other":     return qOTHER
+        else:           return qOTHER
   elif T is IoAReleaseQueue:
       case id:
-        of "Tutorial": return TUTORIAL
-        of "Evros":    return EVROS
-        of "Fields":   return FIELDS
-        of "Waine":    return WAINE
-        of "Nferth":   return NFERTH
+        of "Tutorial": return qTUTORIAL
+        of "Evros":    return qEVROS
+        of "Fields":   return qFIELDS
+        of "Waine":    return qWAINE
+        of "Nferth":   return qNFERTH
         else: discard
   elif T is CARequired:
       case id:
@@ -92,6 +108,12 @@ proc processSequencedTomlValues[T: string | int | bool](stv: seq[TomlValueRef]):
 proc processReleasesQueue[T: B3DReleaseQueue | IoAReleaseQueue](sqstr: seq[string]): seq[T] =
   for entry in sqstr:
     result.add(getEnums[T](entry))
+
+proc processSectionFile(s: string, sep: string = " ^ "): (B3DSectionFile, string) =
+  if s == "" or sep notin s:
+    return (NONE, "")
+  let sp = s.split(sep)
+  result = (getEnums[B3DSectionFile](sp[0]), sp[1])
 
 proc descrParser (s: string): string =
   # parses description to unify some formatting/visual aspects
@@ -148,7 +170,7 @@ proc yieldAssetClaims(doc_path: string): seq[AssetClaim] =
                of 0: ac.kind     = getEnums[AssetClaimKind](col)
                of 1: ac.priority = getEnums[ClaimPriority](col)
                of 2: ac.name     = col
-               of 3: ac.art      = processArtData(processSequencedStrings(col, "|"))
+               of 3: ac.imgs     = processArtData(processSequencedStrings(col, "|"))
                of 4: ac.art_req  = getEnums[CARequired](col)
                of 5: ac.claimant = processSequencedStrings(col, " | ")
                of 6: ac.reviewer = processSequencedStrings(col, " | ")
@@ -187,5 +209,58 @@ proc yieldIoAClaims(): seq[IoAClaim] =
         ic.files    = processSequencedTomlValues[string](fo["files"].getElems())
         add(result, ic)
 
+proc yieldB3DClaims(): seq[B3DClaim] =
+  const statuses = ["Merged", "R4M", "R4R", "In Review", "Indev", "Unclaimed", "Design", "Req. Fixes", "Rejected"]
+  for s in statuses:
+    if existsDir(fmt"b3d\[Claims]\{s}"):
+      for f in toSeq(walkFiles(fmt"b3d\[Claims]\{s}\*.toml")):
+        let fn = f.multireplace([(fmt"b3d\[Claims]\{s}\", ""), (".toml", "")])
+        let fo = parseFile(f)
+        var ic : B3DClaim
+
+        ic.kind     = getEnums[B3DClaimKind]($fn[0])
+        ic.priority = getEnums[ClaimPriority](fo["priority"].getStr("Unknown"))
+        ic.status   = getEnums[ClaimStatus](s)
+        ic.name     = fo["name"].getStr(fn)
+        ic.imgs     = processArtData(processSequencedTomlValues[string](fo["imgs"].getElems()))
+        ic.claimant = processSequencedTomlValues[string](fo["claimants"].getElems())
+        ic.reviewer = processSequencedTomlValues[string](fo["reviewers"].getElems())
+        ic.descr    = descrParser(fo["description"].getStr(""))
+        ic.release  = processReleasesQueue[B3DReleaseQueue](processSequencedTomlValues[string](fo["releases"].getElems()))
+        ic.files    = processSequencedTomlValues[string](fo["files"].getElems())
+        ic.section  = processSectionFile(fo["section"].getStr(""))
+        add(result, ic)
+
+proc yieldFSAMClaims(): seq[FSAMClaim] =
+    const statuses = ["Merged", "R4M", "R4R", "In Review", "Indev", "Unclaimed", "Design", "Req. Fixes", "Rejected"]
+    for s in statuses:
+        if existsDir(fmt"fsam\[Claims]\{s}"):
+            for f in toSeq(walkFiles(fmt"fsam\[Claims]\{s}\*.toml")):
+                let fn = f.multireplace([(fmt"fsam\[Claims]\{s}\", ""), (".toml", "")])
+                let fo = parseFile(f)
+                var ic : FSAMClaim
+
+                ic.kind     = getEnums[B3DClaimKind]($fn[0])
+                ic.priority = getEnums[ClaimPriority](fo["priority"].getStr("Unknown"))
+                ic.status   = getEnums[ClaimStatus](s)
+                ic.name     = fo["name"].getStr(fn)
+                ic.imgs     = processArtData(processSequencedTomlValues[string](fo["imgs"].getElems()))
+                ic.claimant = processSequencedTomlValues[string](fo["claimants"].getElems())
+                ic.reviewer = processSequencedTomlValues[string](fo["reviewers"].getElems())
+                ic.descr    = descrParser(fo["description"].getStr(""))
+                ic.files    = processSequencedTomlValues[string](fo["files"].getElems())
+                ic.section  = fo["merge"].getStr("")
+                add(result, ic)
+
+# proc yieldFSAMClaims(): seq[FSAMClaim] =
+#     for status in StatusFolders.low..StatusFolders.high:
+#         if existsOrCreateDir(fmt"fsam\[Claims]\{s}"):
+#             for file in toSeq(walkFiles(fmt"fsam\[Claims]\{s}\*.toml")):
+#                 let fn = f.multireplace([(fmt"fsam\[Claims]\{s}\", ""), (".toml", "")])
+#                 let fo = parseFile(f)
+#                 var ic : FSAMClaim
+
 let bdata* = yieldAssetClaims("B3D Asset List.ods")
 let ioa*   = yieldIoAClaims()
+let b3d*   = yieldB3DClaims()
+let fsam*  = yieldFSAMClaims()
