@@ -1,0 +1,25 @@
+# Writing your .toml name, please make it use following system: `[CATEGORY LETTER] - [NAME].toml`
+# Name prefix/category:
+#  - I - Interior
+#  - E - Exterior
+#  - Q - Quest
+#  - L - Questline
+#  - N - NPCing
+#  - S - Script
+# Setting up priority, use default "Unknown" for most cases. You can also pick between
+# "Low", "Medium", "High" and "Critical", but this decision should ideally be done by project lead.
+#
+# Do not fill up `imgs`, `claimants`, `reviewers`, `files` nor `merge`, instead upload any images or files
+# alongside the .toml file, for admin to figure out how to make it in the website.
+#
+# Description can use some Markdown formatting (lists, cursive, bolds) and HTML.
+name        = "[name to include]"
+priority    = "Unknown"
+imgs        = []
+claimants   = []
+reviewers   = []
+files       = []
+merge       = ""
+description = """
+...
+"""
