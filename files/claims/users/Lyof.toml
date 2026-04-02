@@ -1,0 +1,13 @@
+Avatar  = ""
+Website = "https://github.com/Lyof429"
+Faction = "" # Starshifters
+Tier    = 4
+Roles = [
+    # Moderator, Senior Developer
+    # Code Developer, Concept Artist
+]
+Projects = [
+    "Baedoor Lore"
+]
+Description = """
+"""

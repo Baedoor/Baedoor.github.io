@@ -4,10 +4,19 @@ Faction = "Xavier Family"
 Tier    = 5
 Roles = [
     "Landscape Developer"
+    # Moderator, (?) Lead Developer, Senior Developer
+    # Claim Writer, Section Manager
+    # Interior Reviewer, Code Reviewer
+    # Interior Developer, Concept Developer, Code Developer, Book Developer, Pixel Art Developer, Linguist, Gear Collector, Zin Contributor
 ]
 Projects = [
     "Baedoor Lore",
-    "Of Lands"
+    "Isle of Ansur",
+    "Of Lands",
+    "Wastelands of Baedoor",
+    "Civilisations of Baedoor",
+    "Spires of Baedoor",
+    # FSAM, B3D, EoE
 ]
 Description = """
 Your beloved airship dictator <s>admin</s>!

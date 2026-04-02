@@ -4,8 +4,10 @@ Faction = ""
 Tier    = 3
 Roles = [
     "Landscape Developer"
+    # Interior Developer, Landscape Reviewer, Asset Developer, Linguist
 ]
 Projects = [
+    # FSAM
 ]
 Description = """
 """
