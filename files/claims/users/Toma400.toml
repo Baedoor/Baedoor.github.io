@@ -1,0 +1,15 @@
+Avatar  = ""
+Website = "https://baedoor.github.io/"
+Faction = "Xavier Family"
+Tier    = 5
+Roles = [
+    "Landscape Developer"
+]
+Projects = [
+    "Baedoor Lore",
+    "Of Lands"
+]
+Description = """
+Your beloved airship dictator <s>admin</s>!
+<img style="float: right;" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fgifdb.com%2Fimages%2Fthumbnail%2Frickroll-rick-astley-never-gonna-give-you-up-n9ut8v7peqq8bnen.gif"><br>
+"""
