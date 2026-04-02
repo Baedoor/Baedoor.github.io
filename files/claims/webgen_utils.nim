@@ -9,6 +9,7 @@ import claims
 
 type
   Depth* = enum
+    USERS_PAGE      = "../"          # user folders
     CLAIM_MAIN_LIST = "../../../"    # bdata/fsam folders
     CLAIM_SUB_LIST  = "../../../../" # [lists] folders
     CLAIMS          = "../../../../" # [pages] folders
@@ -18,6 +19,7 @@ let REGISTERED_AUTHORS* = parsetoml.parseFile("authors.toml")
 
 proc getDepthHeader* (d: Depth): string =
   case d:
+   of USERS_PAGE:      return "1"
    of CLAIM_MAIN_LIST: return "3"
    of CLAIM_SUB_LIST:  return "4"
    of CLAIMS:          return "4"
@@ -263,7 +265,7 @@ proc conceptArtShowcase* (s: seq[(string, string, string)]): string =
     </table>
     """)
 
-proc filterEnumField* (a: BrowserClaims, e: BrowserEnums | string): bool =
+proc filterClaims* (a: BrowserClaims, e: BrowserEnums | string): bool =
   # checks if enum field checked against exists in asset claim
   if e is not string:
     when e is ClaimPriority:

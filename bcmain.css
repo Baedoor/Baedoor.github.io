@@ -69,6 +69,16 @@ p.defc { /* def, but makes top/bottom margins smaller */
     color:         #B6B79D;
 }
 
+/* users */
+p.u_def    { font-size: 21px; color: #A9B65D; margin-top: 5px; margin-bottom: 5px; }
+p.u_role   { font-size: 21px; margin-top: 2px; margin-bottom: 2px; font-weight: bold; }
+td.u_tit   { font-size: 22px; text-align: center; color: #A9B65D; width: 20%; padding-top: 10px; padding-bottom: 10px; }
+td.u_count { font-size: 21px; text-align: center; color: #B6B79D; }
+table.user { border-style: double; border-color: #2f0f00; }
+.u_av_base  { position: relative; top: 0; left: 0; }
+.u_av       { position: relative; top: 0; left: 0; }
+.u_av_frame { position: absolute; top: 0; left: 50%; transform: translate(-50%, 0) }
+
 /* discography */
 p.m_data { font-size: 20px; color: #A9B65D; text-align: left; margin-top: 1px; margin-bottom: 1px; margin-left: 8px;  } /* music data */
 p.m_dscr { font-size: 19px; color: #B6B79D; text-align: left; margin-top: 9px; margin-bottom: 9px; margin-left: 14px; } /* music info */

@@ -18,10 +18,15 @@ set "DD=%DATE:~-10,2%"
 set "HH=%TIME:~0,2%"
 set "MIN=%TIME:~3,2%"
 
+:: ensures there's no leftovers from previous merges
+git pull
 :: unstages anything that was staged outside of the session to ensure only automated claims go in
 git restore --staged .
 
-:: adds and commits all updated claim files, so that they don't clutter Git's diff
+:: adds and commits all updated claim/users files, so that they don't clutter Git's diff
+git add "files/claims/users"
+git add "user"
+
 @REM git add "files/claims/b3d"
 git add "files/claims/bdata"
 @REM git add "files/claims/fsam"

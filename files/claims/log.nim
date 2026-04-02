@@ -14,7 +14,7 @@ proc startLogger* (): Logger =
     result.msg = @[]
 
 proc dumpLogger* (l: Logger, ext: bool = false) =
-    # ext = extended info (currently only timestamps)
+    # ext = extended info (currently only timestamps) | default is friendlier for git diffs
     if fileExists("log.txt"): removeFile("log.txt")
     let file = open("log.txt", fmWrite)
     for msg in l.msg:
