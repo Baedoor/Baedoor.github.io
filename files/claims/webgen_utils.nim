@@ -1,3 +1,4 @@
+import std/private/osdirs
 import std/algorithm
 import std/strformat
 import std/strutils
@@ -15,7 +16,8 @@ type
     CLAIMS          = "../../../../" # [pages] folders
   NoneQueue* = object # used to indicate lacking Queue field in claim object
 
-let REGISTERED_AUTHORS* = parsetoml.parseFile("authors.toml")
+# this registry being in `users.nim` dependency means that it only checks old .htmls; to link/register users newly generated you might need to do generation twice
+let REGISTERED_USERS* = map(toSeq(walkFiles("../../user/*.html")), proc(i: string): string = multiReplace(i, [(".html", ""), ("..\\..\\user\\", "")]))
 
 proc getDepthHeader* (d: Depth): string =
   case d:
@@ -55,12 +57,11 @@ proc parseNameForGeneration* (s: string | BrowserEnums): string =
 proc linkToPage* (s: string, proj: string, depth: Depth): string =
   return "<a href=\"" & $depth & fmt"files/claims/{proj}/[Pages]/" & parseNameForGeneration(s) & ".html\">" & s & "</a>"
 
-proc authorList* (s: seq[string]): string =
+proc authorList* (s: seq[string], depth: Depth): string =
   # parses through list of claimants/reviewers and generates HTML code with optional links
   for i in s:
-    if hasKey(REGISTERED_AUTHORS, i):
-      let link = "\"" & REGISTERED_AUTHORS[i].getStr() & "\""
-      result.add(fmt" | <a href={link}>{i}</a>")
+    if i in REGISTERED_USERS:
+      result.add(fmt" | <a href={depth}user/{i}.html>{i}</a>")
     else:
       result.add(fmt" | {i}")
   if len(result) > 3:
@@ -251,9 +252,9 @@ proc conceptArtShowcase* (s: seq[(string, string, string)]): string =
   # creates a HTML code that will neatly organise itself into claim table
   var ca_html: string
   for i in s:
-    ca_html.add("<img src=\"" & i[0] & "\" width=\"100%\">")                              # url
-    ca_html.add("<p id=\"vc\" align=\"center\"> <b>" & authorList(@[i[1]]) & "</b> </p>") # author
-    ca_html.add("<p id=\"vc\" align=\"center\">    " & i[2]                & "     </p>") # description
+    ca_html.add("<img src=\"" & i[0] & "\" width=\"100%\">")                                            # url
+    ca_html.add("<p id=\"vc\" align=\"center\"> <b>" & authorList(@[i[1]], Depth.CLAIMS) & "</b> </p>") # author
+    ca_html.add("<p id=\"vc\" align=\"center\">    " & i[2]                              & "     </p>") # description
   if len(s) > 0:
     result.add(fmt"""
     <table width="100%" class="proj">

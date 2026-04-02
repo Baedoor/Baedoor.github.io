@@ -31,8 +31,9 @@ const USER_ROLES = {
     # Section Manager
     # Claim Manager
     # Moderator
-    # Reviewer (Code, Asset, Landscape, Interior, Quest, Book, Pixel Art, NPCing, VA)
-    # Developer (Code, Asset, Landscape, Interior, Quest, Book, Pixel Art, NPCing, VA, Concept Art, Sound)
+    # Reviewer (Code, Asset, Landscape, Interior, Quest, Book*, Pixel Art, NPCing, VA*)
+    # Developer (Code, Asset, Landscape, Interior, Quest, Book*, Pixel Art, NPCing, VA*, Concept Art, Sound)
+    # * reviewer should not replace dev badge in this case
     # Zin Contributor
     # Linguist
     # Gear Collector
@@ -41,8 +42,13 @@ const USER_ROLES = {
 }.toOrderedTable
 const USER_PROJECTS = {
     # name : link (should be local if it's not outside website)
-    "Baedoor Lore" : "https://github.com/Toma400/Baedoor_Encyclopaedia/blob/en_us/Entrance.md",
-    "Of Lands"     : "../projects/ol.html",
+    # B3D, EoE
+    "Baedoor Lore"             : "https://github.com/Toma400/Baedoor_Encyclopaedia/blob/en_us/Entrance.md",
+    "Of Lands"                 : "../projects/ol.html",
+    "Isle of Ansur"            : "../projects/ioa.html",
+    "Wastelands of Baedoor"    : "../projects/wob.html",
+    "Civilisations of Baedoor" : "../projects/cob.html",
+    "Spires of Baedoor"        : "../projects/sob.html",
 }.toOrderedTable
 let ORD_Roles    = toSeq(USER_ROLES.keys)
 let ORD_Projects = toSeq(USER_PROJECTS.keys)
@@ -166,8 +172,8 @@ proc generateUserBody* (user: User): string =
             return "<p align='center'> <img src='../graphics/frame.png' height='150px'> </p>"
         return fmt"""
         <div class="u_av_base" height="150px" align="center" valign="center">
-          <img class="u_av"       align="center" height="150px" src="{avatar}" />
-          <img class="u_av_frame" align="center" height="150px" src="../graphics/frame.png" />
+          <img class="u_av"       align="center" width="150px" height="150px" src="{avatar}" />
+          <img class="u_av_frame" align="center"               height="150px" src="../graphics/frame.png" />
         </div>
         """
     proc getFaction (u: User): string =

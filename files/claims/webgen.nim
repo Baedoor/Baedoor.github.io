@@ -151,7 +151,7 @@ proc assetclaimBody(a: AssetClaim): string =
   var optional_rev: string
   block optionalsHandling:
     if len(a.reviewer) > 0:
-      optional_rev = "<p id=\"vc\" align=\"center\"> Reviewer(s): " & authorList(a.reviewer) & "</p>"
+      optional_rev = "<p id=\"vc\" align=\"center\"> Reviewer(s): " & authorList(a.reviewer, Depth.CLAIMS) & "</p>"
   result.add("<p class=\"gl_tit\">" & a.name & "</p>")
   result.add(fmt"""
     <table width="100%" cellpadding="10px">
@@ -162,7 +162,7 @@ proc assetclaimBody(a: AssetClaim): string =
                     <tr>
                         <td>
                             <p class="gl_tit" align="center"> <b>Asset Lifecycle</b> </p>
-                            <p id="vc" align="center"> Developer(s): {authorList(a.claimant)}</p>
+                            <p id="vc" align="center"> Developer(s): {authorList(a.claimant, Depth.CLAIMS)}</p>
                             {optional_rev}
                             <p id="vc" align="center"> Status: {formatStatuses(a.status)}</p>
                             <hr color="#B6B79D">
@@ -200,7 +200,7 @@ proc claimBody(a: BrowserClaims, proj: string, files: string): string =
   var optional_sct: string
   block optionalsHandling:
       if len(a.reviewer) > 0:
-        optional_rev = "<p id=\"vc\" align=\"center\"> Reviewer(s): " & authorList(a.reviewer) & "</p>"
+        optional_rev = "<p id=\"vc\" align=\"center\"> Reviewer(s): " & authorList(a.reviewer, Depth.CLAIMS) & "</p>"
       when not (a is FSAMClaim):
         optional_rel = "<p id=\"vc\" align=\"center\"> Release(s): " & releaseList(a.release, Depth.CLAIMS, proj) & "</p>"
       block optionalsSection:

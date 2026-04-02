@@ -17,7 +17,7 @@ proc assetlistBody* (asset_list: seq[AssetClaim], depth: DEPTH, filter: BrowserE
         claims_list_str.add(fmt"""
         <tr>
             <td> {linkToPage(claim.name, "bdata", depth)} </td>
-            <td> {authorList(claim.claimant)}             </td>
+            <td> {authorList(claim.claimant, depth)}      </td>
             <td> {formatStatuses(claim.status)}           </td>
             <td> {formatPriority(claim.priority)}         </td>
             <td> {checkFiles(claim.file_mw, "🪔")}        </td>
