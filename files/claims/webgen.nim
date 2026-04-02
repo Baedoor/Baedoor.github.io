@@ -5,9 +5,11 @@ import std/options
 import std/os
 import webgen_utils
 import webgen_temp
+import claim_bdata
 import referrer
 import claims
 import parse
+import users
 import log
 
 proc generateHeader(page_subtitle: string, depth: Depth = CLAIMS): string =
@@ -26,7 +28,7 @@ proc generateHeader(page_subtitle: string, depth: Depth = CLAIMS): string =
          });
         </script>
     </head>
-  """
+  """.dedent()
   result = result.replace("{page_subtitle}", page_subtitle)
   result = result.replace("{depth}", $depth)
   result = result.replace("{number}", getDepthHeader(depth))
@@ -149,7 +151,7 @@ proc assetclaimBody(a: AssetClaim): string =
   var optional_rev: string
   block optionalsHandling:
     if len(a.reviewer) > 0:
-      optional_rev = "<p id=\"vc\" align=\"center\"> Reviewer(s): " & authorList(a.reviewer) & "</p>"
+      optional_rev = "<p id=\"vc\" align=\"center\"> Reviewer(s): " & authorList(a.reviewer, Depth.CLAIMS) & "</p>"
   result.add("<p class=\"gl_tit\">" & a.name & "</p>")
   result.add(fmt"""
     <table width="100%" cellpadding="10px">
@@ -160,7 +162,7 @@ proc assetclaimBody(a: AssetClaim): string =
                     <tr>
                         <td>
                             <p class="gl_tit" align="center"> <b>Asset Lifecycle</b> </p>
-                            <p id="vc" align="center"> Developer(s): {authorList(a.claimant)}</p>
+                            <p id="vc" align="center"> Developer(s): {authorList(a.claimant, Depth.CLAIMS)}</p>
                             {optional_rev}
                             <p id="vc" align="center"> Status: {formatStatuses(a.status)}</p>
                             <hr color="#B6B79D">
@@ -198,7 +200,7 @@ proc claimBody(a: BrowserClaims, proj: string, files: string): string =
   var optional_sct: string
   block optionalsHandling:
       if len(a.reviewer) > 0:
-        optional_rev = "<p id=\"vc\" align=\"center\"> Reviewer(s): " & authorList(a.reviewer) & "</p>"
+        optional_rev = "<p id=\"vc\" align=\"center\"> Reviewer(s): " & authorList(a.reviewer, Depth.CLAIMS) & "</p>"
       when not (a is FSAMClaim):
         optional_rel = "<p id=\"vc\" align=\"center\"> Release(s): " & releaseList(a.release, Depth.CLAIMS, proj) & "</p>"
       block optionalsSection:
@@ -330,6 +332,10 @@ proc generateLists[REL, CL_OBJ, KIND](proj          : string,
                                       filter_proc   : proc(depth: Depth, filter: BrowserEnums | string): string,
                                       proj_subf     : string,
                                       status_filter : seq[ClaimStatus]) =
+  # REL    = ReleaseQueue
+  # CL_OBJ = claim object
+  # KIND   = kind enum for CL_OBJ
+
   # cl_seq     - the data object that this particular list is based on
   # filter_str - unique 'string' that differentiates between projects
   # subf       - subfolder for project page (see `listBody` for clearer reference)
@@ -344,51 +350,52 @@ proc generateLists[REL, CL_OBJ, KIND](proj          : string,
   main_list.write(generateHeader(title, CLAIM_MAIN_LIST))
   main_list.write(generateBody(
                       listBody[CL_OBJ](cl_seq, proj, CLAIM_MAIN_LIST, filter_proc(CLAIM_MAIN_LIST, ""), subf=proj_subf)))
-
-  when not (REL is NoneQueue):  # checking if CL_OBJ contains release field
-    for r in REL.low..REL.high: # not using RELEASES_FILTER so hidden releases can still be reached
-      let release_list = open(fmt"{proj}/[Lists]/{fname}".replace(".html", fmt"_R_{r}.html"), fmWrite)
-      defer: release_list.close()
-      release_list.write(generateHeader(fmt"{title}: {r}", CLAIM_SUB_LIST))
-      release_list.write(generateBody(
-                            listBody[CL_OBJ](cl_seq, proj, CLAIM_SUB_LIST, filter_proc(CLAIM_SUB_LIST, r), r, subf=proj_subf)))
-
-  for s in status_filter:
-    let status_list = open(fmt"{proj}/[Lists]/{fname}".replace(".html", fmt"_S_{s}.html"), fmWrite)
-    defer: status_list.close()
-    status_list.write(generateHeader(fmt"{title}: {s}", CLAIM_SUB_LIST))
-    status_list.write(generateBody(
-                          listBody[CL_OBJ](cl_seq, proj, CLAIM_SUB_LIST, filter_proc(CLAIM_SUB_LIST, s), s, subf=proj_subf)))
-
-  for p in ClaimPriority.low..ClaimPriority.high:
-    let priority_list = open(fmt"{proj}/[Lists]/{fname}".replace(".html", fmt"_P_{p}.html"), fmWrite)
-    defer: priority_list.close()
-    priority_list.write(generateHeader(fmt"{title}: {p}", CLAIM_SUB_LIST))
-    priority_list.write(generateBody(
-                            listBody[CL_OBJ](cl_seq, proj, CLAIM_SUB_LIST, filter_proc(CLAIM_SUB_LIST, p), p, subf=proj_subf)))
-
-  for k in KIND.low..KIND.high:
-    let kind_list = open(fmt"{proj}/[Lists]/{fname}".replace(".html", fmt"_K_{parseNameForGeneration(k)}.html"), fmWrite)
-    defer: kind_list.close()
-    kind_list.write(generateHeader(fmt"{title}: {k}", CLAIM_SUB_LIST))
-    kind_list.write(generateBody(
-                        listBody[CL_OBJ](cl_seq, proj, CLAIM_SUB_LIST, filter_proc(CLAIM_SUB_LIST, k), k, subf=proj_subf)))
+  #
+  # when not (REL is NoneQueue):  # checking if CL_OBJ contains release field
+  #   for r in REL.low..REL.high: # not using RELEASES_FILTER so hidden releases can still be reached
+  #     let release_list = open(fmt"{proj}/[Lists]/{fname}".replace(".html", fmt"_R_{r}.html"), fmWrite)
+  #     defer: release_list.close()
+  #     release_list.write(generateHeader(fmt"{title}: {r}", CLAIM_SUB_LIST))
+  #     release_list.write(generateBody(
+  #                           listBody[CL_OBJ](cl_seq, proj, CLAIM_SUB_LIST, filter_proc(CLAIM_SUB_LIST, r), r, subf=proj_subf)))
+  #
+  # for s in status_filter:
+  #   let status_list = open(fmt"{proj}/[Lists]/{fname}".replace(".html", fmt"_S_{s}.html"), fmWrite)
+  #   defer: status_list.close()
+  #   status_list.write(generateHeader(fmt"{title}: {s}", CLAIM_SUB_LIST))
+  #   status_list.write(generateBody(
+  #                         listBody[CL_OBJ](cl_seq, proj, CLAIM_SUB_LIST, filter_proc(CLAIM_SUB_LIST, s), s, subf=proj_subf)))
+  #
+  # for p in ClaimPriority.low..ClaimPriority.high:
+  #   let priority_list = open(fmt"{proj}/[Lists]/{fname}".replace(".html", fmt"_P_{p}.html"), fmWrite)
+  #   defer: priority_list.close()
+  #   priority_list.write(generateHeader(fmt"{title}: {p}", CLAIM_SUB_LIST))
+  #   priority_list.write(generateBody(
+  #                           listBody[CL_OBJ](cl_seq, proj, CLAIM_SUB_LIST, filter_proc(CLAIM_SUB_LIST, p), p, subf=proj_subf)))
+  #
+  # for k in KIND.low..KIND.high:
+  #   let kind_list = open(fmt"{proj}/[Lists]/{fname}".replace(".html", fmt"_K_{parseNameForGeneration(k)}.html"), fmWrite)
+  #   defer: kind_list.close()
+  #   kind_list.write(generateHeader(fmt"{title}: {k}", CLAIM_SUB_LIST))
+  #   kind_list.write(generateBody(
+  #                       listBody[CL_OBJ](cl_seq, proj, CLAIM_SUB_LIST, filter_proc(CLAIM_SUB_LIST, k), k, subf=proj_subf)))
 
 try:
     generateAssetPages()
     generateAssetLists()
+    # generatePages[IoAClaim]("ioa",  "Isle of Ansur")
+    # generateLists[IoAReleaseQueue, IoAClaim, IoAClaimKind]("ioa", "Isle of Ansur",
+    #                                                        cl_seq        = ioa,
+    #                                                        filter_proc   = ioafilterHeader,
+    #                                                        proj_subf     = "",
+    #                                                        status_filter = @[MERGED, R4M, R4R, REQ_FIXES, INDEV, UNCLAIMED, DESIGN])
+    generateUserPages(USERS, generateHeader, generateBody)
 finally:
     dumpLogger(LOG)
 # TODO
-# generateAssetLists()
-# generatePages[IoAClaim]("ioa",  "Isle of Ansur")
 # generatePages[B3DClaim]("b3d",  "Baedoor")
 # generatePages[FSAMClaim]("fsam", "From Steam and Magic")
-# generateLists[IoAReleaseQueue, IoAClaim, IoAClaimKind]("ioa", "Isle of Ansur",
-#                                                        cl_seq        = ioa,
-#                                                        filter_proc   = ioafilterHeader,
-#                                                        proj_subf     = "",
-#                                                        status_filter = @[MERGED, R4M, R4R, REQ_FIXES, INDEV, UNCLAIMED, DESIGN])
+
 # TODO:
 # generateLists[B3DReleaseQueue, B3DClaimKind]("b3d", "Baedoor",
 #                                              status_filter = @[MERGED, R4M, R4R, REQ_FIXES, INDEV, UNCLAIMED, DESIGN])

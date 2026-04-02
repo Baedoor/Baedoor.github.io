@@ -1,0 +1,24 @@
+Avatar  = ""
+Website = "https://baedoor.github.io/"
+Faction = "Xavier Family"
+Tier    = 5
+Roles = [
+    "Landscape Developer"
+    # Moderator, (?) Lead Developer, Senior Developer
+    # Claim Writer, Section Manager
+    # Interior Reviewer, Code Reviewer
+    # Interior Developer, Concept Developer, Code Developer, Book Developer, Pixel Art Developer, Linguist, Gear Collector, Zin Contributor
+]
+Projects = [
+    "Baedoor Lore",
+    "Isle of Ansur",
+    "Of Lands",
+    "Wastelands of Baedoor",
+    "Civilisations of Baedoor",
+    "Spires of Baedoor",
+    # FSAM, B3D, EoE
+]
+Description = """
+Your beloved airship dictator <s>admin</s>!
+<img style="float: right;" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fgifdb.com%2Fimages%2Fthumbnail%2Frickroll-rick-astley-never-gonna-give-you-up-n9ut8v7peqq8bnen.gif"><br>
+"""

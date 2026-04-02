@@ -1,0 +1,13 @@
+Avatar  = "" # https://www.project-tamriel.com/download/file.php?avatar=1233_1742573255.png
+Website = ""
+Faction = ""
+Tier    = 3
+Roles = [
+    "Landscape Developer"
+    # Interior Developer, Landscape Reviewer, Asset Developer, Linguist
+]
+Projects = [
+    # FSAM
+]
+Description = """
+"""

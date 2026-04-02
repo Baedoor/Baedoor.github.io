@@ -115,7 +115,7 @@ proc processSectionFile(s: string, sep: string = " ^ "): (B3DSectionFile, string
   let sp = s.split(sep)
   result = (getEnums[B3DSectionFile](sp[0]), sp[1])
 
-proc descrParser (s: string): string =
+proc descrParser* (s: string): string =
   # parses description to unify some formatting/visual aspects
   result = markdown(s)         # allow Markdown styling
   return result.multireplace([ # ensure consistent style
