@@ -1,9 +1,11 @@
 INFO | Creating users...
 INFO | Creating user: Cicero
+INFO | Creating user: Goth Ross
 INFO | Creating user: Lus
 INFO | Creating user: Lyof
 INFO | Creating user: skeletontonguedworld
 INFO | Creating user: Toma400
+INFO | Creating user: TotalBlackSmith
 INFO | Clearing asset pages...
 INFO | Cleared: bdata\[Pages]\Akad.html
 INFO | Cleared: bdata\[Pages]\Baedoor Books.html

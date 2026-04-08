@@ -1,0 +1,12 @@
+Avatar  = ""
+Website = "https://www.youtube.com/channel/UCu8WXFi_9-fthdppGtdDWrg"
+Faction = ""
+Tier    = 1
+Roles = [
+    # concept artist
+]
+Projects = [
+    "Isle of Ansur"
+]
+Description = """
+"""
