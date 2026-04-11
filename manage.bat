@@ -23,6 +23,9 @@ git pull
 :: unstages anything that was staged outside of the session to ensure only automated claims go in
 git restore --staged .
 
+:: adds and commits all maps
+git add "files/art/maps"
+
 :: adds and commits all updated claim/users files, so that they don't clutter Git's diff
 git add "files/claims/users"
 git add "user"
