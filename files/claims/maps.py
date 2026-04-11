@@ -22,6 +22,6 @@ MAPS = {
         "../art/maps/bae_kacari.png",
 }
 
-for MAP, DEST in MAPS:
+for MAP in MAPS:
     if exists(MAP):
-        shutil.copy(MAP, DEST)
+        shutil.copy(MAP, MAPS[MAP])
