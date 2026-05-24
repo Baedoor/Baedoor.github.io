@@ -1,6 +1,6 @@
 Avatar  = ""
 Website = "https://github.com/Lyof429"
-Faction = "" # Starshifters
+Faction = "Starshifters"
 Tier    = 4
 Roles = [
     # Moderator, Senior Developer
