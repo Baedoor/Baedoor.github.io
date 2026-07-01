@@ -25,6 +25,13 @@ const USER_TIERS = {
     5 : (name: "Lead Developer",   colour: "#f1c40f"), # for leads
 }.toOrderedTable
 const USER_ROLES = {
+    # RULES
+    # If `Developer` rank has `Reviewer` rank, promotion should replace the lesser rank
+    #   -> exception is `Book` and `VA` which are separate
+    # `Concept Art` and `Sound` do not have reviewer positions and inclusions are more vibe-based
+    #
+    # PTR roles can be transferred, in different circumstances promotion must rely on something and be widely agreed
+
     # Admin?
     # [release] Lead
     # Senior
@@ -38,7 +45,12 @@ const USER_ROLES = {
     # Linguist
     # Gear Collector
     # Contributor
+
+    # HIGHEST RANKS
+    # REVIEWERS
+    # DEVELOPERS
     "Landscape Developer" : "Showcase > Needs Review | ...",
+    # CONTRIBUTORS
 }.toOrderedTable
 const USER_PROJECTS = {
     # name : link (should be local if it's not outside website)
