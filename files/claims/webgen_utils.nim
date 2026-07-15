@@ -18,6 +18,7 @@ type
 
 # this registry being in `users.nim` dependency means that it only checks old .htmls; to link/register users newly generated you might need to do generation twice
 let REGISTERED_USERS* = map(toSeq(walkFiles("../../user/*.html")), proc(i: string): string = multiReplace(i, [(".html", ""), ("..\\..\\user\\", "")]))
+let ADDITIONAL_USERS* = parseFile("contributors.toml").getTable # requires .getStr() upon access
 
 proc getDepthHeader* (d: Depth): string =
   case d:
@@ -60,8 +61,17 @@ proc linkToPage* (s: string, proj: string, depth: Depth): string =
 proc authorList* (s: seq[string], depth: Depth): string =
   # parses through list of claimants/reviewers and generates HTML code with optional links
   for i in s:
+    # normal registered users with pages
     if i in REGISTERED_USERS:
-      result.add(fmt" | <a href={depth}user/{i}.html>{i}</a>")
+        result.add(fmt" | <a href={depth}user/{i}.html>{i}</a>")
+    # semi-registered, users credited by simple linking
+    elif i in ADDITIONAL_USERS:
+        let link = ADDITIONAL_USERS[i].getStr("")
+        if link != "":
+          result.add(fmt" | <a href={link}>{i}</a>")
+        else: # if link is not stated, treat as non-registered user
+          result.add(fmt" | {i}")
+    # non-registered users
     else:
       result.add(fmt" | {i}")
   if len(result) > 3:
