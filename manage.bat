@@ -30,6 +30,8 @@ git add "files/art/maps"
 git add "files/claims/users"
 git add "user"
 
+git add "files/claims/B3D Asset List.ods"
+
 @REM git add "files/claims/b3d"
 git add "files/claims/bdata"
 @REM git add "files/claims/fsam"
