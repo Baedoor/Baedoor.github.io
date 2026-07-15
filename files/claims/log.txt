@@ -1,5 +1,4 @@
 INFO | Creating users...
-INFO | Creating user: Cicero
 INFO | Creating user: Goth Ross
 INFO | Creating user: Lus
 INFO | Creating user: Lyof
