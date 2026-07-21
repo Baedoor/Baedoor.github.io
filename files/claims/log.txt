@@ -115,6 +115,7 @@ INFO | Cleared: bdata\[Pages]\Nam Fruit.html
 INFO | Cleared: bdata\[Pages]\Nerau.html
 INFO | Cleared: bdata\[Pages]\Niesi.html
 INFO | Cleared: bdata\[Pages]\Other Erdic Wares.html
+INFO | Cleared: bdata\[Pages]\Pallete Cells.html
 INFO | Cleared: bdata\[Pages]\Pillows.html
 INFO | Cleared: bdata\[Pages]\Printing Press.html
 INFO | Cleared: bdata\[Pages]\Rat.html
@@ -140,8 +141,8 @@ INFO | Cleared: bdata\[Pages]\Tarava.html
 INFO | Cleared: bdata\[Pages]\Tenements.html
 INFO | Cleared: bdata\[Pages]\Thinned Gold Tableware.html
 INFO | Cleared: bdata\[Pages]\University of Illusion.html
+INFO | Cleared: bdata\[Pages]\Utility Scripts.html
 INFO | Cleared: bdata\[Pages]\Windows, Doors and Balconies.html
-INFO | Cleared: bdata\[Pages]\Xaine Script.html
 INFO | Cleared: bdata\[Pages]\Xavier Banner _ Tapestry.html
 INFO | Creating asset pages...
 INFO | Generating users pages...

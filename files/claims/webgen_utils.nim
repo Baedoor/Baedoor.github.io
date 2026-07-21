@@ -17,7 +17,7 @@ type
   NoneQueue* = object # used to indicate lacking Queue field in claim object
 
 # this registry being in `users.nim` dependency means that it only checks old .htmls; to link/register users newly generated you might need to do generation twice
-let REGISTERED_USERS* = map(toSeq(walkFiles("../../user/*.html")), proc(i: string): string = multiReplace(i, [(".html", ""), ("..\\..\\user\\", "")]))
+let REGISTERED_USERS* = map(toSeq(walkFiles("users/*.toml")), proc(i: string): string = multiReplace(i, [(".toml", ""), ("users\\", "")]))
 let ADDITIONAL_USERS* = parseFile("contributors.toml").getTable # requires .getStr() upon access
 
 proc getDepthHeader* (d: Depth): string =

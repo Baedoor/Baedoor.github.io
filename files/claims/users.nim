@@ -155,6 +155,8 @@ proc generateUserBody* (user: User): string
 
 proc generateUserPages* (user_list: seq[User], header: proc(subtit: string, depth: Depth): string,
                                                body:   proc(body_subgen: string): string) =
+    for page in walkFiles(fmt"..\\..\\user\\*.html"):
+        removeFile(page)
     log(LOG, "Generating users pages...")
     for user in user_list:
         var ufile = open(fmt"..\\..\\user\\{user.name}.html", fmWrite)
