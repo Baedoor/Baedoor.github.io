@@ -2,6 +2,7 @@ INFO | Creating users...
 INFO | Creating user: Goth Ross
 INFO | Creating user: Lus
 INFO | Creating user: Lyof
+INFO | Creating user: Revenant
 INFO | Creating user: SebaPRC
 INFO | Creating user: skeletontonguedworld
 INFO | Creating user: Toma400
