@@ -19,7 +19,7 @@ TODO:
 # filters for webgen generators
 const
   STATUSES_FILTER*     = @[MERGED, R4M, R4R, REQ_FIXES, INDEV, UNCLAIMED, DESIGN]
-  RELEASES_FILTER*     = @[qKACARI, qBAEDOOR_CITY]
+  RELEASES_FILTER*     = @[qDISANE, qKACARI, qBAEDOOR_CITY]
   IOA_RELEASES_FILTER* = @[qTUTORIAL, qEVROS]
 
 # gives you 'yieldClaims' for particular project based on string key

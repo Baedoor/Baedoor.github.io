@@ -61,6 +61,7 @@ type
     ART_IT        = "Item Art"
 
   B3DReleaseQueue* = enum                    # Section files, respectively:
+    qDISANE            = "Disane"            # FSAM/Disane
     qKACARI            = "Kacari"            # Kacari
     qBAEDOOR_CITY      = "Baedoor City"      # Baedoor
     qLIBRARY_OF_WORLDS = "Library of Worlds" # Dimensions

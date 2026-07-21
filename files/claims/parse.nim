@@ -77,6 +77,7 @@ proc getEnums[T: BrowserEnums](id: string): T =
         of "Dimensions": return DIMENSIONS
   elif T is B3DReleaseQueue:
       case id:
+        of "Disane":    return qDISANE
         of "Kacari":    return qKACARI
         of "BaeC":      return qBAEDOOR_CITY
         of "LibWorlds": return qLIBRARY_OF_WORLDS
