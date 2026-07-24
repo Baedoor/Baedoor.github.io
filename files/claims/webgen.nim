@@ -16,12 +16,12 @@ proc generateHeader(page_subtitle: string, depth: Depth = CLAIMS, header_tags: H
   result = """
     <!doctype html>
     <head>
-        <title> Baedoor - {page_subtitle} </title>
+        <title> Baedoor - {prefix}{page_subtitle} </title>
         <link rel="shortcut icon" href="{depth}graphics/banner_baedoor.png">
         <link rel="stylesheet" href="{depth}bcmain.css">
         <meta charset="UTF-8">
         <!-- Open Graph-compatible meta tags (for embed contents) -->
-        <meta property="og:title"       content="{page_subtitle}" />
+        <meta property="og:title"       content="{prefix}{page_subtitle}" />
         <meta property="og:type"        content="website" />
         <meta property="og:url"         content="https://baedoor.github.io/{sublink}/{url}" />
         {tag_descr}
@@ -40,12 +40,20 @@ proc generateHeader(page_subtitle: string, depth: Depth = CLAIMS, header_tags: H
   # metatags
   if header_tags.descr != "":
       result = result.replace("{tag_descr}", fmt"""<meta property="og:description" content="{header_tags.descr}" />""")
+  else: result = result.replace("{tag_descr}", "")
+
   if header_tags.sublink != "":
       result = result.replace("{sublink}", header_tags.sublink)
+  else: result = result.replace("{sublink}", "")
+
   if header_tags.chtml != "": # replaces metatag with link with custom HTML if set
       result = result.replace("{url}", header_tags.chtml)
   else: # if not set, rule-based link is used
       result = result.replace("{url}", fmt"{parseNameForGeneration(page_subtitle)}.html")
+
+  if header_tags.prefix != "":
+      result = result.replace("{prefix}", header_tags.prefix)
+  else: result = result.replace("{prefix}", "")
 
 proc filterHeader(depth: Depth, filter: BrowserEnums | string): string =
   # variables to be used by subprocs
@@ -287,12 +295,13 @@ proc generateAssetPages() =
   log(LOG, "Creating asset pages...")
   for claim in bdata:
       let utags = buildTags(
-          descr   = "Status: {formatStatuses(claim.status)}<br>Priority: {claim.priority}<br>Description:<br>{claim.descr}",
-          sublink = "claims/bdata/[Pages]"
+          descr   = fmt"Status: {claim.status}<br>Priority: {claim.priority}<br>Description:<br>{claim.descr}",
+          sublink = fmt"files/claims/bdata/[Pages]",
+          pfix    = "Asset Browser: "
       )
       let claim_page = open(fmt"bdata/[Pages]/{parseNameForGeneration(claim.name)}.html", fmWrite)
       defer: claim_page.close()
-      claim_page.write(generateHeader(fmt"Asset Browser: {claim.name}", CLAIMS, utags))
+      claim_page.write(generateHeader(claim.name, CLAIMS, utags))
       claim_page.write(generateBody(assetclaimBody(claim)))
 
 proc generateAssetLists() =
@@ -305,7 +314,7 @@ proc generateAssetLists() =
   let main_list = open(fmt"bdata/{fname}", fmWrite)
   let mutags = buildTags(
       descr   = "",
-      sublink = "claims/bdata"
+      sublink = "files/claims/bdata"
   )
   defer: main_list.close()
   main_list.write(generateHeader("Asset Browser", CLAIM_MAIN_LIST, mutags))
@@ -315,7 +324,7 @@ proc generateAssetLists() =
     let release_list = open(fmt"bdata/[Lists]/{fname}".replace(".html", fmt"_R_{r}.html"), fmWrite)
     let utags = buildTags(
         descr       = "",
-        sublink     = "claims/bdata/[Lists]",
+        sublink     = "files/claims/bdata/[Lists]",
         custom_html = fname.replace(".html", fmt"_R_{r}.html")
     )
     defer: release_list.close()
@@ -326,7 +335,7 @@ proc generateAssetLists() =
     let status_list = open(fmt"bdata/[Lists]/{fname}".replace(".html", fmt"_S_{s}.html"), fmWrite)
     let utags = buildTags(
         descr       = "",
-        sublink     = "claims/bdata/[Lists]",
+        sublink     = "files/claims/bdata/[Lists]",
         custom_html = fname.replace(".html", fmt"_S_{s}.html")
     )
     defer: status_list.close()
@@ -337,7 +346,7 @@ proc generateAssetLists() =
     let priority_list = open(fmt"bdata/[Lists]/{fname}".replace(".html", fmt"_P_{p}.html"), fmWrite)
     let utags = buildTags(
         descr       = "",
-        sublink     = "claims/bdata/[Lists]",
+        sublink     = "files/claims/bdata/[Lists]",
         custom_html = fname.replace(".html", fmt"_P_{p}.html")
     )
     defer: priority_list.close()
@@ -348,7 +357,7 @@ proc generateAssetLists() =
     let kind_list = open(fmt"bdata/[Lists]/{fname}".replace(".html", fmt"_K_{parseNameForGeneration(k)}.html"), fmWrite)
     let utags = buildTags(
         descr       = "",
-        sublink     = "claims/bdata/[Lists]",
+        sublink     = "files/claims/bdata/[Lists]",
         custom_html = fname.replace(".html", fmt"_K_{parseNameForGeneration(k)}.html")
     )
     defer: kind_list.close()

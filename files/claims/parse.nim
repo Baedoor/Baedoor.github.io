@@ -122,7 +122,8 @@ proc descrParser* (s: string): string =
   return result.multireplace([ # ensure consistent style
       ("<ul>", "<ul class='def'>"),
       ("<li>", "<li>"),
-      ("<p>",  "<p id='vc'>")
+      ("<p>",  "<p id='vc'>"),
+      ("\"",   "'") # to ensure description doesn't break embeds
   ])
 
 proc processArtData (sqstr: seq[string]): seq[(string, string, string)] =

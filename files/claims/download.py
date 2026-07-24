@@ -19,7 +19,7 @@ def downloadGoogleSheet():
                 with open(file, 'wb') as f:
                     f.write(response.content)
                     print('File saved to: {}'.format(file))
-                remove(f"_{file}")
+            remove(f"_{file}")
         else:
             print(f'Error downloading Google Sheet: {response.status_code}')
             sys.exit(1)
