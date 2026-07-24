@@ -126,6 +126,13 @@ proc descrParser* (s: string): string =
       ("\"",   "'") # to ensure description doesn't break embeds
   ])
 
+proc pruneHTML* (s: var string) =
+  const prune = [
+      "<br>", "<p>", "<p id='vc'>", "</p>"
+  ]
+  for item in prune:
+      s = s.replace(item, "")
+
 proc processArtData (sqstr: seq[string]): seq[(string, string, string)] =
   # format = "URL LINK : AUTHOR :: DESCRIPTION"
   const

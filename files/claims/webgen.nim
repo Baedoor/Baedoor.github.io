@@ -295,7 +295,7 @@ proc generateAssetPages() =
   log(LOG, "Creating asset pages...")
   for claim in bdata:
       let utags = buildTags(
-          descr   = fmt"Status: {claim.status}<br>Priority: {claim.priority}<br>Description:<br>{claim.descr}",
+          descr   = fmt"Status: {claim.status} || Priority: {claim.priority} || Description: {pruneHTML(claim.descr)}",
           sublink = fmt"files/claims/bdata/[Pages]",
           pfix    = "Asset Browser: "
       )
