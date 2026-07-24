@@ -159,10 +159,15 @@ proc generateUserPages* (user_list: seq[User], header: proc(subtit: string, dept
         removeFile(page)
     log(LOG, "Generating users pages...")
     for user in user_list:
+        var roles = ""; map(user.roles, proc(x: string) = fmt"{roles}{x}<br>")
+        let utags = buildTags(
+            descr   = fmt"Rank: {USER_TIERS[user.tier].name}<br>Roles:<br>{roles}",
+            sublink = "user"
+        )
         var ufile = open(fmt"..\\..\\user\\{user.name}.html", fmWrite)
         defer: ufile.close()
         # header
-        ufile.write(header(fmt"User: {user.name}", USERS_PAGE))
+        ufile.write(header(fmt"User: {user.name}", USERS_PAGE, utags))
         # body
         ufile.write(body(generateUserBody(user)))
 

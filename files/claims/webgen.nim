@@ -12,7 +12,7 @@ import parse
 import users
 import log
 
-proc generateHeader(page_subtitle: string, depth: Depth = CLAIMS): string =
+proc generateHeader(page_subtitle: string, depth: Depth = CLAIMS, header_tags: HeaderTags): string =
   result = """
     <!doctype html>
     <head>
@@ -20,6 +20,11 @@ proc generateHeader(page_subtitle: string, depth: Depth = CLAIMS): string =
         <link rel="shortcut icon" href="{depth}graphics/banner_baedoor.png">
         <link rel="stylesheet" href="{depth}bcmain.css">
         <meta charset="UTF-8">
+        <!-- Open Graph-compatible meta tags (for embed contents) -->
+        <meta property="og:title"       content="{page_subtitle}" />
+        <meta property="og:type"        content="website" />
+        <meta property="og:url"         content="https://baedoor.github.io/{sublink}/{url}" />
+        {tag_descr}
 
         <script src="{depth}import.js"></script>
         <script>
@@ -32,6 +37,15 @@ proc generateHeader(page_subtitle: string, depth: Depth = CLAIMS): string =
   result = result.replace("{page_subtitle}", page_subtitle)
   result = result.replace("{depth}", $depth)
   result = result.replace("{number}", getDepthHeader(depth))
+  # metatags
+  if header_tags.descr != "":
+      result = result.replace("{tag_descr}", fmt"""<meta property="og:description" content="{header_tags.descr}" />""")
+  if header_tags.sublink != "":
+      result = result.replace("{sublink}", header_tags.sublink)
+  if header_tags.chtml != "": # replaces metatag with link with custom HTML if set
+      result = result.replace("{url}", header_tags.chtml)
+  else: # if not set, rule-based link is used
+      result = result.replace("{url}", fmt"{parseNameForGeneration(page_subtitle)}.html")
 
 proc filterHeader(depth: Depth, filter: BrowserEnums | string): string =
   # variables to be used by subprocs
@@ -272,9 +286,13 @@ proc generateAssetPages() =
 
   log(LOG, "Creating asset pages...")
   for claim in bdata:
+      let utags = buildTags(
+          descr   = "Status: {formatStatuses(claim.status)}<br>Priority: {claim.priority}<br>Description:<br>{claim.descr}",
+          sublink = "claims/bdata/[Pages]"
+      )
       let claim_page = open(fmt"bdata/[Pages]/{parseNameForGeneration(claim.name)}.html", fmWrite)
       defer: claim_page.close()
-      claim_page.write(generateHeader(fmt"Asset Browser: {claim.name}", CLAIMS))
+      claim_page.write(generateHeader(fmt"Asset Browser: {claim.name}", CLAIMS, utags))
       claim_page.write(generateBody(assetclaimBody(claim)))
 
 proc generateAssetLists() =
@@ -285,32 +303,56 @@ proc generateAssetLists() =
   const fname   = "list.html"
 
   let main_list = open(fmt"bdata/{fname}", fmWrite)
+  let mutags = buildTags(
+      descr   = "",
+      sublink = "claims/bdata"
+  )
   defer: main_list.close()
-  main_list.write(generateHeader("Asset Browser", CLAIM_MAIN_LIST))
+  main_list.write(generateHeader("Asset Browser", CLAIM_MAIN_LIST, mutags))
   main_list.write(generateBody(assetlistBody(bdata, CLAIM_MAIN_LIST)))
 
   for r in B3DReleaseQueue.low..B3DReleaseQueue.high: # not using RELEASES_FILTER so hidden releases can still be reached
     let release_list = open(fmt"bdata/[Lists]/{fname}".replace(".html", fmt"_R_{r}.html"), fmWrite)
+    let utags = buildTags(
+        descr       = "",
+        sublink     = "claims/bdata/[Lists]",
+        custom_html = fname.replace(".html", fmt"_R_{r}.html")
+    )
     defer: release_list.close()
-    release_list.write(generateHeader(fmt"Asset Browser: {r}", CLAIM_SUB_LIST))
+    release_list.write(generateHeader(fmt"Asset Browser: {r}", CLAIM_SUB_LIST, utags))
     release_list.write(generateBody(assetlistBody(bdata, CLAIM_SUB_LIST, r)))
 
   for s in STATUSES_FILTER:
     let status_list = open(fmt"bdata/[Lists]/{fname}".replace(".html", fmt"_S_{s}.html"), fmWrite)
+    let utags = buildTags(
+        descr       = "",
+        sublink     = "claims/bdata/[Lists]",
+        custom_html = fname.replace(".html", fmt"_S_{s}.html")
+    )
     defer: status_list.close()
-    status_list.write(generateHeader(fmt"Asset Browser: {s}", CLAIM_SUB_LIST))
+    status_list.write(generateHeader(fmt"Asset Browser: {s}", CLAIM_SUB_LIST, utags))
     status_list.write(generateBody(assetlistBody(bdata, CLAIM_SUB_LIST, s)))
 
   for p in ClaimPriority.low..ClaimPriority.high:
     let priority_list = open(fmt"bdata/[Lists]/{fname}".replace(".html", fmt"_P_{p}.html"), fmWrite)
+    let utags = buildTags(
+        descr       = "",
+        sublink     = "claims/bdata/[Lists]",
+        custom_html = fname.replace(".html", fmt"_P_{p}.html")
+    )
     defer: priority_list.close()
-    priority_list.write(generateHeader(fmt"Asset Browser: {p}", CLAIM_SUB_LIST))
+    priority_list.write(generateHeader(fmt"Asset Browser: {p}", CLAIM_SUB_LIST, utags))
     priority_list.write(generateBody(assetlistBody(bdata, CLAIM_SUB_LIST, p)))
 
   for k in AssetClaimKind.low..AssetClaimKind.high:
     let kind_list = open(fmt"bdata/[Lists]/{fname}".replace(".html", fmt"_K_{parseNameForGeneration(k)}.html"), fmWrite)
+    let utags = buildTags(
+        descr       = "",
+        sublink     = "claims/bdata/[Lists]",
+        custom_html = fname.replace(".html", fmt"_K_{parseNameForGeneration(k)}.html")
+    )
     defer: kind_list.close()
-    kind_list.write(generateHeader(fmt"Asset Browser: {k}", CLAIM_SUB_LIST))
+    kind_list.write(generateHeader(fmt"Asset Browser: {k}", CLAIM_SUB_LIST, utags))
     kind_list.write(generateBody(assetlistBody(bdata, CLAIM_SUB_LIST, k)))
 
 proc generatePages[T](proj: string, title: string) =
@@ -323,7 +365,7 @@ proc generatePages[T](proj: string, title: string) =
   for claim in PROJ_REPO[T]():
       let claim_page = open(fmt"{proj}/[Pages]/{parseNameForGeneration(claim.name)}.html", fmWrite)
       defer: claim_page.close()
-      claim_page.write(generateHeader(fmt"{title}: {claim.name}", CLAIMS))
+      claim_page.write(generateHeader(fmt"{title}: {claim.name}", CLAIMS, emptyTags()))
       claim_page.write(generateBody(claimBody(claim, proj, checkFiles(claim.files, "⭐ File"))))
 
 proc generateLists[REL, CL_OBJ, KIND](proj          : string,
@@ -347,7 +389,7 @@ proc generateLists[REL, CL_OBJ, KIND](proj          : string,
 
   let main_list = open(fmt"{proj}/{fname}", fmWrite)
   defer: main_list.close()
-  main_list.write(generateHeader(title, CLAIM_MAIN_LIST))
+  main_list.write(generateHeader(title, CLAIM_MAIN_LIST, emptyTags()))
   main_list.write(generateBody(
                       listBody[CL_OBJ](cl_seq, proj, CLAIM_MAIN_LIST, filter_proc(CLAIM_MAIN_LIST, ""), subf=proj_subf)))
   #
