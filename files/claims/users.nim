@@ -153,16 +153,22 @@ let USERS* = getUsers()
 proc generateUserBody* (user: User): string
     # preset to be used by next proc, but expanded below
 
-proc generateUserPages* (user_list: seq[User], header: proc(subtit: string, depth: Depth): string,
+proc generateUserPages* (user_list: seq[User], header: proc(subtit: string, depth: Depth, header_tags: HeaderTags): string,
                                                body:   proc(body_subgen: string): string) =
     for page in walkFiles(fmt"..\\..\\user\\*.html"):
         removeFile(page)
     log(LOG, "Generating users pages...")
     for user in user_list:
+        var roles = ""; for r in user.roles: roles = fmt"{roles}{r}<br>" # collects roles into HTML list
+        let utags = buildTags(
+            descr   = fmt"Rank: {USER_TIERS[user.tier].name}<br>Roles:<br>{roles}",
+            sublink = fmt"user",
+            pfix    = "User: "
+        )
         var ufile = open(fmt"..\\..\\user\\{user.name}.html", fmWrite)
         defer: ufile.close()
         # header
-        ufile.write(header(fmt"User: {user.name}", USERS_PAGE))
+        ufile.write(header(user.name, USERS_PAGE, utags))
         # body
         ufile.write(body(generateUserBody(user)))
 

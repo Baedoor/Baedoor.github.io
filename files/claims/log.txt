@@ -18,6 +18,7 @@ INFO | Cleared: bdata\[Pages]\Baedoor Paintings.html
 INFO | Cleared: bdata\[Pages]\Baedoor Poor Clutter.html
 INFO | Cleared: bdata\[Pages]\Baedoor Poor Furniture.html
 INFO | Cleared: bdata\[Pages]\Baedoor Tapestries.html
+INFO | Cleared: bdata\[Pages]\Baedoorian Bottles.html
 INFO | Cleared: bdata\[Pages]\Baedoorian Coin.html
 INFO | Cleared: bdata\[Pages]\Baedoorian Manufactured Metal Tableware.html
 INFO | Cleared: bdata\[Pages]\Baedoorish Military Airship Exterior.html
@@ -29,14 +30,14 @@ INFO | Cleared: bdata\[Pages]\Cian.html
 INFO | Cleared: bdata\[Pages]\Cliffs.html
 INFO | Cleared: bdata\[Pages]\Cloth-related Common Items.html
 INFO | Cleared: bdata\[Pages]\Compass.html
-INFO | Cleared: bdata\[Pages]\Disane Land Textures.html
-INFO | Cleared: bdata\[Pages]\Disane Rocks.html
+INFO | Cleared: bdata\[Pages]\Curved Erdic Weapons.html
 INFO | Cleared: bdata\[Pages]\Disanteldir Ruin.html
 INFO | Cleared: bdata\[Pages]\Erdic Backpack.html
 INFO | Cleared: bdata\[Pages]\Erdic Beds.html
 INFO | Cleared: bdata\[Pages]\Erdic Blueware.html
 INFO | Cleared: bdata\[Pages]\Erdic Books - First Batch.html
 INFO | Cleared: bdata\[Pages]\Erdic Books - Second Batch.html
+INFO | Cleared: bdata\[Pages]\Erdic Bottles.html
 INFO | Cleared: bdata\[Pages]\Erdic Bread.html
 INFO | Cleared: bdata\[Pages]\Erdic Candles.html
 INFO | Cleared: bdata\[Pages]\Erdic Cannons.html
@@ -126,6 +127,7 @@ INFO | Cleared: bdata\[Pages]\Roda Lighthouse.html
 INFO | Cleared: bdata\[Pages]\Roda Roads.html
 INFO | Cleared: bdata\[Pages]\Ruined Saphtri Buildings.html
 INFO | Cleared: bdata\[Pages]\Ruined Tenements.html
+INFO | Cleared: bdata\[Pages]\Saphtri Bottles.html
 INFO | Cleared: bdata\[Pages]\Saphtri.html
 INFO | Cleared: bdata\[Pages]\Saphtric Coin.html
 INFO | Cleared: bdata\[Pages]\Saphtric Jewelry.html
@@ -138,6 +140,7 @@ INFO | Cleared: bdata\[Pages]\Statue.html
 INFO | Cleared: bdata\[Pages]\Tallow.html
 INFO | Cleared: bdata\[Pages]\Tarava Tea.html
 INFO | Cleared: bdata\[Pages]\Tarava.html
+INFO | Cleared: bdata\[Pages]\Temple Guard Armour.html
 INFO | Cleared: bdata\[Pages]\Tenements.html
 INFO | Cleared: bdata\[Pages]\Thinned Gold Tableware.html
 INFO | Cleared: bdata\[Pages]\University of Illusion.html

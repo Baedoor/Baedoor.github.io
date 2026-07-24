@@ -16,6 +16,12 @@ type
     CLAIMS          = "../../../../" # [pages] folders
   NoneQueue* = object # used to indicate lacking Queue field in claim object
 
+  HeaderTags* = object # used for setting website metatags
+    descr*   : string # description (if "", it's ommited)
+    sublink* : string # path that leads to the .html (w/o root)
+    chtml*   : string # custom HTML (if "", uses rule-based one)
+    prefix*  : string # prefix for the title (usually category), allowing to not intrude with HTML via subtitle
+
 # this registry being in `users.nim` dependency means that it only checks old .htmls; to link/register users newly generated you might need to do generation twice
 let REGISTERED_USERS* = map(toSeq(walkFiles("users/*.toml")), proc(i: string): string = multiReplace(i, [(".toml", ""), ("users\\", "")]))
 let ADDITIONAL_USERS* = parseFile("contributors.toml").getTable # requires .getStr() upon access
@@ -26,6 +32,13 @@ proc getDepthHeader* (d: Depth): string =
    of CLAIM_MAIN_LIST: return "3"
    of CLAIM_SUB_LIST:  return "4"
    of CLAIMS:          return "4"
+
+proc buildTags* (descr, sublink: string, custom_html, pfix = ""): HeaderTags =
+    result.descr   = descr
+    result.sublink = sublink
+    result.chtml   = custom_html
+    result.prefix  = pfix
+proc emptyTags* (): HeaderTags = discard # TODO: generates empty, used as placeholder, search for uses to replace
 
 proc orderAssets* [T: BrowserClaims](a: seq[T], merged_in: bool, sort_type: bool = false): seq[T] =
   proc alphSort(x, y: T): int =
