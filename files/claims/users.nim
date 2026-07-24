@@ -159,9 +159,9 @@ proc generateUserPages* (user_list: seq[User], header: proc(subtit: string, dept
         removeFile(page)
     log(LOG, "Generating users pages...")
     for user in user_list:
-        var roles = ""; for r in user.roles: roles = fmt"{roles}{r}<br>" # collects roles into HTML list
+        var roles = ""; for r in user.roles: roles = fmt"{roles}{r} 𓋹" # collects roles into HTML list
         let utags = buildTags(
-            descr   = fmt"Rank: {USER_TIERS[user.tier].name}<br>Roles:<br>{roles}",
+            descr   = fmt"Rank: {USER_TIERS[user.tier].name} || Roles: {roles}",
             sublink = fmt"user",
             pfix    = "User: "
         )

@@ -20,7 +20,7 @@ INFO | Cleared: bdata\[Pages]\Baedoor Poor Furniture.html
 INFO | Cleared: bdata\[Pages]\Baedoor Tapestries.html
 INFO | Cleared: bdata\[Pages]\Baedoorian Bottles.html
 INFO | Cleared: bdata\[Pages]\Baedoorian Coin.html
-INFO | Cleared: bdata\[Pages]\Baedoorian Manufactured Metal Tableware.html
+INFO | Cleared: bdata\[Pages]\Baedoorian Ironware.html
 INFO | Cleared: bdata\[Pages]\Baedoorish Military Airship Exterior.html
 INFO | Cleared: bdata\[Pages]\Baedoorish Military Airship Interior.html
 INFO | Cleared: bdata\[Pages]\Blue Unnamed Plant.html
