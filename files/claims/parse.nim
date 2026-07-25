@@ -126,12 +126,19 @@ proc descrParser* (s: string): string =
       ("\"",   "'") # to ensure description doesn't break embeds
   ])
 
-proc pruneHTML* (s: var string) =
-  const prune = [
-      "<br>", "<p>", "<p id='vc'>", "</p>"
+proc pruneHTML* (s: string): string =
+  result = s
+  # pure prune, aka just removing formatting
+  const pure_prune = [
+      "<br>", "<p>", "<p id='vc'>", "</p>",
+      "<strong>", "</strong>",
+      "<a href='", "'>", "</a>",
+      "<ul>", "</ul>", "<li>", "</li>"
   ]
-  for item in prune:
-      s = s.replace(item, "")
+  for item in pure_prune:
+      result = result.replace(item, "")
+  # regex prune, aka when you also need to adjust formatting
+  # TODO
 
 proc processArtData (sqstr: seq[string]): seq[(string, string, string)] =
   # format = "URL LINK : AUTHOR :: DESCRIPTION"
