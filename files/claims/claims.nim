@@ -95,7 +95,9 @@ type
     priority*: ClaimPriority
     status*:   ClaimStatus
     name*:     string
-    imgs*:     seq[(string, string, string)] # (URL, author, description)
+    imgs*:     seq[tuple[url    : string,
+                         author : string,
+                         descr  : string]]
     art_req*:  CARequired
     claimant*: seq[string]
     reviewer*: seq[string]
@@ -103,13 +105,16 @@ type
     release*:  seq[B3DReleaseQueue]
     file_raw*: seq[string]
     file_mw*:  seq[string]
+    section*:  string               # date of merge
 
   B3DClaim* = object
     kind*:     B3DClaimKind
     priority*: ClaimPriority
     status*:   ClaimStatus
     name*:     string
-    imgs*:     seq[(string, string, string)] # (URL, author, description)
+    imgs*:     seq[tuple[url    : string,
+                         author : string,
+                         descr  : string]]
     claimant*: seq[string]
     reviewer*: seq[string]
     descr*:    string
@@ -122,7 +127,9 @@ type
     priority*: ClaimPriority
     status*:   ClaimStatus
     name*:     string
-    imgs*:     seq[(string, string, string)] # (URL, author, description)
+    imgs*:     seq[tuple[url    : string,
+                         author : string,
+                         descr  : string]]
     claimant*: seq[string]
     reviewer*: seq[string]
     descr*:    string
@@ -134,7 +141,9 @@ type
     priority*: ClaimPriority
     status*:   ClaimStatus
     name*:     string
-    imgs*:     seq[(string, string, string)] # (URL, author, description)
+    imgs*:     seq[tuple[url    : string,
+                         author : string,
+                         descr  : string]]
     claimant*: seq[string]
     reviewer*: seq[string]
     descr*:    string

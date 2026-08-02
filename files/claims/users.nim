@@ -54,10 +54,10 @@ const USER_ROLES = {
 }.toOrderedTable
 const USER_PROJECTS = {
     # name : link (should be local if it's not outside website)
-    # B3D, EoE
+    # B3D, EoE (or BData if we don't count FSAM)
     "Baedoor Lore"             : "https://github.com/Toma400/Baedoor_Encyclopaedia/blob/en_us/Entrance.md",
-    "Of Lands"                 : "../projects/ol.html",
     "Isle of Ansur"            : "../projects/ioa.html",
+    "Of Lands"                 : "../projects/ol.html",
     "Wastelands of Baedoor"    : "../projects/wob.html",
     "Civilisations of Baedoor" : "../projects/cob.html",
     "Spires of Baedoor"        : "../projects/sob.html",
@@ -74,6 +74,9 @@ type
     # b3d   : seq[B3DClaim]
     ioa   : tuple[indev: seq[IoAClaim], r4r: seq[IoAClaim], merged: seq[IoAClaim], reviewer: seq[IoAClaim]]
     # fsam  : seq[FSAMClaim]
+  Concepts = object
+    bdata : seq[AssetClaim]
+    ioa   : seq[IoAClaim]
   User = object
     name    : string
     avatar  : string
@@ -83,12 +86,18 @@ type
     tier    : int
     roles   : seq[string]
     projs   : seq[string]
-    claims  : Claims
+    claims  : Claims      # list of developed claims
+    ca      : Concepts    # list of concept arts
 
 proc isReviewer (user: User): bool =
     for r in user.roles:
         if "Reviewer" in r: return true
     return false
+
+proc add (c: var Concepts, addition: AssetClaim) =
+    add(c.bdata, addition)
+proc add (c: var Concepts, addition: IoAClaim) =
+    add(c.ioa, addition)
 
 proc newUser (name, avatar, website, descr, faction: string, tier: int, roles, projs: seq[string]): User =
     # TODO: might be useful to abstractify later part
@@ -113,12 +122,14 @@ proc newUser (name, avatar, website, descr, faction: string, tier: int, roles, p
     for c in bdata: # gather BData claims
       if name in c.claimant:
           case c.status:
-            of MERGED, R4M:      add(result.claims.bdata.merged, c)
-            of R4R:              add(result.claims.bdata.r4r, c)
+            of MERGED:           add(result.claims.bdata.merged, c)
+            of R4R, R4M:         add(result.claims.bdata.r4r, c)
             of INREV:            add(result.claims.bdata.r4r, c)
             of INDEV, REQ_FIXES: add(result.claims.bdata.indev, c)
             else: discard
       if name in c.reviewer: add(result.claims.bdata.reviewer, c)
+      for ca in c.imgs:
+          if ca.author == name: add(result.ca, c)
     for c in ioa: # gather IoA claims
       if name in c.claimant:
           case c.status:
@@ -128,6 +139,8 @@ proc newUser (name, avatar, website, descr, faction: string, tier: int, roles, p
             of INDEV, REQ_FIXES: add(result.claims.ioa.indev, c)
             else: discard
       if name in c.reviewer: add(result.claims.ioa.reviewer, c)
+      for ca in c.imgs:
+          if ca.author == name: add(result.ca, c)
 
 proc getUsers (): seq[User] =
     log(LOG, "Creating users...")
