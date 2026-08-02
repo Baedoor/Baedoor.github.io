@@ -3,8 +3,8 @@ Website = ""
 Faction = ""
 Tier    = 3
 Roles = [
-    "Landscape Developer"
-    # Interior Developer, Landscape Reviewer, Asset Developer, Linguist
+    "Landscape Reviewer"
+    # Interior Developer, Asset Developer, Linguist
 ]
 Projects = [
     # FSAM
