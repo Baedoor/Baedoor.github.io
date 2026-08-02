@@ -180,7 +180,7 @@ proc yieldAssetClaims(doc_path: string): seq[AssetClaim] =
 
       var ac: AssetClaim
       for j, col in line:
-         if j < 12:
+         if j < 13:
            if col != "":
              case j:
                of 0: ac.kind     = getEnums[AssetClaimKind](col)
@@ -195,6 +195,7 @@ proc yieldAssetClaims(doc_path: string): seq[AssetClaim] =
                of 9: ac.file_raw = processSequencedStrings(col, " | ")
                of 10: ac.file_mw = processSequencedStrings(col, " | ")
                of 11: ac.status  = getEnums[ClaimStatus](col)
+               of 12: ac.section = col
                else: discard
            else: # things that work upon empty string
              case j:

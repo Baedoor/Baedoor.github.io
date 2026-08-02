@@ -8,23 +8,24 @@ INFO | Creating user: skeletontonguedworld
 INFO | Creating user: Toma400
 INFO | Creating user: TotalBlackSmith
 INFO | Clearing asset pages...
+INFO | Cleared: bdata\[Pages]\Akad Sounds.html
 INFO | Cleared: bdata\[Pages]\Akad.html
-INFO | Cleared: bdata\[Pages]\Baedoor Books.html
-INFO | Cleared: bdata\[Pages]\Baedoor Cannons.html
 INFO | Cleared: bdata\[Pages]\Baedoor Chapel.html
-INFO | Cleared: bdata\[Pages]\Baedoor Clothes.html
 INFO | Cleared: bdata\[Pages]\Baedoor Flora.html
-INFO | Cleared: bdata\[Pages]\Baedoor Paintings.html
-INFO | Cleared: bdata\[Pages]\Baedoor Poor Clutter.html
-INFO | Cleared: bdata\[Pages]\Baedoor Poor Furniture.html
-INFO | Cleared: bdata\[Pages]\Baedoor Tapestries.html
 INFO | Cleared: bdata\[Pages]\Baedoorian Bottles.html
+INFO | Cleared: bdata\[Pages]\Baedoorian Cannons.html
+INFO | Cleared: bdata\[Pages]\Baedoorian Clothes.html
 INFO | Cleared: bdata\[Pages]\Baedoorian Coin.html
 INFO | Cleared: bdata\[Pages]\Baedoorian Ironware.html
+INFO | Cleared: bdata\[Pages]\Baedoorian Lights.html
+INFO | Cleared: bdata\[Pages]\Baedoorian Paintings.html
+INFO | Cleared: bdata\[Pages]\Baedoorian Poor Furniture.html
+INFO | Cleared: bdata\[Pages]\Baedoorian Tapestries.html
 INFO | Cleared: bdata\[Pages]\Baedoorish Military Airship Exterior.html
 INFO | Cleared: bdata\[Pages]\Baedoorish Military Airship Interior.html
+INFO | Cleared: bdata\[Pages]\Blue Mushroom.html
 INFO | Cleared: bdata\[Pages]\Blue Unnamed Plant.html
-INFO | Cleared: bdata\[Pages]\Butterfly.html
+INFO | Cleared: bdata\[Pages]\Books - First Batch.html
 INFO | Cleared: bdata\[Pages]\Cat.html
 INFO | Cleared: bdata\[Pages]\Cian.html
 INFO | Cleared: bdata\[Pages]\Cliffs.html
@@ -34,15 +35,13 @@ INFO | Cleared: bdata\[Pages]\Curved Erdic Weapons.html
 INFO | Cleared: bdata\[Pages]\Disanteldir Ruin.html
 INFO | Cleared: bdata\[Pages]\Erdic Backpack.html
 INFO | Cleared: bdata\[Pages]\Erdic Beds.html
-INFO | Cleared: bdata\[Pages]\Erdic Blueware.html
-INFO | Cleared: bdata\[Pages]\Erdic Books - First Batch.html
-INFO | Cleared: bdata\[Pages]\Erdic Books - Second Batch.html
 INFO | Cleared: bdata\[Pages]\Erdic Bottles.html
 INFO | Cleared: bdata\[Pages]\Erdic Bread.html
 INFO | Cleared: bdata\[Pages]\Erdic Candles.html
 INFO | Cleared: bdata\[Pages]\Erdic Cannons.html
 INFO | Cleared: bdata\[Pages]\Erdic Carved Wood Tableware.html
 INFO | Cleared: bdata\[Pages]\Erdic Celadonware.html
+INFO | Cleared: bdata\[Pages]\Erdic Ceramicware.html
 INFO | Cleared: bdata\[Pages]\Erdic Chests.html
 INFO | Cleared: bdata\[Pages]\Erdic Clayware.html
 INFO | Cleared: bdata\[Pages]\Erdic Cloths &Sheets.html
@@ -54,8 +53,9 @@ INFO | Cleared: bdata\[Pages]\Erdic Common_Poor Clothes.html
 INFO | Cleared: bdata\[Pages]\Erdic Containers.html
 INFO | Cleared: bdata\[Pages]\Erdic Copperware.html
 INFO | Cleared: bdata\[Pages]\Erdic Cosmetics.html
-INFO | Cleared: bdata\[Pages]\Erdic Crates.html
+INFO | Cleared: bdata\[Pages]\Erdic Crates and Barrels.html
 INFO | Cleared: bdata\[Pages]\Erdic Dice.html
+INFO | Cleared: bdata\[Pages]\Erdic Exterior Furniture.html
 INFO | Cleared: bdata\[Pages]\Erdic Faction Banners and Flags.html
 INFO | Cleared: bdata\[Pages]\Erdic Fortress Ruins Set.html
 INFO | Cleared: bdata\[Pages]\Erdic Glassware.html
@@ -66,12 +66,9 @@ INFO | Cleared: bdata\[Pages]\Erdic Jewelry.html
 INFO | Cleared: bdata\[Pages]\Erdic Kettle.html
 INFO | Cleared: bdata\[Pages]\Erdic Keys.html
 INFO | Cleared: bdata\[Pages]\Erdic Lanterns.html
-INFO | Cleared: bdata\[Pages]\Erdic Lights.html
 INFO | Cleared: bdata\[Pages]\Erdic Middle-Class Furniture.html
-INFO | Cleared: bdata\[Pages]\Erdic Other Clothes.html
 INFO | Cleared: bdata\[Pages]\Erdic Palace Set.html
 INFO | Cleared: bdata\[Pages]\Erdic Planters.html
-INFO | Cleared: bdata\[Pages]\Erdic Poor Clutter.html
 INFO | Cleared: bdata\[Pages]\Erdic Poor Furniture.html
 INFO | Cleared: bdata\[Pages]\Erdic Porcelain Tableware.html
 INFO | Cleared: bdata\[Pages]\Erdic Rich Furniture.html
@@ -81,8 +78,6 @@ INFO | Cleared: bdata\[Pages]\Erdic Rural Interior.html
 INFO | Cleared: bdata\[Pages]\Erdic Screens.html
 INFO | Cleared: bdata\[Pages]\Erdic Signs _ Signposts.html
 INFO | Cleared: bdata\[Pages]\Erdic Statuettes.html
-INFO | Cleared: bdata\[Pages]\Erdic Steel Sword.html
-INFO | Cleared: bdata\[Pages]\Erdic Stoneware.html
 INFO | Cleared: bdata\[Pages]\Erdic Tapestries.html
 INFO | Cleared: bdata\[Pages]\Erdic Teas.html
 INFO | Cleared: bdata\[Pages]\Erdic Temple Set.html
@@ -102,20 +97,21 @@ INFO | Cleared: bdata\[Pages]\Human (Baedoorish).html
 INFO | Cleared: bdata\[Pages]\Hyerbitus.html
 INFO | Cleared: bdata\[Pages]\Incense Clock.html
 INFO | Cleared: bdata\[Pages]\IoA Books.html
-INFO | Cleared: bdata\[Pages]\Kacari Flora.html
 INFO | Cleared: bdata\[Pages]\Kacari Guard Armour.html
-INFO | Cleared: bdata\[Pages]\Kacari Land Textures.html
 INFO | Cleared: bdata\[Pages]\Kacari Paintings.html
-INFO | Cleared: bdata\[Pages]\Kacari Rocks.html
+INFO | Cleared: bdata\[Pages]\Kacari Region Flora.html
+INFO | Cleared: bdata\[Pages]\Kacari Region Land Textures.html
+INFO | Cleared: bdata\[Pages]\Kacari Region Rocks.html
 INFO | Cleared: bdata\[Pages]\Kaikhi.html
 INFO | Cleared: bdata\[Pages]\Keht.html
 INFO | Cleared: bdata\[Pages]\Leveled Lists.html
-INFO | Cleared: bdata\[Pages]\Lightweight Baedoor Guard Armour.html
 INFO | Cleared: bdata\[Pages]\Lizard.html
+INFO | Cleared: bdata\[Pages]\Loose Files.html
+INFO | Cleared: bdata\[Pages]\More drinks.html
 INFO | Cleared: bdata\[Pages]\Nam Fruit.html
+INFO | Cleared: bdata\[Pages]\Nerau Sounds.html
 INFO | Cleared: bdata\[Pages]\Nerau.html
 INFO | Cleared: bdata\[Pages]\Niesi.html
-INFO | Cleared: bdata\[Pages]\Other Erdic Wares.html
 INFO | Cleared: bdata\[Pages]\Pallete Cells.html
 INFO | Cleared: bdata\[Pages]\Pillows.html
 INFO | Cleared: bdata\[Pages]\Printing Press.html
@@ -129,8 +125,12 @@ INFO | Cleared: bdata\[Pages]\Ruined Saphtri Buildings.html
 INFO | Cleared: bdata\[Pages]\Ruined Tenements.html
 INFO | Cleared: bdata\[Pages]\Saphtri Bottles.html
 INFO | Cleared: bdata\[Pages]\Saphtri.html
+INFO | Cleared: bdata\[Pages]\Saphtric Bronzeware.html
+INFO | Cleared: bdata\[Pages]\Saphtric Ceramicware.html
 INFO | Cleared: bdata\[Pages]\Saphtric Coin.html
+INFO | Cleared: bdata\[Pages]\Saphtric Jadeware.html
 INFO | Cleared: bdata\[Pages]\Saphtric Jewelry.html
+INFO | Cleared: bdata\[Pages]\Saphtric Kettle.html
 INFO | Cleared: bdata\[Pages]\Saphtric Weapons.html
 INFO | Cleared: bdata\[Pages]\Saphtric Windchimes.html
 INFO | Cleared: bdata\[Pages]\Service Provider Signs.html
@@ -143,6 +143,7 @@ INFO | Cleared: bdata\[Pages]\Tarava.html
 INFO | Cleared: bdata\[Pages]\Temple Guard Armour.html
 INFO | Cleared: bdata\[Pages]\Tenements.html
 INFO | Cleared: bdata\[Pages]\Thinned Gold Tableware.html
+INFO | Cleared: bdata\[Pages]\Torches.html
 INFO | Cleared: bdata\[Pages]\University of Illusion.html
 INFO | Cleared: bdata\[Pages]\Utility Scripts.html
 INFO | Cleared: bdata\[Pages]\Windows, Doors and Balconies.html
