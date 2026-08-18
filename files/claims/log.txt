@@ -10,6 +10,7 @@ INFO | Creating user: TotalBlackSmith
 INFO | Clearing asset pages...
 INFO | Cleared: bdata\[Pages]\Akad Sounds.html
 INFO | Cleared: bdata\[Pages]\Akad.html
+INFO | Cleared: bdata\[Pages]\Ashtray and more Cigarette Boxes.html
 INFO | Cleared: bdata\[Pages]\Baedoor Chapel.html
 INFO | Cleared: bdata\[Pages]\Baedoor Flora.html
 INFO | Cleared: bdata\[Pages]\Baedoorian Bottles.html
@@ -121,6 +122,7 @@ INFO | Cleared: bdata\[Pages]\Rice.html
 INFO | Cleared: bdata\[Pages]\Roda Guard Halabard.html
 INFO | Cleared: bdata\[Pages]\Roda Lighthouse.html
 INFO | Cleared: bdata\[Pages]\Roda Roads.html
+INFO | Cleared: bdata\[Pages]\Ropes.html
 INFO | Cleared: bdata\[Pages]\Ruined Saphtri Buildings.html
 INFO | Cleared: bdata\[Pages]\Ruined Tenements.html
 INFO | Cleared: bdata\[Pages]\Saphtri Bottles.html
@@ -143,6 +145,7 @@ INFO | Cleared: bdata\[Pages]\Tarava.html
 INFO | Cleared: bdata\[Pages]\Temple Guard Armour.html
 INFO | Cleared: bdata\[Pages]\Tenements.html
 INFO | Cleared: bdata\[Pages]\Thinned Gold Tableware.html
+INFO | Cleared: bdata\[Pages]\Tobacco, Cigarettes &Cigarette Boxes.html
 INFO | Cleared: bdata\[Pages]\Torches.html
 INFO | Cleared: bdata\[Pages]\University of Illusion.html
 INFO | Cleared: bdata\[Pages]\Utility Scripts.html
