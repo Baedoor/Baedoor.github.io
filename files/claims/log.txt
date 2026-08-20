@@ -28,6 +28,7 @@ INFO | Cleared: bdata\[Pages]\Blue Mushroom.html
 INFO | Cleared: bdata\[Pages]\Blue Unnamed Plant.html
 INFO | Cleared: bdata\[Pages]\Books - First Batch.html
 INFO | Cleared: bdata\[Pages]\Cat.html
+INFO | Cleared: bdata\[Pages]\Cheese.html
 INFO | Cleared: bdata\[Pages]\Cian.html
 INFO | Cleared: bdata\[Pages]\Cliffs.html
 INFO | Cleared: bdata\[Pages]\Cloth-related Common Items.html
@@ -136,9 +137,12 @@ INFO | Cleared: bdata\[Pages]\Saphtric Kettle.html
 INFO | Cleared: bdata\[Pages]\Saphtric Weapons.html
 INFO | Cleared: bdata\[Pages]\Saphtric Windchimes.html
 INFO | Cleared: bdata\[Pages]\Service Provider Signs.html
+INFO | Cleared: bdata\[Pages]\Ship Sounds.html
+INFO | Cleared: bdata\[Pages]\Skeleton.html
 INFO | Cleared: bdata\[Pages]\Soaps.html
 INFO | Cleared: bdata\[Pages]\Some White Weapons.html
 INFO | Cleared: bdata\[Pages]\Statue.html
+INFO | Cleared: bdata\[Pages]\Sugared Charcoal.html
 INFO | Cleared: bdata\[Pages]\Tallow.html
 INFO | Cleared: bdata\[Pages]\Tarava Tea.html
 INFO | Cleared: bdata\[Pages]\Tarava.html
