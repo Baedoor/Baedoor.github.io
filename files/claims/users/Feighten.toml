@@ -1,0 +1,13 @@
+Avatar  = ""
+Website = ""
+Faction = "Luna-Kimmaret Realm"
+Tier    = 3
+Roles = [
+    "Landscape Developer"
+    # Book Reviewer, Interior Developer, Asset Developer, Pixel Art Developer
+]
+Projects = [
+    # FSAM
+]
+Description = """
+"""

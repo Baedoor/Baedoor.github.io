@@ -4,7 +4,7 @@ Faction = ""
 Tier    = 3
 Roles = [
     "Landscape Reviewer"
-    # Interior Developer, Asset Developer, Linguist
+    # Interior Developer, Asset Developer, Pixel Art Developer, Linguist
 ]
 Projects = [
     # FSAM
