@@ -1,4 +1,5 @@
 INFO | Creating users...
+INFO | Creating user: Feighten
 INFO | Creating user: Goth Ross
 INFO | Creating user: Lus
 INFO | Creating user: Lyof
@@ -21,10 +22,10 @@ INFO | Cleared: bdata\[Pages]\Baedoorian Ironware.html
 INFO | Cleared: bdata\[Pages]\Baedoorian Lights.html
 INFO | Cleared: bdata\[Pages]\Baedoorian Paintings.html
 INFO | Cleared: bdata\[Pages]\Baedoorian Poor Furniture.html
+INFO | Cleared: bdata\[Pages]\Baedoorian Rich Small Chest.html
 INFO | Cleared: bdata\[Pages]\Baedoorian Tapestries.html
 INFO | Cleared: bdata\[Pages]\Baedoorish Military Airship Exterior.html
 INFO | Cleared: bdata\[Pages]\Baedoorish Military Airship Interior.html
-INFO | Cleared: bdata\[Pages]\Blue Mushroom.html
 INFO | Cleared: bdata\[Pages]\Blue Unnamed Plant.html
 INFO | Cleared: bdata\[Pages]\Books - First Batch.html
 INFO | Cleared: bdata\[Pages]\Cat.html
@@ -64,7 +65,6 @@ INFO | Cleared: bdata\[Pages]\Erdic Glassware.html
 INFO | Cleared: bdata\[Pages]\Erdic Hygiene Items.html
 INFO | Cleared: bdata\[Pages]\Erdic Instruments.html
 INFO | Cleared: bdata\[Pages]\Erdic Jadeware.html
-INFO | Cleared: bdata\[Pages]\Erdic Jewelry.html
 INFO | Cleared: bdata\[Pages]\Erdic Kettle.html
 INFO | Cleared: bdata\[Pages]\Erdic Keys.html
 INFO | Cleared: bdata\[Pages]\Erdic Lanterns.html
@@ -151,8 +151,10 @@ INFO | Cleared: bdata\[Pages]\Tenements.html
 INFO | Cleared: bdata\[Pages]\Thinned Gold Tableware.html
 INFO | Cleared: bdata\[Pages]\Tobacco, Cigarettes &Cigarette Boxes.html
 INFO | Cleared: bdata\[Pages]\Torches.html
+INFO | Cleared: bdata\[Pages]\Two Amulets.html
 INFO | Cleared: bdata\[Pages]\University of Illusion.html
 INFO | Cleared: bdata\[Pages]\Utility Scripts.html
+INFO | Cleared: bdata\[Pages]\Venous Fan.html
 INFO | Cleared: bdata\[Pages]\Windows, Doors and Balconies.html
 INFO | Cleared: bdata\[Pages]\Xavier Banner _ Tapestry.html
 INFO | Creating asset pages...
