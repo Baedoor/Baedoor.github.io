@@ -32,7 +32,6 @@ INFO | Cleared: bdata\[Pages]\Books - First Batch.html
 INFO | Cleared: bdata\[Pages]\Cat.html
 INFO | Cleared: bdata\[Pages]\Cave Interior Set.html
 INFO | Cleared: bdata\[Pages]\Cheese.html
-INFO | Cleared: bdata\[Pages]\Cian.html
 INFO | Cleared: bdata\[Pages]\Cloth-related Common Items.html
 INFO | Cleared: bdata\[Pages]\Compass.html
 INFO | Cleared: bdata\[Pages]\Curved Erdic Weapons.html
@@ -107,6 +106,7 @@ INFO | Cleared: bdata\[Pages]\Kacari Region Land Textures.html
 INFO | Cleared: bdata\[Pages]\Kacari Region Rocks.html
 INFO | Cleared: bdata\[Pages]\Kaikhi.html
 INFO | Cleared: bdata\[Pages]\Keht.html
+INFO | Cleared: bdata\[Pages]\Lampan.html
 INFO | Cleared: bdata\[Pages]\Leveled Lists.html
 INFO | Cleared: bdata\[Pages]\Lizard.html
 INFO | Cleared: bdata\[Pages]\Loose Files.html
