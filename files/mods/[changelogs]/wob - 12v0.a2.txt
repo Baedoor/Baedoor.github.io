@@ -1,0 +1,44 @@
+OUT: 17-06-2021
+------------------------------------------------------------------
+Dedicated for: Forge 1.12.2
+
+------------------------------------------------------------------
+                             CHANGELOG:
+
+Firearm shooting mechanics is temporary. It is meant to be fun exclusive for anyone wanting to test earliest port versions. It will be patched as soon as I find solution. Also, wandering merchant feature is disabled by default, as it's bugged. It can be turned on via commands though. In 12v0.a3 I expect both bugs being fixed - therefore I release this version, because I don't know how long it will take to solve them.
+Expect this version being more "insight into developer's progress" than strictly playable mod. It can be used in survival freely, but can contain bugs or unfinished elements.
+
+Added Blocks
+* Lava Block and its cracked variant
+* Chiseled Red Nether Bricks
+* Charcoal Block
+* Firearm Table (currently without GUI, craftable)
+* Glowing Obsidian
+* Nether Avoider
+* Nether Shielder
+
+Added Weapons
+* Throwing axes (all 3 variants)
+
+Added Items
+* Lava Ingot
+
+Added Mobs
+* Wandering Merchant (available only via changing WoB gamerule in that version)
+  > 5% chance of spawning in the middle of the day if no merchant is around
+
+[Technical] Mechanics
+* Wandering merchant GUI
+* Spawning/despawning of wandering merchant
+* Nether Avoider switching states
+* Nether Avoider tag shielding
+* Nether Avoider killing mechanics
+* Nether Avoider cross-compatibility feature
+* Nether Avoider using redstone output
+* Nether Avoider reaper mode
+* Commands for Reaper mode
+* Command for enabling merchant spawning
+
+Changes
+* Recipes:
+  - Gun Barrel now requires iron ingot instead of nugget (parity with v0.a11)

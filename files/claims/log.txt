@@ -1,4 +1,5 @@
 INFO | Creating users...
+INFO | Creating user: doiokov
 INFO | Creating user: Feighten
 INFO | Creating user: Goth Ross
 INFO | Creating user: Lus
@@ -29,9 +30,9 @@ INFO | Cleared: bdata\[Pages]\Baedoorish Military Airship Interior.html
 INFO | Cleared: bdata\[Pages]\Blue Unnamed Plant.html
 INFO | Cleared: bdata\[Pages]\Books - First Batch.html
 INFO | Cleared: bdata\[Pages]\Cat.html
+INFO | Cleared: bdata\[Pages]\Cave Interior Set.html
 INFO | Cleared: bdata\[Pages]\Cheese.html
 INFO | Cleared: bdata\[Pages]\Cian.html
-INFO | Cleared: bdata\[Pages]\Cliffs.html
 INFO | Cleared: bdata\[Pages]\Cloth-related Common Items.html
 INFO | Cleared: bdata\[Pages]\Compass.html
 INFO | Cleared: bdata\[Pages]\Curved Erdic Weapons.html
@@ -124,6 +125,7 @@ INFO | Cleared: bdata\[Pages]\Roda Guard Halabard.html
 INFO | Cleared: bdata\[Pages]\Roda Lighthouse.html
 INFO | Cleared: bdata\[Pages]\Roda Roads.html
 INFO | Cleared: bdata\[Pages]\Ropes.html
+INFO | Cleared: bdata\[Pages]\Rossevette Cliffs.html
 INFO | Cleared: bdata\[Pages]\Ruined Saphtri Buildings.html
 INFO | Cleared: bdata\[Pages]\Ruined Tenements.html
 INFO | Cleared: bdata\[Pages]\Saphtri Bottles.html

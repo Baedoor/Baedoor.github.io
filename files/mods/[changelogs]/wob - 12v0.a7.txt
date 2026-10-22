@@ -1,0 +1,50 @@
+OUT: 9-06-2022
+------------------------------------------------------------------
+Dedicated for: Forge 1.12.2
+
+------------------------------------------------------------------
+                             CHANGELOG:
+
+After long time, another release of 1.12.2 port. This one - most importantly - fixes the longest bug remaining, being revolver shooting with fireballs. It also backports new feature of fluid tank converter.
+
+
+**What is the future of 1.12.2 version?**
+
+You can find this question pretty valid, and rightly so. I may have make some sub-versions in near future (12v0.a7b, 12v0.a7c, and so on), maybe even new full version (a8, a9), but in general, 1.12.2 version made in MCreator will slowly be quitted.
+
+Does that mean that I leave 1.12.2 version?
+
+**It depends**. This just means that I will work - in the background - on handcoded variant of it. MCreator version just gives me too much pain, and since I'm slowly thinking of moving main Wastelands of Baedoor to code - I can bundle that with 1.12 version.
+
+I can't guarantee though that I will feel good enough with porting 1.12 version - I need motivation, time, patience, eventually money and probably some stuff I can't think of right now. Maintaining each version is a lot to even only-modders - and I'm not only a modder. I will try my best though, since I still love to play 1.12 and I'd love to see this mod being properly introduced to our good ol' classic 1.12.
+
+If I start making 1.12 version on handcode, I will try to make it compatibile with old MCreator version, but it won't be my priority. So play this version on your own risk.
+
+___________________________________________________________________________________________________________________________
+
+✣✣✣ ADDITIONS ✣✣✣
+
+MECHANICS:
+* Fluid Tank Converter has now backported behaviour towards blocks creating its base (y-2, under lava)
+   -> vanilla stones (stone, diorite, granite, andesite) turn into netherrack
+   -> any grass type block turns into vulcanic sand
+
+RENEWABILITY:
+* Netherrack
+* Vulcanic Sand
+
+✣✣✣ CHANGES ✣✣✣
+
+MECHANICS:
+* Heat Fueler changed its values of producing charcoal
+   -> temperature for higher rates lowered to >= 1.8
+   -> higher rates no longer produce guaranteed charcoal, instead it has 50% chances to drop each time
+   -> lower rates chances lowered from 25% to 10%
+
+RECIPES:
+* Sandy veil recipe changed from tag-based to item-based (1.15+ parity)
+
+✣✣✣ BUGFIXES ✣✣✣
+
+* Fixed guns not shooting with bullets (closes #18)
+* Fixed typo

@@ -1,0 +1,47 @@
+OUT: 30-08-2021
+------------------------------------------------------------------
+Dedicated for: Forge 1.12.2
+
+------------------------------------------------------------------
+                             CHANGELOG:
+
+If you did download 12v0.a1 or 12v0.a2 version and didn't update till now, please read 12v0.a3 changelog. This version refactored a lot of elements, making them disappear.
+
+Firearm shooting mechanics is temporary. It is meant to be fun exclusive for anyone wanting to test earliest port versions. It will be patched as soon as I find solution.
+Expect this version being more "insight into developer's progress" than strictly playable mod. It can be used in survival freely, but can contain bugs or unfinished elements.
+
+Added Blocks:
+* Fluid Tank Heater
+  - a bit of v0.a11s5 exclusive, being released earlier for 1.12. Enjoy lava generating, folks ;)
+* Baedoor Gold Blocks (with all their variants except doors)
+  - recipes for gold blocks use baedoor gold ingot instead of stonecutter recipes (due to 1.12)
+
+Added Items:
+* Glistering Ash
+* Pale Gold Ingot
+* Baedoor Gold Ingot
+
+Added Mechanics:
+* Wandering Merchant Trades
+  - added baedoor gold and glistering ash trade
+
+Added Mod Integrations:
+* Atum 2
+  - added wood variants of Atum woods
+  - added sandy water
+    > you need to be in Atum dimension to get sandy water from Heater conversion
+    > you need sand as a base block for Heater (instead of strange sand)
+    > since Atum dimension allows water only on specific height, you need to make your farm taking that into account
+  - added renewability of several Atum resources using sandy water
+    > alabaster renewability via crafting is ommited (to not add glistering clay yet)
+
+[Technical] Mechanics:
+* Glistering Ash drop
+* Pale Ingot back conversion
+* Fluid Tank Heater conversion (water->lava)
+
+Other Additions:
+* Integration creative tab
+
+Bugfixes:
+* BA04_0005 - slab recipes don't work (making that bugfix was just horrible amount of work and frustration for such stupid feature; please write F for dev :<)

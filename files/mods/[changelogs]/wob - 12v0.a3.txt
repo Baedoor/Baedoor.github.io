@@ -1,0 +1,67 @@
+OUT: 4-08-2021
+------------------------------------------------------------------
+Dedicated for: Forge 1.12.2
+
+------------------------------------------------------------------
+                             CHANGELOG:
+
+IMPORTANT. DO READ "CRUCIAL TECHNICAL CHANGES" PART OF THIS CHANGELOG. MOST OF ITEMS/BLOCKS FROM PREVIOUS VERSION OF THIS MOD WILL DISAPPEAR AFTER UPDATING.
+"Crucial Technical Changes" section gives you tips how to make some of these items last.
+
+Firearm shooting mechanics is temporary. It is meant to be fun exclusive for anyone wanting to test earliest port versions. It will be patched as soon as I find solution.
+Expect this version being more "insight into developer's progress" than strictly playable mod. It can be used in survival freely, but can contain bugs or unfinished elements.
+
+Added Blocks:
+* Vulcanic Sand
+
+Added Plants:
+* Sandy Veil
+* Vulcanic Veil
+
+Added Items:
+* Sand Dust
+* Ash Dust
+
+Added Mod Integrations
+* Civilisations of Baedoor <upcoming>
+  - Big Sandy Veil Leaf can be crafted into sand dust, the same way as Sandy Veil [coming in v0.a11 in WoB for 1.15/1.16]
+  - Bone Sabre can be crafted and uses sabre mechanics [not implemented in 1.12.2 port yet]
+
+Added Mechanics
+* Wandering Merchant Trading
+  - diamond block + obsidian -> glowing obsidian
+  - emerald block + furnace -> firearm table
+  - emerald + sand -> sand dust
+  - emerald + soul sand -> vulcanic dust
+
+[Technical] Mechanics
+* Global plant growth procedure
+* Veils planting
+* Veils growth
+* Bonemealing veils
+* Soul sand renewability
+
+Changed or Removed
+* Recipes:
+  - Chiseled Red Nether Brick
+  - Removed firearm table crafting
+  - Removed glowing obsidian crafting
+* Mechanics:
+  - Removed unusable previous trade of wandering merchant
+  - Unlocked wandering trader spawning
+  - Deleted command related to trader spawning (previously used as a condition)
+* Other:
+  - Creative Tab search bar removed, v0.a11 parity
+
+CRUCIAL TECHNICAL CHANGES
+Refactored a lot of IDs, so a lot of elements will be missing after updating
+  > it will make more intuitive using of commands (previously items have no "_" elements)
+  > this will enable possible moving from 1.12 into 1.14/1.15/1.16 (theoretically, not guaranteed though) since IDs will be the same
+How to make some items not disappear:
+  > if you have javelins, craft javelin sacks (they will stay)
+  > if you have charcoal blocks, turn them into charcoal for that time
+
+Bugfixes
+* BA02_0004 - taking item from crafting table generates chiseled nether brick
+* BA01s0001 - firearms doesn't render properly in entities' hand
+* BA02s0003 - wandering merchant trades don't work
