@@ -1,5 +1,6 @@
 INFO | Creating users...
 INFO | Creating user: doiokov
+INFO | Creating user: Dylanvhs
 INFO | Creating user: Feighten
 INFO | Creating user: Goth Ross
 INFO | Creating user: Lus
