@@ -1,0 +1,17 @@
+OUT: 7-08-2021
+------------------------------------------------------------------
+Dedicated for: Forge 1.12.2
+
+------------------------------------------------------------------
+                             CHANGELOG:
+
+If you didn't download 12v0.a3 (previous version), please read its changelog. This version refactored a lot of elements, making them disappear.
+
+Firearm shooting mechanics is temporary. It is meant to be fun exclusive for anyone wanting to test earliest port versions. It will be patched as soon as I find solution.
+Expect this version being more "insight into developer's progress" than strictly playable mod. It can be used in survival freely, but can contain bugs or unfinished elements.
+
+Added Blocks:
+* Wood variants (slabs, stairs, chiseled blocks, chiseled slabs, pillars, lamps)
+
+Added Recipes:
+* Sand recipe (from sand dusts)

@@ -1,0 +1,35 @@
+OUT: 20-11-2021
+------------------------------------------------------------------
+Dedicated for: Forge 1.12.2
+
+------------------------------------------------------------------
+                             CHANGELOG:
+
+After a bit longer time, WoB is back! This release focuses on completing building resources and adds exclusive Heat Fueler block.
+For 12v0.a7, you can expect airship structures appear, and my further work on firearms working correctly (I tried to fix it for 12v0.a6 and was pretty close, but still need to tweak bugs).
+
+Firearm shooting mechanics is temporary. It is meant to be fun exclusive for anyone wanting to test earliest port versions. It will be patched as soon as I find solution.
+Expect this version being more "insight into developer's progress" than strictly playable mod. It can be used in survival freely, but can contain bugs or unfinished elements.
+
+Added Blocks:
+* Glistering Sand (+ variants)
+* Vulcanic Sand (+ variants)
+* Block of Nether Soul Essence
+* Heat Fueler
+  - temporarily exclusive technical block
+  - converts warm air into fuel 
+
+Renewability:
+* End Stone
+
+Advancements:
+* The Baedoor Universe
+
+Changes:
+* Plants:
+  - Veils now can possibly grow faster
+    > Vulcanic veil behaviour is tried to be preserved (it grows slower if not in the Nether)
+
+Bugfixes:
+* BA05_0006 - mobs killed by Avoider drop items
+* BA05_0007 - veils don't grow up

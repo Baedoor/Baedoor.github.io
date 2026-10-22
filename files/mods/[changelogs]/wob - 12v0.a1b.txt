@@ -1,0 +1,53 @@
+OUT: 9-06-2021
+------------------------------------------------------------------
+Dedicated for: Forge 1.12.2
+
+------------------------------------------------------------------
+                             CHANGELOG:
+
+Firearm shooting mechanics is temporary. It is meant to be fun exclusive for anyone wanting to test earliest port versions. It will be patched as soon as I find solution.
+Expect this version being more "insight into developer's progress" than strictly playable mod. It can be used in survival freely, but can contain bugs or unfinished elements.
+
+Added Blocks
+* Block of Mushroom Poison 
+
+Added Firearms
+* Handmade Revolver 
+
+Added Weapons
+* Throwing Daggers (normal, poisoned)
+* Javelins (bone, stone) 
+
+Added Items
+* Firearm Lock
+* Small Grip
+* Short Barrel
+* Cracked Bone
+* Javelin Sacks
+* Mushroom Poison
+* Nether Soul Essence
+
+Added Advancements
+* Reveal
+
+Added Recipes
+* Fermented Spider Eye (via red mushroom)
+* Dispenser (via bow+dropper) 
+
+[Technical] Mechanics
+* Added gun shooting
+* Added reloading mechanics
+* Added gun experience
+* Added gun jamming
+* Added gun quality types (handmade/scheme)
+* Added throwing dagger bouncing off the block
+* Messages showing
+* Sack unpacking
+* Poisoning arrows via mushroom poison
+* Sounds for firearms 
+
+[Temporary exclusive] Mechanics
+* Trading with merchant (only in code, coming fully in v0.a2)
+
+Bugfix
+* Fixed crash bug from 12v0.a1 version
