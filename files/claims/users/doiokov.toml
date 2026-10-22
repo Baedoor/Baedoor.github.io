@@ -6,6 +6,7 @@ Roles = [
     # Quest Developer, NPC Developer, Interior Developer
 ]
 Projects = [
+    "Baedoor Lore"
     # FSAM
 ]
 Description = """
