@@ -1,0 +1,15 @@
+Avatar  = "https://static-cdn.jtvnw.net/jtv_user_pictures/da782261-53a6-40db-8e92-e8bf98fd489d-profile_image-150x150.jpeg"
+Website = "https://www.curseforge.com/members/dylanvhs"
+Faction = "Starshifters"
+Tier    = 3
+Roles = [
+    # Pixel Art Reviewer, Pixel Art Developer, Linguist
+]
+Projects = [
+    "Wastelands of Baedoor",
+    "Civilisations of Baedoor",
+    "Spires of Baedoor"
+]
+Description = """
+Overseeing all that exists, for i am Dylanvhs
+"""
