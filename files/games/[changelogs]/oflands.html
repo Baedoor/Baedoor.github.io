@@ -1,0 +1,68 @@
+<h1 id="user-content-changelog">Changelog</h1>
+<p>Versions:</p>
+<ul>
+<li><a href="#0.1.0">0.1.0</a></li>
+</ul>
+<h3 id="user-content-010">0.1.0</h3>
+<ul>
+<li>Created minimal .olm/.oldata system with its parsers</li>
+<li>Made base game structure with ability to interpret <code>.olm</code> and <code>.oldata</code> files
+<ul>
+<li>This includes loading maps of any size (bigger than 30x30)</li>
+</ul>
+</li>
+<li>Wrote <code>tiled.js</code>, Tiled plugin to export its maps into <code>.olm</code> format
+<ul>
+<li>It also supports custom properties that are exported into <code>.oldata</code> file</li>
+</ul>
+</li>
+<li>Made map used by game and grid visibility configurable through <code>.ini</code> file</li>
+<li>Created GUI
+<ul>
+<li>Custom cursor replacing mouse</li>
+<li>Clicking on tile highlights it and showcases zoom-in and information about it<br>
+in the sidebar</li>
+<li>Map modes switch view on map between terrain and faction overlay</li>
+<li>Buttons can have customised colour theme</li>
+</ul>
+</li>
+<li>Added time system, showcased on GUI
+<ul>
+<li>Winter is also seen on tiles that can change their appearance as the season comes</li>
+</ul>
+</li>
+<li>Added location system, including rendering of locations put on map
+<ul>
+<li>Made rendering of locations (with ones from premade map being <code>faction=0</code>) with<br>
+their info shown when tile is highlighted</li>
+<li>Locations are automatically removed from premade maps if they don't follow proper<br>
+conditions for building</li>
+</ul>
+</li>
+<li>Added entities system</li>
+<li>Added basic factions system recognised and stored by the map
+<ul>
+<li>Locations, settlements and entities affiliated are marked accurately</li>
+<li>Factions can be initialised with custom <code>.olf</code> file and joined by using Configurator</li>
+<li>Factions have their unique banners</li>
+</ul>
+</li>
+<li>Added settlement system
+<ul>
+<li>Settlements have unique icon, depending on their tier and location</li>
+<li>Settlements can be initialised with custom <code>.olf</code> file</li>
+</ul>
+</li>
+<li>Created resources system
+<ul>
+<li>Resources can be registered by <code>.olr</code> file</li>
+</ul>
+</li>
+<li>Added road system</li>
+<li>Added turn system, advancing game time</li>
+<li>Added initial starting mode, which requires you to drop settler on some<br>
+walkable tile (if you don't have settlement)</li>
+<li>Included Configurator to serve as placeholder starting tool before proper "new game"<br>
+menu is made</li>
+<li>Game and Configurator have icons both in-game and embed into executable</li>
+</ul>
